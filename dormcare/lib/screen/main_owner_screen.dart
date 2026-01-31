@@ -1,4 +1,5 @@
 import 'package:dormcare/screen/home_owner_screen.dart';
+import 'package:dormcare/screen/room_owner_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/page_data_model.dart';
 
@@ -10,7 +11,7 @@ class MainOwnerScreen extends StatefulWidget {
 }
 
 class _MainOwnerScreenState extends State<MainOwnerScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
 
@@ -21,7 +22,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
     ),
     const PageDataModel(
       title: "Rooms",
-      screen: Placeholder(), //delete Center, then replace with the class name of that page 
+      screen: RoomOwnerScreen(), //delete Center, then replace with the class name of that page 
     ),
     const PageDataModel(
       title: "Bills",
