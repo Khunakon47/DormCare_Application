@@ -1,4 +1,5 @@
 import 'package:dormcare/model/page_data_model.dart';
+import 'package:dormcare/screen/profile_tenant_screen.dart';
 import 'package:flutter/material.dart';
 import 'home_tenant_screen.dart';
 
@@ -34,7 +35,7 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
     ),
     const PageDataModel(
       title: "Profile",
-      screen: Center(child: Text("Profile")),
+      screen: ProfileTenantScreen(),
     ),
   ];
 
