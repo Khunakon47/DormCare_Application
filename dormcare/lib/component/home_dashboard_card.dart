@@ -9,6 +9,9 @@ class HomeDashboardCard extends StatelessWidget {
     required this.num,
     this.currency,
     required this.title,
+
+    this.boxColor = const Color.fromARGB(255, 255, 255, 255),
+    this.textColor = Colors.black,
   });
 
   final Icon icon;
@@ -18,12 +21,16 @@ class HomeDashboardCard extends StatelessWidget {
   final String? currency;
   final String title;
 
+  // Added
+  final Color boxColor;
+  final Color textColor;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
+        color: boxColor,
         boxShadow: [
           BoxShadow(
             color: Colors.blue.withValues(alpha: 0.1),
@@ -42,7 +49,7 @@ class HomeDashboardCard extends StatelessWidget {
               Icon(icon.icon, color: coloricon, size: iconsize),
               Text(
                 num.toString(),
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(color:textColor, fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -51,14 +58,14 @@ class HomeDashboardCard extends StatelessWidget {
             width: double.infinity,
             child: Text(
               currency ?? '',
-              style: TextStyle(fontSize: 12),
+              style: TextStyle(fontSize: 12, color: textColor),
               textAlign: TextAlign.right,
             ),
           ),
 
           SizedBox(height: 12),
 
-          Text(title, style: TextStyle(color: Colors.black, fontSize: 12)),
+          Text(title, style: TextStyle(color: textColor, fontSize: 12)),
         ],
       ),
     );

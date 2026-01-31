@@ -16,27 +16,20 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
   final List<PageDataModel> _pages = [
     const PageDataModel(
-      title: "Home", 
+      title: "Dashboard", 
       screen: HomeOwnerScreen() // do like this, for below pages 
     ),
     const PageDataModel(
-      title: "Expenses",
-      screen: Center(child: Text("Expenses")), //delete Center, then replace with the class name of that page 
-      // actions: [
-      //   Padding(
-      //     padding: EdgeInsets.only(right: 16),
-      //     child: Icon(Icons.filter_list),
-      //   ),
-      // ], 
-      // you can test
+      title: "Rooms",
+      screen: Placeholder(), //delete Center, then replace with the class name of that page 
+    ),
+    const PageDataModel(
+      title: "Bills",
+      screen: Center(child: Text("Bills")), //delete Center, then replace with the class name of that page 
     ),
     const PageDataModel(
       title: "Repairs",
       screen: Center(child: Text("Repairs")), //delete Center, then replace with the class name of that page 
-    ),
-    const PageDataModel(
-      title: "Alerts",
-      screen: Center(child: Text("Alerts")), //delete Center, then replace with the class name of that page 
     ),
     const PageDataModel(
       title: "Profile",
@@ -123,7 +116,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.receipt_long),
                 ),
-                label: 'Expenses',
+                label: 'Rooms',
               ),
 
               BottomNavigationBarItem(
@@ -135,7 +128,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.build),
                 ),
-                label: 'Repairs',
+                label: 'Bills',
               ),
 
               BottomNavigationBarItem(
@@ -147,7 +140,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.notifications),
                 ),
-                label: 'Alerts',
+                label: 'Repairs',
               ),
 
               BottomNavigationBarItem(
