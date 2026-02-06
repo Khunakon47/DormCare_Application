@@ -1,4 +1,4 @@
-import 'package:dormcare/component/room_viewdetail.dart';
+import 'package:dormcare/screen/room_viewdetail.dart';
 import 'package:dormcare/model/room_data_model.dart';
 import 'package:flutter/material.dart';
 

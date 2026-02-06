@@ -18,12 +18,28 @@ class RoomDataModel {
   final Color viewBtnColor;
   final Color viewBtnTextColor;
 
+  final int totalUser;
+  final int totalUserPaid;
+  final int totalUserUnpaid;
+  final String postedDate;
+  final String postedMY;
+  final String dueDate;
+
+
   const RoomDataModel({
+    this.rentFee = 2500,
+
+    this.totalUser = 45,
+    this.totalUserPaid = 33,
+    this.totalUserUnpaid = 12,
+    this.postedDate = "Dec 25, 2025",
+    this.dueDate = "Jan 5, 2026",
+    this.postedMY = "December 2025",
+
     this.imageUrl = "assets/images/Flower.png",
     this.roomNumber = 300,
     this.userName = "Hello",
     this.phoneNum = "123456789",
-    this.rentFee = 120,
 
     this.roomStats = "Complete",
     this.roomType = "Single",

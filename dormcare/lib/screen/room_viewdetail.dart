@@ -1,4 +1,5 @@
 import 'package:dormcare/model/repair_tenant_model.dart';
+import 'package:dormcare/screen/room_editinfo.dart';
 import 'package:flutter/material.dart';
 
 class RoomViewdetail extends StatelessWidget{
@@ -82,7 +83,12 @@ class RoomViewdetail extends StatelessWidget{
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
-                onPressed: ()=>Navigator.pop(context), 
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RoomEditinfo(),
+                  ),
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
