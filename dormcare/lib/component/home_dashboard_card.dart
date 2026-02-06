@@ -21,12 +21,14 @@ class HomeDashboardCard extends StatelessWidget {
   final Color bgColor;
   final Color fgColor;
   final Icon icon;
+  
   final Color iconColor;
   final double iconSize;
   final String topRightText;
   final int? totalUser;
   final double? topRightTextSize;
   final int? totalRoom;
+
   final String? currency;
   final String bottomLeftText;
   final double? bottomLeftTextSize;

@@ -24,10 +24,16 @@ class RoomDataModel {
   final String postedDate;
   final String postedMY;
   final String dueDate;
+  final int totalRoom;
+
+  final String repairStatus;
+  final String repairTitle;
 
 
   const RoomDataModel({
     this.rentFee = 2500,
+
+    this.totalRoom = 50,
 
     this.totalUser = 45,
     this.totalUserPaid = 33,
@@ -38,7 +44,7 @@ class RoomDataModel {
 
     this.imageUrl = "assets/images/Flower.png",
     this.roomNumber = 300,
-    this.userName = "Hello",
+    this.userName = "John Doe",
     this.phoneNum = "123456789",
 
     this.roomStats = "Complete",
@@ -52,5 +58,9 @@ class RoomDataModel {
 
     this.viewBtnColor = Colors.purple,
     this.viewBtnTextColor = Colors.purple,
+
+
+    this.repairStatus = "completed",
+    this.repairTitle = "TV Not Woring"
   });
 }

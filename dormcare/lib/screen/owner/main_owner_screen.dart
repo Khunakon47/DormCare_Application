@@ -14,7 +14,7 @@ class MainOwnerScreen extends StatefulWidget {
 }
 
 class _MainOwnerScreenState extends State<MainOwnerScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 4;
 
   final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
 
