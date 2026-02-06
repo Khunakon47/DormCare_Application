@@ -6,7 +6,7 @@ class GreetingContainer extends StatelessWidget {
     required this.bgColor,
     required this.title,
     required this.subtitle,
-    this.icon
+    this.icon,
     });
 
     final List<Color> bgColor;

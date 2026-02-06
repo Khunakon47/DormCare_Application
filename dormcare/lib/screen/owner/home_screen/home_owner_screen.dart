@@ -5,16 +5,12 @@ import 'package:dormcare/model/room_data_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeOwnerScreen extends StatelessWidget {
-
-  const HomeOwnerScreen({
-    super.key,
-  });
+  const HomeOwnerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-
     final RoomDataModel totals = RoomDataModel();
-    
+
     final List<RepairTenant> maintenances = [
       const RepairTenant(
         title: "Room 301 - Air conditioner not cooling",
@@ -39,39 +35,12 @@ class HomeOwnerScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-            GreetingContainer(title: "Welcome, Owner", subtitle: "Room 301 - Dorm 27",),
-
-            SizedBox(height: 15),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: HomeDashboardCard(
-                    icon: Icon(Icons.home_outlined),
-                    iconsize: 32,
-                    coloricon: Colors.white,
-                    num: "${totals.totalUser}/${totals.totalRoom}",
-                    title: "Rooms Occupied",
-                    textColor: Colors.white,
-                    boxColor: Colors.blue,
-                  ),
-                ),
-
-                SizedBox(width: 10),
-
-                Expanded(
-                  child: HomeDashboardCard(
-                    icon: Icon(Icons.attach_money),
-                    iconsize: 32,
-                    coloricon: Colors.white,
-                    num: '3212',
-                    currency: "THB",
-                    title: "Monthly Revenue",
-                    textColor: Colors.white,
-                    boxColor: Colors.green,
-                  ),
-                ),
+            GreetingContainer(
+              title: "Welcome, Owner",
+              subtitle: "Room 301 - Dorm 27",
+              bgColor: [
+                Colors.purple,
+                Colors.blue,
               ],
             ),
 
@@ -82,28 +51,66 @@ class HomeOwnerScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: HomeDashboardCard(
-                    icon: Icon(Icons.build_outlined),
-                    iconsize: 28,
-                    coloricon: Colors.white,
-                    num: '2',
-                    title: "Pending Repairs",
-                    boxColor: Colors.orange,
-                    textColor: Colors.white,
+                    bgColor: Colors.blue,
+                    fgColor: Colors.white,
+                    icon: Icon(Icons.home_outlined),
+                    iconColor: Colors.white,
+                    iconSize: 32,
+                    topRightText: totals.totalUser.toString(),
+                    bottomLeftText: "Totals",
+                    isOwner: true,
+                    totalRoom: totals.totalRoom,
                   ),
                 ),
 
-                SizedBox(width: 10,),
+                SizedBox(width: 10),
 
                 Expanded(
                   child: HomeDashboardCard(
+                    bgColor: Colors.green,
+                    fgColor: Colors.white,
+                    icon: Icon(Icons.attach_money),
+                    iconColor: Colors.white,
+                    iconSize: 32,
+                    topRightText: totals.totalRoom.toString(),
+                    bottomLeftText: "Monthly Revenue",
+                    isOwner: false,
+                  ),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 15),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+
+                Expanded(
+                  child: HomeDashboardCard(
+                    bgColor: Colors.orange,
+                    fgColor: Colors.white,
+                    icon: Icon(Icons.build_outlined),
+                    iconColor: Colors.white,
+                    iconSize: 28,
+                    topRightText: totals.totalRoom.toString(),
+                    bottomLeftText: "Pending Repairs",
+                    isOwner: false,
+                  ),
+                ),
+
+                SizedBox(width: 10),
+
+                Expanded(
+                  child: HomeDashboardCard(
+                    bgColor: Colors.red,
+                    fgColor: Colors.white,
                     icon: Icon(Icons.info_outline),
-                    iconsize: 32,
-                    coloricon: Colors.white,
-                    num: '3212',
-                    currency: "THB",
-                    title: "Room Rent - Unpaid",
-                    textColor: Colors.white,
-                    boxColor: Colors.red,
+                    iconColor: Colors.white,
+                    iconSize: 32,
+                    topRightText: totals.totalRoom.toString(),
+                    bottomLeftText: "Pending Repairs",
+                    isOwner: false,
                   ),
                 ),
               ],
@@ -135,7 +142,7 @@ class HomeOwnerScreen extends StatelessWidget {
                       fontSize: 24,
                     ),
                   ),
-                  SizedBox(height: 15,),
+                  SizedBox(height: 15),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -152,8 +159,8 @@ class HomeOwnerScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.add, color: Colors.white,),
-                              SizedBox(width: 10,),
+                              Icon(Icons.add, color: Colors.white),
+                              SizedBox(width: 10),
                               Text(
                                 "Post Bills",
                                 style: TextStyle(
@@ -165,7 +172,7 @@ class HomeOwnerScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(width: 10),
                       Expanded(
                         child: Container(
                           width: 150,
@@ -180,8 +187,8 @@ class HomeOwnerScreen extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.group_outlined, color: Colors.white,),
-                              SizedBox(width: 10,),
+                              Icon(Icons.group_outlined, color: Colors.white),
+                              SizedBox(width: 10),
                               Text(
                                 "Post Bills",
                                 style: TextStyle(
@@ -191,10 +198,10 @@ class HomeOwnerScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                        )
+                        ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -221,8 +228,24 @@ class HomeOwnerScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Recent Maintenance",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
-                      TextButton(onPressed: ()=>{}, child: Text("View all", style: TextStyle(color: Colors.blue, fontSize: 14, fontWeight: FontWeight.w300),))
+                      Text(
+                        "Recent Maintenance",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () => {},
+                        child: Text(
+                          "View all",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
 
@@ -271,12 +294,12 @@ class HomeOwnerScreen extends StatelessWidget {
                       );
                     },
 
-                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
                   ),
                 ],
               ),
             ),
-
           ],
         ),
       ),
