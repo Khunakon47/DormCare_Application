@@ -1,5 +1,5 @@
 import 'package:dormcare/model/repair_tenant_model.dart';
-import 'package:dormcare/screen/room_editinfo.dart';
+import 'package:dormcare/screen/owner/rooms_screen/room_editinfo_owner_screen.dart';
 import 'package:flutter/material.dart';
 
 class RoomViewdetail extends StatelessWidget{

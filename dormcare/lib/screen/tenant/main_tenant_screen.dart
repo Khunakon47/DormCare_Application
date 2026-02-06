@@ -1,41 +1,43 @@
-import 'package:dormcare/screen/bills_owner_screen.dart';
-import 'package:dormcare/screen/home_owner_screen.dart';
-import 'package:dormcare/screen/room_owner_screen.dart';
+import 'package:dormcare/model/page_data_model.dart';
+import 'package:dormcare/screen/tenant/alter_screen/alter_tenant_screen.dart';
+import 'package:dormcare/screen/tenant/expenses_screen/expenses_tenant_screen.dart';
+import 'package:dormcare/screen/tenant/profile_screen/profile_tenant_screen.dart';
+import 'package:dormcare/screen/tenant/repair_screen/repair_tenant_screen.dart';
 import 'package:flutter/material.dart';
-import '../model/page_data_model.dart';
+import 'home_screen/home_tenant_screen.dart';
 
-class MainOwnerScreen extends StatefulWidget {
-  const MainOwnerScreen({super.key});
+class MainTenantScreen extends StatefulWidget {
+  const MainTenantScreen({super.key});
 
   @override
-  State<MainOwnerScreen> createState() => _MainOwnerScreenState();
+  State<MainTenantScreen> createState() => _MainTenantScreenState();
 }
 
-class _MainOwnerScreenState extends State<MainOwnerScreen> {
+class _MainTenantScreenState extends State<MainTenantScreen> {
   int _selectedIndex = 0;
 
   final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
 
   final List<PageDataModel> _pages = [
     const PageDataModel(
-      title: "Dashboard", 
-      screen: HomeOwnerScreen() // do like this, for below pages 
+      title: "Home",
+      screen: HomeTenantScreen(),
     ),
     const PageDataModel(
-      title: "Rooms",
-      screen: Placeholder(), //delete Center, then replace with the class name of that page 
-    ),
-    const PageDataModel(
-      title: "Bills",
-      screen: Center(child: Text("Bills")), //delete Center, then replace with the class name of that page 
+      title: "Expenses",
+      screen: ExpensesTenantScreen(),
     ),
     const PageDataModel(
       title: "Repairs",
-      screen: Center(child: Text("Repairs")), //delete Center, then replace with the class name of that page 
+      screen: RepairTenantScreen(),
+    ),
+    const PageDataModel(
+      title: "Alerts",
+      screen: AlterTenantScreen(),
     ),
     const PageDataModel(
       title: "Profile",
-      screen: Center(child: Text("Profile")), //delete Center, then replace with the class name of that page 
+      screen: ProfileTenantScreen(),
     ),
   ];
 
@@ -47,12 +49,14 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     final PageDataModel currentPage = _pages[_selectedIndex];
-    
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           currentPage.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: currentPage.actions,
         bottom: PreferredSize(
@@ -65,7 +69,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withValues(alpha: 0.2),
@@ -77,15 +81,19 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
-            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
+            splashColor: const Color(0xFF367BF3).withValues(
+              alpha: 0.1,
+            ), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
+            highlightColor: const Color(
+              0xFF367BF3,
+            ).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
 
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            backgroundColor: Colors.white,
             selectedItemColor: const Color(0xFF367BF3),
             selectedFontSize: 13,
             selectedIconTheme: IconThemeData(size: 26),
@@ -117,7 +125,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.receipt_long),
                 ),
-                label: 'Rooms',
+                label: 'Expenses',
               ),
 
               BottomNavigationBarItem(
@@ -129,7 +137,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.build),
                 ),
-                label: 'Bills',
+                label: 'Repairs',
               ),
 
               BottomNavigationBarItem(
@@ -141,7 +149,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   padding: paddingtop,
                   child: const Icon(Icons.notifications),
                 ),
-                label: 'Repairs',
+                label: 'Alerts',
               ),
 
               BottomNavigationBarItem(

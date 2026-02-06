@@ -1,4 +1,4 @@
-import 'package:dormcare/screen/bills_view.dart';
+import 'package:dormcare/screen/owner/bills_screen/bills_view_owner_screen.dart';
 import 'package:dormcare/model/room_data_model.dart';
 import 'package:dormcare/model/tenant_model.dart';
 import 'package:flutter/material.dart';
