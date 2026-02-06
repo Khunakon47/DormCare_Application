@@ -3,34 +3,41 @@ import 'package:flutter/material.dart';
 class HomeDashboardCard extends StatelessWidget {
   const HomeDashboardCard({
     super.key,
+    required this.bgColor,
+    required this.fgColor,
     required this.icon,
-    required this.coloricon,
-    required this.iconsize,
-    required this.num,
+    required this.iconColor,
+    required this.iconSize,
+    required this.topRightText,
+    this.topRightTextSize,
+    this.totalUser,
+    required this.bottomLeftText,
+    this.bottomLeftTextSize, 
     this.currency,
-    required this.title,
-
-    this.boxColor = const Color.fromARGB(255, 255, 255, 255),
-    this.textColor = Colors.black,
+    this.totalRoom,
+    required this.isOwner
   });
 
+  final Color bgColor;
+  final Color fgColor;
   final Icon icon;
-  final Color coloricon;
-  final double iconsize;
-  final int num;
+  final Color iconColor;
+  final double iconSize;
+  final String topRightText;
+  final int? totalUser;
+  final double? topRightTextSize;
+  final int? totalRoom;
   final String? currency;
-  final String title;
-
-  // Added
-  final Color boxColor;
-  final Color textColor;
+  final String bottomLeftText;
+  final double? bottomLeftTextSize;
+  final bool isOwner;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: boxColor,
+        color: bgColor,
         boxShadow: [
           BoxShadow(
             color: Colors.blue.withValues(alpha: 0.1),
@@ -46,10 +53,12 @@ class HomeDashboardCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon.icon, color: coloricon, size: iconsize),
+              Icon(icon.icon, color: iconColor, size: iconSize),
               Text(
-                num.toString(),
-                style: TextStyle(color:textColor, fontSize: 20, fontWeight: FontWeight.bold),
+                isOwner
+                  ? topRightText.toString()
+                  : "${topRightText.toString()} / ${totalRoom.toString()}",
+                style: TextStyle(color:fgColor, fontSize: topRightTextSize, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -58,14 +67,20 @@ class HomeDashboardCard extends StatelessWidget {
             width: double.infinity,
             child: Text(
               currency ?? '',
-              style: TextStyle(fontSize: 12, color: textColor),
+              style: TextStyle(fontSize: 12, color: fgColor),
               textAlign: TextAlign.right,
             ),
           ),
 
           SizedBox(height: 12),
 
-          Text(title, style: TextStyle(color: textColor, fontSize: 12)),
+          Text(
+            bottomLeftText, 
+            style: TextStyle(
+              color: fgColor, 
+              fontSize: bottomLeftTextSize
+            )
+          ),
         ],
       ),
     );
