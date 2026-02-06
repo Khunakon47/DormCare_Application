@@ -18,5 +18,5 @@ samples, guidance on mobile development, and a full API reference.
 command
 git checkout main
 git pull
-git checkout dada
+git checkout joby
 git merge main
