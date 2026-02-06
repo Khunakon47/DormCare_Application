@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../component/home_dashboard_card.dart';
-import '../model/repair_tenant_model.dart';
+import '../../../component/home_dashboard_card.dart';
+import '../../../model/repair_tenant_model.dart';
 
 class HomeTenantScreen extends StatelessWidget {
   const HomeTenantScreen({super.key});

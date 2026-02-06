@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/main_tenant_screen.dart';
+import 'screen/tenant/main_tenant_screen.dart';
 
 void main() {
   runApp(

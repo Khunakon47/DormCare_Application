@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screen/main_owner_screen.dart';
+import 'screen/owner/main_owner_screen.dart';
 
 void main() {
   runApp(

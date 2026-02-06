@@ -2,7 +2,7 @@ import 'package:dormcare/component/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/room_bottomsheet_sort.dart';
 import 'package:dormcare/model/room_data_model.dart';
 import 'package:dormcare/model/tenant_model.dart';
-import 'package:dormcare/screen/bills_edit_owner.dart';
+import 'package:dormcare/screen/owner/bills_screen/bills_edit_owner_screen.dart';
 import 'package:flutter/material.dart';
 
 class BillsView extends StatelessWidget {
