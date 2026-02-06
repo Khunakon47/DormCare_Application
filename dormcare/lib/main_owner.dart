@@ -11,7 +11,7 @@ void main() {
           titleTextStyle: TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w800,
-            color: Colors.white,
+            color: Colors.black,
           ),
         ),
         useMaterial3: true,

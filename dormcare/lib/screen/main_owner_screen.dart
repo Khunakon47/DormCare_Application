@@ -1,4 +1,6 @@
+import 'package:dormcare/screen/bills_owner_screen.dart';
 import 'package:dormcare/screen/home_owner_screen.dart';
+import 'package:dormcare/screen/room_owner_screen.dart';
 import 'package:flutter/material.dart';
 import '../model/page_data_model.dart';
 
@@ -51,7 +53,6 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
       appBar: AppBar(
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
         ),
         actions: currentPage.actions,
         bottom: PreferredSize(
@@ -64,7 +65,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).scaffoldBackgroundColor,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withValues(alpha: 0.2),
@@ -84,7 +85,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
 
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             selectedItemColor: const Color(0xFF367BF3),
             selectedFontSize: 13,
             selectedIconTheme: IconThemeData(size: 26),
