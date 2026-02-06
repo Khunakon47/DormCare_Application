@@ -1,12 +1,19 @@
+import 'package:dormcare/component/greeting_container.dart';
 import 'package:dormcare/component/home_dashboard_card.dart';
 import 'package:dormcare/model/repair_tenant_model.dart';
+import 'package:dormcare/model/room_data_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeOwnerScreen extends StatelessWidget {
-  const HomeOwnerScreen({super.key});
+
+  const HomeOwnerScreen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+
+    final RoomDataModel totals = RoomDataModel();
     
     final List<RepairTenant> maintenances = [
       const RepairTenant(
@@ -32,53 +39,7 @@ class HomeOwnerScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
           children: [
-
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color.fromARGB(255, 174, 54, 243), // started color
-                    const Color.fromARGB(255, 139, 39, 233), // ended color
-                  ],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withValues(alpha: 0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Welcome, Owner 👋",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  Text(
-                    "Room 301 - Dorm 27",
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.8),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            GreetingContainer(title: "Welcome, Owner", subtitle: "Room 301 - Dorm 27",),
 
             SizedBox(height: 15),
 
@@ -90,7 +51,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     icon: Icon(Icons.home_outlined),
                     iconsize: 32,
                     coloricon: Colors.white,
-                    num: 2,
+                    num: "${totals.totalUser}/${totals.totalRoom}",
                     title: "Rooms Occupied",
                     textColor: Colors.white,
                     boxColor: Colors.blue,
@@ -104,7 +65,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     icon: Icon(Icons.attach_money),
                     iconsize: 32,
                     coloricon: Colors.white,
-                    num: 3212,
+                    num: '3212',
                     currency: "THB",
                     title: "Monthly Revenue",
                     textColor: Colors.white,
@@ -124,7 +85,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     icon: Icon(Icons.build_outlined),
                     iconsize: 28,
                     coloricon: Colors.white,
-                    num: 2,
+                    num: '2',
                     title: "Pending Repairs",
                     boxColor: Colors.orange,
                     textColor: Colors.white,
@@ -138,7 +99,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     icon: Icon(Icons.info_outline),
                     iconsize: 32,
                     coloricon: Colors.white,
-                    num: 3212,
+                    num: '3212',
                     currency: "THB",
                     title: "Room Rent - Unpaid",
                     textColor: Colors.white,
@@ -310,8 +271,7 @@ class HomeOwnerScreen extends StatelessWidget {
                       );
                     },
 
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 10),
+                    separatorBuilder: (context, index) => const SizedBox(height: 10),
                   ),
                 ],
               ),

@@ -17,7 +17,7 @@ class HomeDashboardCard extends StatelessWidget {
   final Icon icon;
   final Color coloricon;
   final double iconsize;
-  final int num;
+  final String num;
   final String? currency;
   final String title;
 
@@ -48,7 +48,7 @@ class HomeDashboardCard extends StatelessWidget {
             children: [
               Icon(icon.icon, color: coloricon, size: iconsize),
               Text(
-                num.toString(),
+                num,
                 style: TextStyle(color:textColor, fontSize: 20, fontWeight: FontWeight.bold),
               ),
             ],
