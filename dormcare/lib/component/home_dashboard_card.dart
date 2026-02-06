@@ -58,8 +58,8 @@ class HomeDashboardCard extends StatelessWidget {
               Icon(icon.icon, color: iconColor, size: iconSize),
               Text(
                 isOwner
-                  ? topRightText.toString()
-                  : "${topRightText.toString()} / ${totalRoom.toString()}",
+                  ? "${topRightText.toString()} / ${totalRoom.toString()}"
+                  : topRightText.toString(),
                 style: TextStyle(color:fgColor, fontSize: topRightTextSize, fontWeight: FontWeight.bold),
               ),
             ],

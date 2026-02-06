@@ -23,6 +23,10 @@ class RepairsOwnerScreen extends StatelessWidget {
           GreetingContainer(
             title: "Mainatenance",
             subtitle: "Manage all rooms and tenants",
+            bgColor: [
+              Colors.purple,
+              Colors.blue,
+            ],
           ),
           SizedBox(height: 15),
           Row(

@@ -1,4 +1,7 @@
+import 'package:dormcare/component/room_detail_container.dart';
+import 'package:dormcare/component/tag.dart';
 import 'package:dormcare/model/repair_tenant_model.dart';
+import 'package:dormcare/model/room_detail_model.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_editinfo_owner_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -200,70 +203,32 @@ class RoomViewdetail extends StatelessWidget{
 
                     Row(
                       children: [
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 5
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.greenAccent.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "Occupied",
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 8,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
-
+                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
                         SizedBox(width: 10,),
-
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 5
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.purpleAccent.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "Single",
-                            style: TextStyle(
-                              color: Colors.purple,
-                              fontSize: 8,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
-
+                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
                         SizedBox(width: 10,),
-
-                        Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 5
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.orangeAccent.withValues(alpha: 0.25),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Text(
-                            "Unpaid",
-                            style: TextStyle(
-                              color: Colors.orange,
-                              fontSize: 8,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ),
+                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
                       ],
                     ),
 
                     SizedBox(height: 10,),
+
+                    RoomDetailContainer(
+                      roomDetail: RoomDetailModel(
+                        bgColor: Colors.blueAccent.withValues(alpha: 0.25), 
+                        icon:Icon(Icons.person_outline), 
+                        iconColor: Colors.blueAccent, 
+                        title: "Tenant Information", 
+                        details: {
+                          'Full Name': "Joby",
+                          'Full l': "Joby",
+                          'Full r': "Joby",
+                          'Full w': "Joby",
+                          'Full e': "Joby",
+
+                        }
+                      )
+                    ),
 
                     Container(
                       padding: EdgeInsets.all(10),
