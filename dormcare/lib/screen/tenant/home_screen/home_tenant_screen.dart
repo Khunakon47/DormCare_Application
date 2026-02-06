@@ -1,3 +1,4 @@
+import 'package:dormcare/component/greeting_container.dart';
 import 'package:flutter/material.dart';
 import '../../../component/home_dashboard_card.dart';
 import '../../../model/repair_tenant_model.dart';
@@ -55,51 +56,14 @@ class HomeTenantScreen extends StatelessWidget {
         child: Column(
           children: [
             // Section 1
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    const Color(0xFF367BF3), // started color
-                    const Color(0xFF2761E9), // ended color
-                  ],
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withValues(alpha: 0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Welcome, JoBy 👋",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  Text(
-                    "Room 301 - Dorm 27",
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.8),
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
+            GreetingContainer(
+              bgColor: [
+                const Color(0xFF367BF3),
+                const Color(0xFF2761E9),
+              ], 
+              title: "Welcome, JoBy",
+              icon: Icon(Icons.waves), 
+              subtitle: "Room 301 - Dorm 27"
             ),
 
             SizedBox(height: 15),
@@ -110,25 +74,31 @@ class HomeTenantScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: HomeDashboardCard(
-                    icon: Icon(Icons.build_outlined),
-                    iconsize: 26,
-                    coloricon: Colors.orange,
-                    num: '2',
-                    title: "Pending Repairs",
-                  ),
+                    bgColor: Colors.white, 
+                    fgColor: Colors.black, 
+                    icon: Icon(Icons.build_outlined), 
+                    iconColor: Colors.orange, 
+                    iconSize: 26, 
+                    topRightText: "2", 
+                    bottomLeftText: "Pending Repairs", 
+                    isOwner: false,
+                  )
                 ),
 
                 SizedBox(width: 10),
 
                 Expanded(
                   child: HomeDashboardCard(
-                    icon: Icon(Icons.attach_money),
-                    iconsize: 30,
-                    coloricon: Colors.green,
-                    num: '3212',
+                    bgColor: Colors.white, 
+                    fgColor: Colors.black, 
+                    icon: Icon(Icons.attach_money), 
+                    iconColor: Colors.green, 
+                    iconSize: 30, 
+                    topRightText: "3,212", 
                     currency: "THB",
-                    title: "Room Rent - Unpaid",
-                  ),
+                    bottomLeftText: "Room Rent - Unpaid", 
+                    isOwner: false,
+                  )
                 ),
               ],
             ),
