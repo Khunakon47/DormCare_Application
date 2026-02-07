@@ -134,7 +134,7 @@ class RoomEditinfo extends StatelessWidget {
                     child: FloatingActionButton(
                       backgroundColor: Colors.black.withValues(alpha: 0.75),
                       mini: true, 
-                      heroTag: 'image_prev',
+                      heroTag: 'img_prev',
                       onPressed: () {},
                       child: const Icon(Icons.arrow_left, color: Colors.white, size: 40,),
                     ),
@@ -145,7 +145,7 @@ class RoomEditinfo extends StatelessWidget {
                     child: FloatingActionButton(
                       backgroundColor: Colors.black.withValues(alpha: 0.75),
                       mini: true, 
-                      heroTag: 'image_next',
+                      heroTag: 'img_next',
                       onPressed: () {},
                       child: const Icon(Icons.arrow_right, color: Colors.white, size: 34,),
                     ),

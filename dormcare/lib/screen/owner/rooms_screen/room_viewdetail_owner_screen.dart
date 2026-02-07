@@ -1,17 +1,24 @@
+import 'package:dormcare/component/custom_textbutton.dart';
 import 'package:dormcare/component/room_detail_container.dart';
 import 'package:dormcare/component/tag.dart';
 import 'package:dormcare/model/repair_tenant_model.dart';
+import 'package:dormcare/model/room_data_model.dart';
 import 'package:dormcare/model/room_detail_model.dart';
+import 'package:dormcare/model/tenant_model.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_editinfo_owner_screen.dart';
 import 'package:flutter/material.dart';
 
 class RoomViewdetail extends StatelessWidget{
+
   const RoomViewdetail({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+
+    final RoomDataModel roomData = RoomDataModel();
+    final TenantModel tenantModel = TenantModel();
     
     final List<RepairTenant> maintenances = [
       const RepairTenant(
@@ -32,6 +39,16 @@ class RoomViewdetail extends StatelessWidget{
     ];
     
     return Scaffold(
+
+      appBar: AppBar(
+        title: Text(
+          "Room Number",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+      ),
       
       bottomNavigationBar: Container(
         padding: EdgeInsets.only(
@@ -52,764 +69,180 @@ class RoomViewdetail extends StatelessWidget{
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            
+
             Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                ),
+              child: CustomTextbutton(
+                textOnBtn: "Close",
                 onPressed: ()=>Navigator.pop(context), 
-                child: Text(
-                  "Close",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 16,
-                  ),
-                )
+                outLined: true,
+                bgColor: [Colors.black],
+                fgColor: Colors.black,
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
               ),
             ),
 
             SizedBox(width: 12,),
 
             Expanded(
-              child: OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  backgroundColor: Colors.purple,
-                  side: BorderSide.none, // remove outline
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                ),
+              child: CustomTextbutton(
+                textOnBtn: "Edit Info",
                 onPressed: () => Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (_) => const RoomEditinfo(),
                   ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.edit_note, color: Colors.white, size: 26,),
-                    SizedBox(width: 10,),
-                    Text(
-                      "Edit Info",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w800,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                )
+                bgColor: [Colors.purple],
+                fgColor: Colors.white,
+                fontWeight: FontWeight.w800,
+                fontSize: 16,
+                icon: Icon(Icons.edit_note),
+                iconColor: Colors.white,
+                iconSize: 26,
+                spacing: 10,
               ),
-            ),
+            )
 
           ],
         ),
       ),
 
-      body: Column(
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: Colors.grey.withValues(alpha: 0.35),
-                  width: 0.78,
-                ),
-              ),
-            ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(16),
+          child: Column(
+            children: [
 
-            padding: const EdgeInsets.only(
-              left: 16, right: 16, bottom: 10,
-              top: 56,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: Icon(Icons.arrow_back_ios, size: 26),
-                ),
-                Text(
-                  "Room Number",
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          SizedBox(height: 10,),
-
-          Expanded(
-            child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
+              SizedBox(
+                width: double.infinity,
+                child: Stack(
+                  alignment: Alignment.center,
                   children: [
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: AspectRatio(
-                              aspectRatio: 16/9,
-                              child: Image.asset(
-                                "assets/images/Flower.png",
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          ),
-
-                          // Left button
-                          Positioned(
-                            left: 8,
-                            child: FloatingActionButton(
-                              backgroundColor: Colors.black.withValues(alpha: 0.75),
-                              mini: true, 
-                              heroTag: 'image_prev',
-                              onPressed: () {},
-                              child: const Icon(Icons.arrow_left, color: Colors.white, size: 40,),
-                            ),
-                          ),
-                          // Right button
-                          Positioned(
-                            right: 8,
-                            child: FloatingActionButton(
-                              backgroundColor: Colors.black.withValues(alpha: 0.75),
-                              mini: true, 
-                              heroTag: 'image_next',
-                              onPressed: () {},
-                              child: const Icon(Icons.arrow_right, color: Colors.white, size: 34,),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    Row(
-                      children: [
-                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
-                        SizedBox(width: 10,),
-                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
-                        SizedBox(width: 10,),
-                        Tag(bgColor: Colors.greenAccent.withValues(alpha: 0.25), fgColor: Colors.green, text: "Occupied"),
-                      ],
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    RoomDetailContainer(
-                      roomDetail: RoomDetailModel(
-                        bgColor: Colors.blueAccent.withValues(alpha: 0.25), 
-                        icon:Icon(Icons.person_outline), 
-                        iconColor: Colors.blueAccent, 
-                        title: "Tenant Information", 
-                        details: {
-                          'Full Name': "Joby",
-                          'Full l': "Joby",
-                          'Full r': "Joby",
-                          'Full w': "Joby",
-                          'Full e': "Joby",
-
-                        }
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: AspectRatio(
+                        aspectRatio: 16/9,
+                        child: Image.asset(
+                          "assets/images/Flower.png",
+                          fit: BoxFit.cover,
+                        ),
                       )
                     ),
 
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-
-                          Row(
-                            children: [
-                              Icon(Icons.person_outline, color: Colors.blueAccent, size: 28,),
-                              SizedBox(width: 10,),
-                              Text(
-                                "Tenant Information",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 15,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Full Name:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "JoBy",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Phone:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "083-555-2312",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Email:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "joby@gmail.com",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Move-in Date:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "Sep 1, 2025",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-                          
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Contract End:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "May 31, 2026",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                    // Left button
+                    Positioned(
+                      left: 8,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.black.withValues(alpha: 0.75),
+                        mini: true, 
+                        heroTag: 'image_prev',
+                        onPressed: () {},
+                        child: const Icon(Icons.arrow_left, color: Colors.white, size: 40,),
                       ),
                     ),
-
-                    SizedBox(height: 10,),
-
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.purpleAccent.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-
-                          Row(
-                            children: [
-                              Icon(Icons.house_outlined, color: Colors.purpleAccent, size: 28,),
-                              SizedBox(width: 10,),
-                              Text(
-                                "Room Details",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 15,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Room Number:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "301",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Floor:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "2nd Floor",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Room Type:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "Single",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Monthly Rent:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "2,500 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-                          
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Deposit:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "5,000 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
+                    // Right button
+                    Positioned(
+                      right: 8,
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.black.withValues(alpha: 0.75),
+                        mini: true, 
+                        heroTag: 'image_next',
+                        onPressed: () {},
+                        child: const Icon(Icons.arrow_right, color: Colors.white, size: 34,),
                       ),
                     ),
-
-                    SizedBox(height: 10,),
-
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.greenAccent.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Icon(Icons.attach_money, color: Colors.green, size: 28,),
-                              SizedBox(width: 10,),
-                              Text(
-                                "Latest Bills (Dec 2024)",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 15,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Rent Fee:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "2,500 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Water (18 units):",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "180 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Electric Bill (150 units):",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "450 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Total:",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Text(
-                                "3,130 THB",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 10,),
-                          
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Status",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 12,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(25),
-                                  color: Colors.redAccent.withValues(alpha: 0.25)
-                                ),
-                                child: Text(
-                                  "Unpaid",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        
-                          SizedBox(height: 10,),
-
-                          TextButton(
-                            onPressed: ()=>{},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.arrow_forward, color: Colors.green, size: 24,),
-                                SizedBox(width: 10,),
-                                Text(
-                                  "View Full History",
-                                  style: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-                    SizedBox(height: 10,),
-
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        color: Colors.orangeAccent.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-
-                          Row(
-                            children: [
-                              Icon(Icons.build_outlined, color: Colors.orange, size: 28,),
-                              SizedBox(width: 10,),
-                              Text(
-                                "Latest Maintences",
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w800,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          SizedBox(height: 15,),
-
-                          ListView.separated(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap:true,
-                            physics:const NeverScrollableScrollPhysics(),
-                            
-                            itemCount: maintenances.length,
-
-                            itemBuilder: (context, index) {
-                              final maintenance = maintenances[index];
-                              return Container(
-                                padding: const EdgeInsets.all(5),
-                                decoration: BoxDecoration(
-                                  color: Colors.grey.shade100,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: ListTile(
-                                  title: Text(
-                                    maintenance.title,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-
-                                  subtitle: Row(
-                                    children: [
-                                      Text(
-                                        "${maintenance.date} ${maintenance.month}, ${maintenance.year}",
-                                        style: TextStyle(
-                                          color: Colors.grey.shade600,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-
-                                  trailing: maintenance.statusIcon,
-                                ),
-                              );
-                            },
-
-                            separatorBuilder: (context, index) => const SizedBox(height: 10),
-                          ),
-
-                          SizedBox(height: 10,),
-
-                          TextButton(
-                            onPressed: ()=>{},
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Icon(Icons.arrow_forward, color: Colors.orange, size: 24,),
-                                SizedBox(width: 10,),
-                                Text(
-                                  "View Full History",
-                                  style: TextStyle(
-                                    color: Colors.orange,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w800,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
                   ],
                 ),
               ),
-            ),
-          )
 
-        ],
+              SizedBox(height: 10,),
+
+              Row(
+                children: [
+                  Tag(type: StatusType.room, value: roomData.roomStats, text: roomData.roomStats),
+                  SizedBox(width: 10,),
+                  Tag(type: StatusType.room, value: roomData.roomType, text: roomData.roomType),
+                  SizedBox(width: 10,),
+                  Tag(type: StatusType.payment, value: tenantModel.statusPaid, text: tenantModel.statusPaid?"Paid":"Unpaid"),
+                ],
+              ),
+
+              SizedBox(height: 10,),
+
+              RoomDetailContainer(
+                roomDetail: RoomDetailModel(
+                  bgColor: Colors.blueAccent.withValues(alpha: 0.25), 
+                  icon:Icon(Icons.person_outline), 
+                  iconColor: Colors.blueAccent, 
+                  title: "Tenant Information", 
+                  details: {
+                    'Full Name:': tenantModel.username,
+                    'Phone Number:': tenantModel.phoneNumber,
+                    'Email:': tenantModel.email,
+                    'Move-in Date': tenantModel.moveinDate,
+                    'Contract End': tenantModel.contractEnd,
+
+                  }
+                )
+              ),
+
+              SizedBox(height: 10,),
+
+              RoomDetailContainer(
+                roomDetail: RoomDetailModel(
+                  bgColor: Colors.purpleAccent.withValues(alpha: 0.25), 
+                  icon:Icon(Icons.house_outlined), 
+                  iconColor: Colors.purple, 
+                  title: "Room Details", 
+                  details: {
+                    'Room Number:': roomData.roomNumber.toString(),
+                    'Floor:': roomData.roomFloor.toString(),
+                    'Room Type:': roomData.roomType,
+                    'Monthly Rent:': roomData.rentFee.toString(),
+                    'Deposit:': roomData.deposit.toString(),
+                  }
+                )
+              ),
+
+              SizedBox(height: 10,),
+
+              RoomDetailContainer(
+                roomDetail: RoomDetailModel(
+                  fgColor: Colors.green,
+                  bgColor: Colors.greenAccent.withValues(alpha: 0.25), 
+                  icon:Icon(Icons.house_outlined), 
+                  iconColor: Colors.green, 
+                  title: "Latest Bills (${roomData.postedMY})", 
+                  details: {
+                    'Rent Fee:': "${roomData.rentFee} THB",
+                    'Water (${tenantModel.waterUnit}):': "${tenantModel.waterBill} THB",
+                    'Electric Bill (${tenantModel.electricUnit}):': "${tenantModel.electricBill} THB",
+                    'Total:': "${roomData.rentFee + tenantModel.waterBill + tenantModel.electricBill} THB",
+                  },
+                  status: {
+                    'Status': Tag(type: StatusType.payment, value: tenantModel.statusPaid, text: tenantModel.statusPaid?"Paid":"Unpaid"),
+                  }
+                ),
+                navBtn: true,
+              ),
+
+              SizedBox(height: 10,),
+
+              RoomDetailContainer(
+                roomDetail: RoomDetailModel(
+                  fgColor: Colors.orange,
+                  bgColor: Colors.orangeAccent.withValues(alpha: 0.25), 
+                  icon:Icon(Icons.house_outlined), 
+                  iconColor: Colors.orange, 
+                  title: "Latest Maintences", 
+                ),
+                inListView: maintenances,
+                navBtn: true,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

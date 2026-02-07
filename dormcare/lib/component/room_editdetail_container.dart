@@ -3,8 +3,8 @@ import 'package:dormcare/model/repair_tenant_model.dart';
 import 'package:dormcare/model/room_detail_model.dart';
 import 'package:flutter/material.dart';
 
-class RoomDetailContainer extends StatelessWidget {
-  const RoomDetailContainer({
+class RoomEditdetailContainer extends StatelessWidget {
+  const RoomEditdetailContainer({
     super.key,
     required this.roomDetail,
     this.navBtn = false,
@@ -43,6 +43,7 @@ class RoomDetailContainer extends StatelessWidget {
                   fontSize: 18,
                 ),
               ),
+              
             ],
           ),
 

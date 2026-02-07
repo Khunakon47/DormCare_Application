@@ -1,5 +1,8 @@
+import 'package:dormcare/component/filter_sort.dart';
+import 'package:dormcare/component/greeting_container.dart';
 import 'package:dormcare/component/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/room_bottomsheet_sort.dart';
+import 'package:dormcare/component/search_box.dart';
 import 'package:dormcare/model/room_data_model.dart';
 import 'package:dormcare/model/tenant_model.dart';
 import 'package:dormcare/screen/owner/bills_screen/bills_edit_owner_screen.dart';
@@ -18,188 +21,62 @@ class BillsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Back", textAlign: TextAlign.left,),
-      ),
-      
+      appBar: AppBar(title: const Text("Back", textAlign: TextAlign.left)),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _headerCard(),
-            SizedBox(height: 15,),
+            GreetingContainer(
+              bgColor: [Color(0xFFAE36F3), Color(0xFF8B27E9)],
+              title: postedData.postedMY,
+              subtitle: "Edit individual room bills and payment status",
+            ),
+            SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Wrap the search container with Expanded
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      left: 12,
-                      top: 5,
-                      right: 5,
-                      bottom: 5,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.blue.withValues(alpha: 0.1),
-                          blurRadius: 10,
-                          offset: const Offset(0, 5),
-                        ),
-                      ],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.search,
-                          color: Colors.grey,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(  // Also wrap TextField with Expanded
-                          child: TextField(
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                            ),
-                            cursorColor: Colors.black,
-                            decoration: InputDecoration(
-                              border: InputBorder.none, 
-                              hintText: "Search by room or tenante...",
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              )
-                            ),
-                            keyboardType: TextInputType.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                SearchBox(
+                  hintText: "Search by room number...",
                 ),
 
-                const SizedBox(width: 8), // Add spacing between widgets
+                const SizedBox(width: 8),
 
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(context: context, 
-                        builder: (context){
-                          return SizedBox(
-                            child: RoomBottomsheetFilter(),
-                          );
-                        }
-                      );
-                    },
-                    icon: Icon(
-                      Icons.filter_alt_outlined,
-                      color: Colors.blue,
-                      size: 32,
-                    ),
-                  ),
+                FilterSort(
+                  icon: Icon(Icons.filter_alt_outlined,),
+                  bgColor: Colors.white,
+                  iconColor: Colors.blue,
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return SizedBox(child: RoomBottomsheetFilter());
+                      },
+                    );
+                  },
                 ),
 
-                const SizedBox(width: 8), // Add spacing between widgets
+                const SizedBox(width: 8),
 
-                Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: IconButton(
-                    onPressed: ()=>{
-                      showModalBottomSheet(context: context, 
-                        builder: (context){
-                          return SizedBox(
-                            child: RoomBottomsheetSort(),
-                          );
-                        }
-                      )
-                    }, 
-                    icon: Icon(
-                      Icons.swap_vert,
-                      size: 32,
-                      color: Colors.purple,
-                    )
-                  )
+                FilterSort(
+                  icon: Icon(Icons.swap_vert),
+                  bgColor: Colors.white,
+                  iconColor: Colors.purple,
+                  onPressed: () => {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return SizedBox(child: RoomBottomsheetSort());
+                      },
+                    ),
+                  },
                 ),
               ],
             ),
-            SizedBox(height: 15,),
-            _buildRoomBills(tenantModel: tenantModel)
-
+            SizedBox(height: 15),
+            _buildRoomBills(tenantModel: tenantModel),
           ],
         ),
-      ),
-    );
-  }
-
-
-  // ================= HELPERS =================
-    BoxDecoration _gradientBox() {
-      return BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
-        gradient: const LinearGradient(
-          colors: [Color(0xFFAE36F3), Color(0xFF8B27E9)],
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.blue.withValues(alpha: 0.3),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
-          ),
-        ],
-      );
-    }
-
-  // ================= HEADER =================
-  Widget _headerCard() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 30),
-      width: double.infinity,
-      decoration: _gradientBox(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            postedData.postedMY,
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(height: 6),
-          Text(
-            "Edit individual room bills and payment status",
-            style: TextStyle(color: Colors.white70, fontSize: 14),
-          ),
-        ],
       ),
     );
   }
@@ -212,10 +89,7 @@ class BillsView extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 12,
-            ),
+            style: const TextStyle(color: Colors.black, fontSize: 12),
           ),
           Text(
             value,
@@ -230,10 +104,7 @@ class BillsView extends StatelessWidget {
     );
   }
 
-
-  Widget _buildRoomBills({
-    required List<TenantModel> tenantModel,
-  }) {
+  Widget _buildRoomBills({required List<TenantModel> tenantModel}) {
     return ListView.separated(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -258,32 +129,44 @@ class BillsView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               // ===== ROOM INFO (placeholder) =====
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(children: [
-                    Text(
-                      "Room A-101",
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    ),
-                    SizedBox(width: 10,),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 3,
+                  Row(
+                    children: [
+                      Text(
+                        "Room A-101",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
-                      decoration: BoxDecoration(
-                        color: tenant.statusPaid? Colors.greenAccent.withValues(alpha: 0.25): Colors.redAccent.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(30),
+                      SizedBox(width: 10),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 3,
+                        ),
+                        decoration: BoxDecoration(
+                          color: tenant.statusPaid
+                              ? Colors.greenAccent.withValues(alpha: 0.25)
+                              : Colors.redAccent.withValues(alpha: 0.25),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Text(
+                          tenant.statusPaid ? "Paid" : "Unpaid",
+                          style: TextStyle(
+                            color: tenant.statusPaid
+                                ? Colors.green
+                                : Colors.red,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                        ),
                       ),
-                      child: Text(
-                        tenant.statusPaid? "Paid": "Unpaid",
-                        style: TextStyle(color: tenant.statusPaid? Colors.green: Colors.red,fontWeight: FontWeight.bold, fontSize: 12),
-                      ),
-                    ),
-                  ],),
+                    ],
+                  ),
                   Text(
                     '${tenant.rentFee + tenant.waterBill + tenant.electricBill} THB',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -297,7 +180,7 @@ class BillsView extends StatelessWidget {
                 tenant.username,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 14, 
+                  fontSize: 14,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -313,10 +196,7 @@ class BillsView extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    _billRow(
-                      "Room Rent",
-                      "${tenant.rentFee.toInt()} THB",
-                    ),
+                    _billRow("Room Rent", "${tenant.rentFee.toInt()} THB"),
                     _billRow(
                       "Water (${tenant.waterUnit} units)",
                       "${tenant.waterBill.toInt()} THB",
@@ -353,11 +233,12 @@ class BillsView extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => BillsEditOwner(
-                            tenant: tenant,
-                          )
-                        )),
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                BillsEditOwner(tenant: tenant),
+                          ),
+                        ),
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
@@ -369,11 +250,14 @@ class BillsView extends StatelessWidget {
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.edit_note, size: 22, color: Colors.white,),
+                          Icon(Icons.edit_note, size: 22, color: Colors.white),
                           SizedBox(width: 8),
                           Text(
                             "Edit Info",
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                         ],
                       ),
@@ -387,6 +271,4 @@ class BillsView extends StatelessWidget {
       },
     );
   }
-
-
 }

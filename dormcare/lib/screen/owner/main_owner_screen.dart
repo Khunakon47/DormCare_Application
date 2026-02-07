@@ -14,14 +14,14 @@ class MainOwnerScreen extends StatefulWidget {
 }
 
 class _MainOwnerScreenState extends State<MainOwnerScreen> {
-  int _selectedIndex = 4;
+  int _selectedIndex = 1;
 
   final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
 
   final List<PageDataModel> _pages = [
     PageDataModel(
       title: "Dashboard",
-      screen: HomeOwnerScreen(), // do like this, for below pages
+      screen: HomeOwnerScreen(),
       actions: [
         IconButton(
           padding: EdgeInsets.only( right: 16, ),
