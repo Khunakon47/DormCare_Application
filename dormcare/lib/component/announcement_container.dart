@@ -28,6 +28,13 @@ class AnnouncementContainer extends StatelessWidget {
         border: Border(
           left: BorderSide(color: sideColor, width: 4),
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withValues(alpha: 0.1),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
