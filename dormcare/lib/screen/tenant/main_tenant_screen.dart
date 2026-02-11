@@ -1,73 +1,81 @@
-import 'package:dormcare/model/page_data_model.dart';
-import 'package:dormcare/screen/tenant/alter_screen/alter_tenant_screen.dart';
-import 'package:dormcare/screen/tenant/expenses_screen/expenses_tenant_screen.dart';
-import 'package:dormcare/screen/tenant/profile_screen/profile_tenant_screen.dart';
-import 'package:dormcare/screen/tenant/repair_screen/repair_tenant_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/page_data_model.dart';
+
+import 'login_screen/login_tenant_screen.dart';
 import 'home_screen/home_tenant_screen.dart';
+import 'expenses_screen/expenses_tenant_screen.dart';
+import 'repair_screen/repair_tenant_screen.dart';
+import 'alter_screen/alter_tenant_screen.dart';
+import 'profile_screen/profile_tenant_screen.dart';
 
 class MainTenantScreen extends StatefulWidget {
-  const MainTenantScreen({super.key});
+  const MainTenantScreen({
+    super.key, 
+    this.initialIndex = 4
+  });
+
+  final int initialIndex;
 
   @override
   State<MainTenantScreen> createState() => _MainTenantScreenState();
 }
 
 class _MainTenantScreenState extends State<MainTenantScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
-  final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
-
-  final List<PageDataModel> _pages = [
-    const PageDataModel(
-      title: "Home",
-      screen: HomeTenantScreen(),
-    ),
-    const PageDataModel(
-      title: "Expenses",
-      screen: ExpensesTenantScreen(),
-    ),
-    const PageDataModel(
-      title: "Repairs",
-      screen: RepairTenantScreen(),
-    ),
-    const PageDataModel(
-      title: "Alerts",
-      screen: AlterTenantScreen(),
-    ),
-    const PageDataModel(
-      title: "Profile",
-      screen: ProfileTenantScreen(),
-    ),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex; // กำหนดค่าเริ่มต้นจาก parameter
+  }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      _selectedIndex = index + 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final PageDataModel currentPage = _pages[_selectedIndex];
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
-        ),
-        actions: currentPage.actions,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+    final List<PageDataModel> pages = [
+      PageDataModel(
+        title: "Login",
+        screen: LoginTenantScreen(
+          onLoginSuccess: () {
+            _onItemTapped(0);
+          },
         ),
       ),
+      const PageDataModel(title: "Home", screen: HomeTenantScreen()),
+      const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
+      const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
+      const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
+      const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
+    ];
+
+    final PageDataModel currentPage = pages[_selectedIndex];
+
+    return Scaffold(
+       appBar: currentPage.title == "Login"
+        ? null
+        : AppBar(
+            title: Text(
+              currentPage.title,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            actions: currentPage.actions,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0),
+              child: Container(color: Colors.grey.shade300, height: 1.0),
+            ),
+          ),
+
 
       body: currentPage.screen,
 
-      bottomNavigationBar: Container(
+      bottomNavigationBar: currentPage.title == "Login" 
+      ? null
+      : Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -81,15 +89,11 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(
-              alpha: 0.1,
-            ), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
-            highlightColor: const Color(
-              0xFF367BF3,
-            ).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
+            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
+            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
           ),
           child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
+            currentIndex: _selectedIndex - 1,
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
 
@@ -104,61 +108,66 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
             unselectedIconTheme: IconThemeData(size: 25),
 
             items: [
+              // Home
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.home_outlined),
                 ),
                 activeIcon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.home),
                 ),
                 label: 'Home',
               ),
-
+              
+              // Expenses
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.receipt_long_outlined),
                 ),
                 activeIcon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.receipt_long),
                 ),
                 label: 'Expenses',
               ),
 
+              // Repairs
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.build_outlined),
                 ),
                 activeIcon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.build),
                 ),
                 label: 'Repairs',
               ),
 
+              // Alerts
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.notifications_outlined),
                 ),
                 activeIcon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.notifications),
                 ),
                 label: 'Alerts',
               ),
 
+              // Profile
               BottomNavigationBarItem(
                 icon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.person_outline),
                 ),
                 activeIcon: Padding(
-                  padding: paddingtop,
+                  padding: EdgeInsets.only(top: 8),
                   child: const Icon(Icons.person),
                 ),
                 label: 'Profile',

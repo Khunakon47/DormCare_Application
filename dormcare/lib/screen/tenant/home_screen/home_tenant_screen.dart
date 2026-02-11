@@ -1,3 +1,4 @@
+import 'package:dormcare/component/announcement_container.dart';
 import 'package:dormcare/component/greeting_container.dart';
 import 'package:flutter/material.dart';
 import '../../../component/home_dashboard_card.dart';
@@ -52,7 +53,7 @@ class HomeTenantScreen extends StatelessWidget {
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           children: [
             // Section 1
@@ -62,11 +63,11 @@ class HomeTenantScreen extends StatelessWidget {
                 const Color(0xFF2761E9),
               ], 
               title: "Welcome, JoBy",
-              icon: Icon(Icons.waves), 
+              icon: Icon(Icons.waving_hand), 
               subtitle: "Room 301 - Dorm 27"
             ),
 
-            SizedBox(height: 15),
+            SizedBox(height: 16),
 
             // Section 2
             Row(
@@ -103,63 +104,22 @@ class HomeTenantScreen extends StatelessWidget {
               ],
             ),
 
-            SizedBox(height: 15),
+            SizedBox(height: 16),
 
             // Section 3
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: const Color(0xFFFFF9E6),
-                borderRadius: BorderRadius.circular(12),
-                border: const Border(
-                  left: BorderSide(color: Color(0xFFFFC107), width: 6.0),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withValues(alpha: 0.1),
-                    blurRadius: 6,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.info_outline,
-                        color: Color(0xFFA67C00),
-                        size: 20,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text(
-                        "Payment Reminder",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFA67C00),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  Text(
-                    "You have 1 bills due on Jan 5, 2025 (18 days remaining)",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.brown.shade700,
-                    ),
-                  ),
-                ],
-              ),
+            AnnouncementContainer(
+              sideColor: const Color(0xFFFFC107),
+              bgColor: const Color(0xFFFFF9E6),
+              textColor: Color(0xFFA67C00),
+              icon: Icon(Icons.info_outline),
+              title: 'Payment Reminder',
+              decscription:
+                  'You have 1 bills due on Jan 5, 2025 (18 days remaining)',
             ),
 
-            SizedBox(height: 15),
+            SizedBox(height: 16),
 
+            // section 4
             Container(
               padding: const EdgeInsets.all(16),
               width: double.infinity,
@@ -188,14 +148,10 @@ class HomeTenantScreen extends StatelessWidget {
                   SizedBox(height: 20),
 
                   ListView.separated(
-                    // เมื่อใช้ ListView ใน column ต้องใช้ 2 โค้ดนี้ด้วยเสมอ
-                    shrinkWrap:
-                        true, // กำหนดให้ ListView สูงเท่ากับจำนวนรายการจริง (ป้องกัน Error เรื่องความสูง) (ไม่ใช้ = Error)
-                    physics:
-                        const NeverScrollableScrollPhysics(), // ปิดการเลื่อนในตัวเอง เพื่อให้เลื่อนตามหน้าจอหลักได้อย่างสมูธ
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
 
                     itemCount: maintenances.length,
-
                     itemBuilder: (context, index) {
                       final maintenance = maintenances[index];
                       return Container(
@@ -212,7 +168,6 @@ class HomeTenantScreen extends StatelessWidget {
                               fontSize: 14,
                             ),
                           ),
-
                           subtitle: Row(
                             children: [
                               Text(
@@ -224,18 +179,18 @@ class HomeTenantScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-
                           trailing: maintenance.statusIcon,
                         ),
                       );
                     },
-
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 10),
                   ),
                 ],
               ),
             ),
+          
+            SizedBox(height: 16),
           ],
         ),
       ),

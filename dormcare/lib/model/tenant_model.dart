@@ -1,3 +1,6 @@
+// we don't use this file anymore
+// use expense_model.dart instead
+
 class TenantModel {
   final String username;
   final String roomNumber;
@@ -19,3 +22,6 @@ class TenantModel {
     this.waterUnit = 18,
   });
 }
+
+// we don't use this file anymore
+// use expense_model.dart instead
