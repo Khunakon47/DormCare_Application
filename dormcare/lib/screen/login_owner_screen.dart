@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class LoginTenantScreen extends StatelessWidget {
-  const LoginTenantScreen({super.key});
+class LoginOwnerScreen  extends StatelessWidget {
+  const LoginOwnerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class LoginTenantScreen extends StatelessWidget {
               width: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF3F7BF6), Color(0xFF2F66F3)],
+                  colors: [Color(0xFFA34CF3), Color(0xFF4F45E2)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -27,7 +27,7 @@ class LoginTenantScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(18),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF4E90FA),
+                      color: const Color(0xFFAB61F0),
                       borderRadius: BorderRadius.circular(20),
                       boxShadow: [
                         BoxShadow(
@@ -83,7 +83,7 @@ class LoginTenantScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Tenant Login",
+                            "Owner Login",
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -91,7 +91,7 @@ class LoginTenantScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 6),
                           const Text(
-                            "Sign in to manage your room with ease.",
+                            "Manage your dormitory.",
                             style: TextStyle(fontSize: 13, color: Colors.grey),
                           ),
 
@@ -99,7 +99,7 @@ class LoginTenantScreen extends StatelessWidget {
 
                           // ===== Room Number =====
                           const Text(
-                            "Room Number",
+                            "Email or Username",
                             style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
@@ -108,7 +108,7 @@ class LoginTenantScreen extends StatelessWidget {
                           const SizedBox(height: 6),
                           TextField(
                             decoration: InputDecoration(
-                              hintText: "Enter your room number",
+                              hintText: "Enter an email or username",
                               hintStyle: const TextStyle(
                                 color: Colors.grey,
                                 fontSize: 14,
@@ -196,7 +196,7 @@ class LoginTenantScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
-                                    color: Color(0xFF3F7BF6),
+                                    color: Color(0xFFB475F8),
                                   ),
                                 ),
                               ),
@@ -213,8 +213,8 @@ class LoginTenantScreen extends StatelessWidget {
                               decoration: BoxDecoration(
                                 gradient: const LinearGradient(
                                   colors: [
-                                    Color(0xFF3F7BF6),
-                                    Color(0xFF5A4CF3),
+                                    Color(0xFFA555F6),
+                                    Color(0xFF4F46E5),
                                   ],
                                 ),
                                 borderRadius: BorderRadius.circular(14),
@@ -247,7 +247,7 @@ class LoginTenantScreen extends StatelessWidget {
 
                     // ===== Text ใต้การ์ด =====
                     const Text(
-                      "Please Contact your dormitory management if you\n don't have an account.",
+                      "Contact system support for admin registration.",
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
@@ -267,12 +267,12 @@ class LoginTenantScreen extends StatelessWidget {
                       onPressed: () {},
                       icon: const Icon(
                         Icons.person_outline,
-                        color: Color(0xFF367BF3), size: 22,
+                        color: Color(0xFFA855F7), size: 22,
                       ),
                       label: const Text(
-                        "Login as Owner",
+                        "Login as Tenant",
                         style: TextStyle(
-                          color: Color(0xFF367BF3),
+                          color: Color(0xFFA855F7),
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
                         ),
