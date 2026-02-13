@@ -88,7 +88,7 @@ class RoomViewdetail extends StatelessWidget {
             children: [
               ImagegalleryButton(
                 bgColor: [Colors.black.withValues(alpha: 0.75)],
-                imagePath: room.image,
+                imagePath: room.imageUrl,
                 heroTag: ['l_arrow', 'r_arrow'],
               ),
 
@@ -152,7 +152,13 @@ class RoomViewdetail extends StatelessWidget {
                   'Room Number:': room.roomNumber,
                   'Floor:': room.roomFloor,
                   'Monthly Rent:': "${room.price} THB",
-                  'Status:': occupied ? "Occupied" : "Available",
+                },
+                status: {
+                  'Room': Tag(
+                    type: StatusType.roomStatus,
+                    value: room.isOccupied? "Occupied" : "Available",
+                    text: room.isOccupied ? "Occupied" : "Available",
+                  )
                 },
               ),
 

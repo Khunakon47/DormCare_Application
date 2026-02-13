@@ -2,7 +2,7 @@
 
 class RoomModel {
   final String roomId;
-  final String image;
+  final String imageUrl;
   final String roomNumber;
   final String roomFloor;
   final String roomType;
@@ -16,7 +16,7 @@ class RoomModel {
 
   RoomModel({
     required this.roomId,
-    required this.image,
+    required this.imageUrl,
     required this.roomNumber,
     required this.roomFloor,
     required this.roomType,
@@ -33,7 +33,7 @@ class RoomModel {
   factory RoomModel.fromJson(Map<String, dynamic> json) {
     return RoomModel(
       roomId: json['roomId'],
-      image: json['image'],
+      imageUrl: json['imageUrl'],
       roomNumber: json['roomNumber'],
       roomFloor: json['roomFloor'],
       roomType: json['roomType'],
@@ -54,7 +54,7 @@ class RoomModel {
   Map<String, dynamic> toJson() {
     return {
       'roomId': roomId,
-      'image': image,
+      'imageUrl': imageUrl,
       'roomNumber': roomNumber,
       'roomFloor': roomFloor,
       'roomType': roomType,

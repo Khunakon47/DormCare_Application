@@ -43,6 +43,8 @@ class Tag extends StatelessWidget {
         final String? roomType = value as String?;
         if (roomType!.toLowerCase() == "single"){
           return Colors.greenAccent.withValues(alpha: 0.25);
+        } else if (roomType.toLowerCase() == "studio"){
+          return Colors.purpleAccent.withValues(alpha: 0.25);
         } else{
           return Colors.blueAccent.withValues(alpha: 0.25);
         }
@@ -80,7 +82,9 @@ class Tag extends StatelessWidget {
         final String? roomType = value as String?;
         if (roomType!.toLowerCase() == "single"){
           return Colors.green;
-        } else{
+        } else if (roomType.toLowerCase() == "studio"){
+          return Colors.purple;
+        } else {
           return Colors.blue;
         }
 

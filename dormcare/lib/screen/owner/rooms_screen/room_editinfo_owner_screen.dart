@@ -85,7 +85,7 @@ class RoomEditinfo extends StatelessWidget {
               /// image
               ImagegalleryButton(
                 bgColor: [Colors.black.withValues(alpha: 0.75)],
-                imagePath: room.image,
+                imagePath: room.imageUrl,
                 heroTag: ['left_arrow', 'right_arrow'],
               ),
 
