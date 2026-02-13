@@ -5,7 +5,8 @@ import 'package:dormcare/component/owner/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/owner/room_bottomsheet_sort.dart';
 import 'package:dormcare/component/owner/room_list_card.dart';
 import 'package:dormcare/component/owner/search_box.dart';
-import 'package:dormcare/constants/dataset.dart'; // IMPORTANT
+// import 'package:dormcare/constants/dataset.dart'; // IMPORTANT
+import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 
 class RoomOwnerScreen extends StatelessWidget {
@@ -15,7 +16,51 @@ class RoomOwnerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
 
     // ===== USE REAL DATA =====
-    final rooms = roomList;
+    // final rooms = roomList;
+    final List<RoomModel> roomList = [
+      RoomModel(
+        roomId: "r001",
+        imageUrl: "https://picsum.photos/500/300",
+        roomNumber: "A101",
+        roomFloor:'1',
+        roomType: 'Single',
+        price: 3500,
+        isOccupied: true,
+        tenantName: "Somchai  Prasert",
+        tenantPhone: "089-123-8574",
+        tenantEmail: "john@gmail.com",
+        tenantMoveinDate: DateTime(2024, 9, 1),
+        tenantContractEndDate: DateTime(2025, 5, 31),
+      ),
+      RoomModel(
+        roomId: "r002",
+        imageUrl: "https://picsum.photos/500/300",
+        roomNumber: "A102",
+        roomFloor:'1',
+        roomType: 'Studio',
+        price: 3500,
+        isOccupied: false,
+        tenantName: null,
+        tenantPhone: null,
+        tenantEmail: null,
+        tenantMoveinDate: null,
+        tenantContractEndDate: null,
+      ),
+      RoomModel(
+        roomId: "r003",
+        imageUrl: "https://picsum.photos/500/300",
+        roomNumber: "B201",
+        roomFloor:'2',
+        roomType: 'Single',
+        price: 4200,
+        isOccupied: true,
+        tenantName: "Mika",
+        tenantPhone: "0887776666",
+        tenantEmail: "mika@gmail.com",
+        tenantMoveinDate: DateTime(2026, 2, 5),
+        tenantContractEndDate: DateTime(2026, 5, 5),
+      ),
+    ];
 
     return Scaffold(
       floatingActionButton: CustomTextbutton(
@@ -35,7 +80,7 @@ class RoomOwnerScreen extends StatelessWidget {
               GreetingContainer(
                 title: "Room Management",
                 subtitle: "Manage all rooms and tenants",
-                bgColor: ownerTheme.bgGradientColors,
+                bgColor: [Color.fromARGB(255,163, 76, 243), Color.fromARGB(255,79,69,226)],
               ),
 
               SizedBox(height: 15),
@@ -82,17 +127,13 @@ class RoomOwnerScreen extends StatelessWidget {
               SizedBox(height: 15),
 
               /// ===== ROOM LIST =====
-              ListView.separated(
+              ListView.builder(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                itemCount: rooms.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 10),
-
+                itemCount: roomList.length,
                 itemBuilder: (context, index) {
-                  final room = rooms[index];
-
                   return RoomListCard(
-                    room: room, // 👈 PASS REAL ROOM MODEL
+                    room: roomList[index],
                   );
                 },
               ),

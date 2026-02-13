@@ -56,7 +56,7 @@ final OwnerModel ownerProfile = OwnerModel(
 );
 
 final OwnerAppTheme ownerTheme = OwnerAppTheme(
-  primary: const Color(0xFF367BF3),
+  primary: Color(0xFFA34CF3),
   secondary: const Color(0xFF9436F3),
   accent: const Color(0xFFFFB703),
 
@@ -91,7 +91,7 @@ final DormModel dormsList = DormModel(
 final List<RoomModel> roomList = [
   RoomModel(
     roomId: "r001",
-    image: "https://picsum.photos/500/300",
+    imageUrl: "https://picsum.photos/500/300",
     roomNumber: "A101",
     roomFloor:'1',
     roomType: 'Single',
@@ -105,7 +105,7 @@ final List<RoomModel> roomList = [
   ),
   RoomModel(
     roomId: "r002",
-    image: "https://picsum.photos/500/300",
+    imageUrl: "https://picsum.photos/500/300",
     roomNumber: "A102",
     roomFloor:'1',
     roomType: '2 Beds',
@@ -119,7 +119,7 @@ final List<RoomModel> roomList = [
   ),
   RoomModel(
     roomId: "r003",
-    image: "https://picsum.photos/500/300",
+    imageUrl: "https://picsum.photos/500/300",
     roomNumber: "B201",
     roomFloor:'2',
     roomType: 'Single',

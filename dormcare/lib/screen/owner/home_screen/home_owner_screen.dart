@@ -2,8 +2,11 @@ import 'package:dormcare/component/tenant/announcement_container.dart';
 import 'package:dormcare/component/owner/custom_textbutton.dart';
 import 'package:dormcare/component/tenant/greeting_container.dart';
 import 'package:dormcare/component/tenant/home_dashboard_card.dart';
-import 'package:dormcare/component/owner/room_detail_container.dart';
+// import 'package:dormcare/component/owner/room_detail_container.dart';
 import 'package:dormcare/constants/dataset.dart';
+// import 'package:dormcare/model/owner/repair_report_model.dart';
+// import 'package:dormcare/model/owner/room_model.dart';
+import 'package:dormcare/model/tenant/repair_tenant_model.dart';
 import 'package:flutter/material.dart';
 
 class HomeOwnerScreen extends StatelessWidget {
@@ -11,7 +14,34 @@ class HomeOwnerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+    final List<RepairTenant> maintenances = [
+      const RepairTenant(
+        roomNumber: "Room 301",
+        title: "Air conditioner not cooling",
+        date: 10,
+        month: "Dec",
+        year: 2024,
+        statusIcon: Icon(Icons.check_circle_outline, color: Colors.green),
+      ),
+
+      const RepairTenant(
+        roomNumber: "Room 201",
+        title: "Leaking faucet",
+        date: 12,
+        month: "Dec",
+        year: 2024,
+        statusIcon: Icon(Icons.access_time, color: Colors.orange),
+      ),
+
+      const RepairTenant(
+        roomNumber: "Room 101",
+        title: "Light bulb replacement (Bathroom)",
+        date: 5,
+        month: "Jan",
+        year: 2025,
+        statusIcon: Icon(Icons.access_time, color: Colors.orange),
+      ),
+    ];
 
     // ===== CALCULATED DATA =====
     final int totalRooms = roomList.length;
@@ -20,13 +50,15 @@ class HomeOwnerScreen extends StatelessWidget {
         .where((b) => b.isPaid) // only paid bills count
         .fold(0, (sum, b) => sum + b.rent + b.water + b.electric + b.other);
 
-    final int pendingRepairs =
-        repairReports.where((r) => r.status == "pending").length;
+    final int pendingRepairs = repairReports
+        .where((r) => r.status == "pending")
+        .length;
 
-    final int fixingRepairs =
-        repairReports.where((r) => r.status == "fixing").length;
+    final int fixingRepairs = repairReports
+        .where((r) => r.status == "fixing")
+        .length;
 
-    final latestReport = repairReports.isNotEmpty ? repairReports.first : null;
+    // final latestReport = repairReports.isNotEmpty ? repairReports.first : null;
 
     return SingleChildScrollView(
       child: Container(
@@ -36,7 +68,7 @@ class HomeOwnerScreen extends StatelessWidget {
             GreetingContainer(
               title: "Welcome, Owner",
               subtitle: dormsList.dormName,
-              bgColor: ownerTheme.bgGradientColors,
+              bgColor: [Color.fromARGB(255,163, 76, 243), Color.fromARGB(255,79,69,226)],
             ),
 
             SizedBox(height: 15),
@@ -53,7 +85,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     iconColor: Colors.white,
                     iconSize: 32,
                     topRightText: totalRooms.toString(),
-                    bottomLeftText: "Total Rooms",
+                    bottomLeftText: "Rooms Occupied",
                     isOwner: true,
                     topRightTextSize: 24,
                     totalRoom: totalRooms,
@@ -108,7 +140,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     iconColor: Colors.white,
                     iconSize: 32,
                     topRightText: fixingRepairs.toString(),
-                    bottomLeftText: "Fixing Now",
+                    bottomLeftText: "Unpaid Bills",
                     topRightTextSize: 24,
                     isOwner: false,
                   ),
@@ -141,7 +173,7 @@ class HomeOwnerScreen extends StatelessWidget {
                     style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
-                      fontSize: 24,
+                      fontSize: 20,
                     ),
                   ),
                   SizedBox(height: 15),
@@ -150,22 +182,28 @@ class HomeOwnerScreen extends StatelessWidget {
                       Expanded(
                         child: CustomTextbutton(
                           icon: Icon(Icons.add),
-                          iconColor: Colors.white,
+                          iconColor: Colors.blueAccent,
                           iconSize: 24,
-                          textOnBtn: "Post Bills",
-                          fgColor: Colors.white,
-                          bgColor: [Colors.blueAccent],
+                          spacing: 4,
+                          fontSize: 14,
+                          textOnBtn: "Post New Bills",
+                          fgColor: Colors.blueAccent,
+                          bgColor: [Colors.blueAccent.withValues(alpha: 0.15)],
                         ),
                       ),
                       SizedBox(width: 10),
                       Expanded(
                         child: CustomTextbutton(
                           icon: Icon(Icons.group_outlined),
-                          iconColor: Colors.white,
-                          iconSize: 24,
-                          textOnBtn: "Tenants",
-                          fgColor: Colors.white,
-                          bgColor: [Colors.purpleAccent],
+                          iconColor: Colors.purpleAccent,
+                          iconSize: 20,
+                          spacing: 2,
+                          textOnBtn: "Manage Rooms",
+                          fontSize: 14,
+                          fgColor: Colors.purpleAccent,
+                          bgColor: [
+                            Colors.purpleAccent.withValues(alpha: 0.15),
+                          ],
                         ),
                       ),
                     ],
@@ -176,34 +214,104 @@ class HomeOwnerScreen extends StatelessWidget {
 
             SizedBox(height: 15),
 
+            AnnouncementContainer(
+              sideColor: Colors.red,
+              bgColor: Colors.redAccent.withValues(alpha: 0.15),
+              textColor: Colors.redAccent,
+              icon: Icon(Icons.info_outline),
+              title: "Payment Reminder Needed",
+              decscription: "12 Rooms have unpaid bills. Due date: 5 Jan 2025",
+            ),
+
+            SizedBox(height: 15),
+
             /// ================= RECENT REPAIRS =================
-            RoomDetailContainer(
-              boxShadowOn: false,
-              fgColor: Colors.orange,
-              bgColor: Colors.orangeAccent.withValues(alpha: 0.25),
-              icon: Icon(Icons.build),
-              iconColor: Colors.orange,
-              title: "Maintenance Reports",
-              inListView: repairReports,
-              navBtn: true,
+            Container(
+              padding: const EdgeInsets.all(16),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.25),
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  ),
+                ],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.build_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                      SizedBox(width: 8),
+                      Text(
+                        "Recent Maintenance",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  SizedBox(height: 20),
+
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+
+                    itemCount: maintenances.length,
+                    itemBuilder: (context, index) {
+                      final maintenance = maintenances[index];
+                      return Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: ListTile(
+                          title: Text(
+                            "${maintenance.roomNumber} - ${maintenance.title}",
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          subtitle: Row(
+                            children: [
+                              Text(
+                                "${maintenance.date} ${maintenance.month}, ${maintenance.year}",
+                                style: TextStyle(
+                                  color: Colors.grey.shade600,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: maintenance.statusIcon,
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
+                  ),
+                ],
+              ),
             ),
 
             SizedBox(height: 15),
 
             /// ================= ANNOUNCEMENT =================
-            if (latestReport != null)
-              AnnouncementContainer(
-                sideColor: Colors.orange,
-                bgColor: Colors.orangeAccent.withValues(alpha: 0.15),
-                textColor: Colors.deepOrange,
-                icon: Icon(Icons.build),
-                title: latestReport.title,
-                decscription: latestReport.description,
-              ),
+            // if (latestReport != null)
           ],
         ),
       ),
     );
   }
-
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class RepairTenant {
   const RepairTenant({
+    this.roomNumber,
     required this.title,
     required this.date,
     required this.month,
@@ -9,6 +10,7 @@ class RepairTenant {
     required this.statusIcon,
   });
 
+  final String? roomNumber;
   final String title;
   final int date;
   final String month;
