@@ -1,10 +1,10 @@
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/filter_sort.dart';
-import 'package:dormcare/component/greeting_container.dart';
-import 'package:dormcare/component/room_bottomsheet_filter.dart';
-import 'package:dormcare/component/room_bottomsheet_sort.dart';
-import 'package:dormcare/component/room_list_card.dart';
-import 'package:dormcare/component/search_box.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/owner/filter_sort.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/component/owner/room_bottomsheet_filter.dart';
+import 'package:dormcare/component/owner/room_bottomsheet_sort.dart';
+import 'package:dormcare/component/owner/room_list_card.dart';
+import 'package:dormcare/component/owner/search_box.dart';
 import 'package:dormcare/constants/dataset.dart'; // IMPORTANT
 import 'package:flutter/material.dart';
 

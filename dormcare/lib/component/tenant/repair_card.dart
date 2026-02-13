@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/repair_model.dart';
+import '../../model/tenant/repair_model.dart';
 
 class RepairCard extends StatelessWidget {
   final RepairModel data;

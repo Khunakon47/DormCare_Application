@@ -1,6 +1,6 @@
-import 'package:dormcare/component/greeting_container.dart';
-import 'package:dormcare/component/repair_card.dart';
-import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/component/tenant/repair_card.dart';
+import 'package:dormcare/model/tenant/repair_model.dart';
 import 'package:flutter/material.dart';
 
 class RepairTenantScreen extends StatefulWidget {

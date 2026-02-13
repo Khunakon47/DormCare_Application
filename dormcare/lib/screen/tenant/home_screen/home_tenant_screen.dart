@@ -1,8 +1,8 @@
-import 'package:dormcare/component/announcement_container.dart';
-import 'package:dormcare/component/greeting_container.dart';
+import 'package:dormcare/component/tenant/announcement_container.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
 import 'package:flutter/material.dart';
-import '../../../component/home_dashboard_card.dart';
-import '../../../model/repair_tenant_model.dart';
+import '../../../component/tenant/home_dashboard_card.dart';
+import '../../../model/tenant/repair_tenant_model.dart';
 
 class HomeTenantScreen extends StatelessWidget {
   const HomeTenantScreen({super.key});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/page_data_model.dart';
+import 'package:dormcare/model/tenant/page_data_model.dart';
 
 import 'login_screen/login_tenant_screen.dart';
 import 'home_screen/home_tenant_screen.dart';

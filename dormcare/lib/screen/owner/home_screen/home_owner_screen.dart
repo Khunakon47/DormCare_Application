@@ -1,8 +1,8 @@
-import 'package:dormcare/component/announcement_container.dart';
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/greeting_container.dart';
-import 'package:dormcare/component/home_dashboard_card.dart';
-import 'package:dormcare/component/room_detail_container.dart';
+import 'package:dormcare/component/tenant/announcement_container.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/component/tenant/home_dashboard_card.dart';
+import 'package:dormcare/component/owner/room_detail_container.dart';
 import 'package:dormcare/constants/dataset.dart';
 import 'package:flutter/material.dart';
 

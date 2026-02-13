@@ -1,4 +1,4 @@
-import 'package:dormcare/component/custom_textbutton.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
 import 'package:dormcare/model/owner/repair_report_model.dart';
 import 'package:flutter/material.dart';
 

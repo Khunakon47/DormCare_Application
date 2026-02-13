@@ -1,6 +1,6 @@
-import 'package:dormcare/component/announcement_container.dart';
-import 'package:dormcare/component/expense_card.dart';
-import 'package:dormcare/model/expense_model.dart';
+import 'package:dormcare/component/tenant/announcement_container.dart';
+import 'package:dormcare/component/tenant/expense_card.dart';
+import 'package:dormcare/model/tenant/expense_model.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesTenantScreen extends StatefulWidget {

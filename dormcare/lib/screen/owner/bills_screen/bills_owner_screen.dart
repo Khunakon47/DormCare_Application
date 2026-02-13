@@ -1,6 +1,6 @@
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/greeting_container.dart';
-import 'package:dormcare/component/revenue_card.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/component/owner/revenue_card.dart';
 import 'package:dormcare/constants/dataset.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';

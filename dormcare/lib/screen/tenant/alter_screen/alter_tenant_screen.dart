@@ -1,9 +1,9 @@
-import 'package:dormcare/component/alert_card.dart';
-import 'package:dormcare/component/alert_filter_sheet.dart';
-import 'package:dormcare/component/alert_sort_sheet.dart'; 
-import 'package:dormcare/model/alert_model.dart';
+import 'package:dormcare/component/tenant/alert_card.dart';
+import 'package:dormcare/component/tenant/alert_filter_sheet.dart';
+import 'package:dormcare/component/tenant/alert_sort_sheet.dart'; 
+import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/component/greeting_container.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
 
 class AlertTenantScreen extends StatefulWidget {
   const AlertTenantScreen({super.key});
