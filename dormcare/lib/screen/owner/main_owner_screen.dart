@@ -1,3 +1,4 @@
+import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/screen/owner/bills_screen/bills_owner_screen.dart';
 import 'package:dormcare/screen/owner/home_screen/home_owner_screen.dart';
 import 'package:dormcare/screen/owner/profile_screen/profile_owner_screen.dart';
@@ -14,14 +15,14 @@ class MainOwnerScreen extends StatefulWidget {
 }
 
 class _MainOwnerScreenState extends State<MainOwnerScreen> {
-  int _selectedIndex = 4;
+  int _selectedIndex = 0;
 
   final EdgeInsets paddingtop = EdgeInsets.only(top: 8);
 
   final List<PageDataModel> _pages = [
     PageDataModel(
       title: "Dashboard",
-      screen: HomeOwnerScreen(), // do like this, for below pages
+      screen: HomeOwnerScreen(),
       actions: [
         IconButton(
           padding: EdgeInsets.only( right: 16, ),
@@ -92,12 +93,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(
+            splashColor: ownerTheme.primary.withValues(
               alpha: 0.1,
             ), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
-            highlightColor: const Color(
-              0xFF367BF3,
-            ).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
+            highlightColor: ownerTheme.secondary.withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -105,12 +104,12 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
             type: BottomNavigationBarType.fixed,
 
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            selectedItemColor: const Color(0xFF367BF3),
+            selectedItemColor: ownerTheme.primary,
             selectedFontSize: 13,
             selectedIconTheme: IconThemeData(size: 26),
 
             showUnselectedLabels: true,
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: ownerTheme.mutedColor,
             unselectedFontSize: 12,
             unselectedIconTheme: IconThemeData(size: 25),
 

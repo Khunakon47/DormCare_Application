@@ -11,6 +11,11 @@ class TenantModel {
   final double waterUnit;
   final double electricUnit;
 
+  final String phoneNumber;
+  final String email;
+  final String moveinDate;
+  final String contractEnd;
+
   const TenantModel({
     this.username = "John Doe",
     this.roomNumber = "333",
@@ -20,6 +25,11 @@ class TenantModel {
     this.waterBill = 180,
     this.electricUnit = 150,
     this.waterUnit = 18,
+
+    this.phoneNumber = "083-334-5434",
+    this.email = "jj.12@gamil.com",
+    this.moveinDate = "Sep 1, 2025",
+    this.contractEnd = "May 31, 2026",
   });
 }
 

@@ -15,7 +15,8 @@ class HomeDashboardCard extends StatelessWidget {
     this.bottomLeftTextSize, 
     this.currency,
     this.totalRoom,
-    required this.isOwner
+    required this.isOwner,
+    this.fontSize = 20,
   });
 
   final Color bgColor;
@@ -33,6 +34,8 @@ class HomeDashboardCard extends StatelessWidget {
   final String bottomLeftText;
   final double? bottomLeftTextSize;
   final bool isOwner;
+
+  final double fontSize;
 
   @override
   Widget build(BuildContext context) {

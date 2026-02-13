@@ -1,6 +1,11 @@
+import 'package:dormcare/component/custom_textbutton.dart';
+import 'package:dormcare/component/filter_sort.dart';
 import 'package:dormcare/component/greeting_container.dart';
 import 'package:dormcare/component/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/room_bottomsheet_sort.dart';
+import 'package:dormcare/component/search_box.dart';
+import 'package:dormcare/component/tag.dart';
+import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/model/room_data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -23,113 +28,36 @@ class RepairsOwnerScreen extends StatelessWidget {
           GreetingContainer(
             title: "Mainatenance",
             subtitle: "Manage all rooms and tenants",
-            bgColor: [
-              Colors.purple,
-              Colors.blue,
-            ],
+            bgColor: ownerTheme.bgGradientColors,
           ),
           SizedBox(height: 15),
+          
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(
-                    left: 12,
-                    top: 5,
-                    right: 5,
-                    bottom: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue.withValues(alpha: 0.1),
-                        blurRadius: 10,
-                        offset: const Offset(0, 5),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search, color: Colors.grey),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        // Also wrap TextField with Expanded
-                        child: TextField(
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          cursorColor: Colors.black,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Search by room...",
-                            hintStyle: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          keyboardType: TextInputType.text,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              SearchBox(),
+              const SizedBox(width: 8),
+              FilterSort(
+                iconColor: Colors.blue,
+                icon: Icon(Icons.filter_alt_outlined),
+                bgColor: Colors.white,
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(child: RoomBottomsheetFilter());
+                    },
+                  );
+                },
               ),
 
-              const SizedBox(width: 8), // Add spacing between widgets
+              const SizedBox(width: 8),
 
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return SizedBox(child: RoomBottomsheetFilter());
-                      },
-                    );
-                  },
-                  icon: Icon(
-                    Icons.filter_alt_outlined,
-                    color: Colors.blue,
-                    size: 32,
-                  ),
-                ),
-              ),
-
-              const SizedBox(width: 8), // Add spacing between widgets
-
-              Container(
-                padding: EdgeInsets.all(5),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.blue.withValues(alpha: 0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: IconButton(
-                  onPressed: () => {
+              FilterSort(
+                icon: Icon(Icons.swap_vert,),
+                iconColor: Colors.purple,
+                bgColor: Colors.white,
+                onPressed: () => {
                     showModalBottomSheet(
                       context: context,
                       builder: (context) {
@@ -137,11 +65,10 @@ class RepairsOwnerScreen extends StatelessWidget {
                       },
                     ),
                   },
-                  icon: Icon(Icons.swap_vert, size: 32, color: Colors.purple),
-                ),
               ),
             ],
           ),
+
           SizedBox(height: 15),
 
           ListView.separated(
@@ -191,32 +118,7 @@ class RepairsOwnerScreen extends StatelessWidget {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: repair.repairStatus == 'completed'
-                                ? Colors.greenAccent.withValues(alpha: 0.25)
-                                : repair.repairStatus == 'pending'
-                                ? Colors.orangeAccent.withValues(alpha: 0.25)
-                                : Colors.redAccent.withValues(alpha: 0.25),
-                          ),
-                          child: Text(
-                            repair.repairStatus,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                              color: repair.repairStatus == 'completed'
-                                  ? Colors.green
-                                  : repair.repairStatus == 'pending'
-                                  ? Colors.orange
-                                  : Colors.red,
-                            ),
-                          ),
-                        ),
+                        Tag(type: StatusType.repair, value: repair.repairStatus, text: repair.repairStatus),
                       ],
                     ),
                     SizedBox(height: 5),
@@ -288,50 +190,26 @@ class RepairsOwnerScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide(
-                                color: Colors.purple,
-                                width: 1.2,
-                              ),
-                              foregroundColor: Colors.purple,
-                              backgroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () => {},
-                            child: Text(
-                              'View Detail',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          child: CustomTextbutton(
+                            fgColor: Colors.purple,
+                            bgColor: [Colors.purple],
+                            outLined: true,
+                            textOnBtn: 'View Detail',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ) 
                         ),
 
                         SizedBox(width: 10),
 
                         Expanded(
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              side: BorderSide.none,
-                              foregroundColor: Colors.white,
-                              backgroundColor: Colors.purple,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: () => {},
-                            child: Text(
-                              'Updat Status',
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                          child: CustomTextbutton(
+                            fgColor: Colors.white,
+                            bgColor: [Colors.purple],
+                            textOnBtn: 'Update Status',
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ) 
                         ),
                       ],
                     ),

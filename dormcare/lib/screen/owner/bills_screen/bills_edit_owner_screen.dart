@@ -1,16 +1,25 @@
-import 'package:dormcare/model/tenant_model.dart';
+import 'package:dormcare/component/custom_textbutton.dart';
+import 'package:dormcare/model/owner/monthly_billing_model.dart';
 import 'package:flutter/material.dart';
 
 class BillsEditOwner extends StatelessWidget {
-  final TenantModel tenant;
+  final MonthlyBillingModel bill;
 
   const BillsEditOwner({
     super.key,
-    required this.tenant,
+    required this.bill,
   });
+
+  
+
 
   @override
   Widget build(BuildContext context) {
+
+    final totalWater = bill.water * bill.waterUnit;
+    final totalElectric = bill.electric * bill.electricUnit;
+    final totalGrand = bill.rent + totalWater + totalElectric;
+
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -20,7 +29,7 @@ class BillsEditOwner extends StatelessWidget {
               children: [
                 Text("Edit", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),),
                 Text(
-                  "Room ${tenant.roomNumber} - ${tenant.username}",
+                  "Room ${bill.roomNumber}",
                   style: TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w300,
@@ -42,58 +51,27 @@ class BillsEditOwner extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Expanded(
-              child: SizedBox(
-                height: 48,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    splashFactory: InkRipple.splashFactory,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: const BorderSide(width: 1, color: Colors.black),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    "Cancel",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Expanded(child: CustomTextbutton(
+              textOnBtn: "Cancel",
+              outLined: true,
+              fgColor: Colors.black,
+              fontSize: 16,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
 
-            const SizedBox(width: 10),
+            const SizedBox(width: 12),
 
-            Expanded(
-              child: SizedBox(
-                height: 48,
-                child: TextButton(
-                  style: TextButton.styleFrom(
-                    backgroundColor: Colors.purple,
-                    foregroundColor: Colors.white,
-                    splashFactory: InkRipple.splashFactory,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Save Changes",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            Expanded(child: CustomTextbutton(
+              textOnBtn: "Save Changes",
+              fgColor: Colors.white,
+              bgColor: [Colors.purple],
+              fontSize: 16,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )),
           ],
         ),
       ),
@@ -133,7 +111,7 @@ class BillsEditOwner extends StatelessWidget {
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
                             border: InputBorder.none, 
-                            hintText: "Search by room...",
+                            hintText: bill.rent.toString(),
                             hintStyle: TextStyle(
                               color: Colors.grey,
                               fontSize: 14,
@@ -192,7 +170,7 @@ class BillsEditOwner extends StatelessWidget {
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: "Enter units",
+                            hintText: bill.water.toString(),
                             contentPadding: EdgeInsets.only(
                               left: 12,
                             ),
@@ -231,7 +209,7 @@ class BillsEditOwner extends StatelessWidget {
                             contentPadding: EdgeInsets.only(
                               left: 12,
                             ),
-                            hintText: "Enter units",
+                            hintText: bill.waterUnit.toString(),
                           ),
                         ),
                       ),
@@ -254,7 +232,7 @@ class BillsEditOwner extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                       Text("Total:", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
-                      Text("2032 THB", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
+                      Text("${bill.water * bill.waterUnit} THB", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
                     ],),
                   ),
                 ],
@@ -302,7 +280,7 @@ class BillsEditOwner extends StatelessWidget {
                           cursorColor: Colors.black,
                           decoration: InputDecoration(
                             border: OutlineInputBorder(),
-                            hintText: "Enter units",
+                            hintText: bill.electric.toString(),
                             contentPadding: EdgeInsets.only(
                               left: 12,
                             ),
@@ -341,7 +319,7 @@ class BillsEditOwner extends StatelessWidget {
                             contentPadding: EdgeInsets.only(
                               left: 12,
                             ),
-                            hintText: "Enter units",
+                            hintText: bill.electricUnit.toString(),
                           ),
                         ),
                       ),
@@ -364,7 +342,7 @@ class BillsEditOwner extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                       Text("Total:", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
-                      Text("2032 THB", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
+                      Text("${bill.electric * bill.electricUnit} THB", style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: FontWeight.bold,),),
                     ],),
                   ),
                 ],
@@ -381,10 +359,15 @@ class BillsEditOwner extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text("Other Changes", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20,),),
-                    TextButton(onPressed: ()=>{}, child: Row(children: [
-                      Icon(Icons.add, color: Colors.blue, size: 28,),
-                      Text("Add Item", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 14),),
-                    ],)),
+                    CustomTextbutton(
+                      textOnBtn: "Add Item",
+                      textBtnOnly: true,
+                      fgColor: Colors.blue,
+                      fontSize: 14,
+                      icon: Icon(Icons.add),
+                      iconColor: Colors.blue,
+                      iconSize: 28,
+                    ),
                 ],),
 
                 SizedBox(height: 5,),
@@ -416,38 +399,18 @@ class BillsEditOwner extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Expanded(child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor: const WidgetStatePropertyAll(Colors.red),
-                      ),
-                      child: const Text(
-                        "Unpaid",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),),
+                    Expanded(child: CustomTextbutton(
+                      textOnBtn: "Unpaid",
+                      bgColor: [Colors.purple],
+                      fgColor: Colors.white,
+                    )),
 
                     const SizedBox(width: 10),
 
-                    Expanded(child: TextButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.black.withValues(alpha: 0.25)),
-                      ),
-                      child: const Text(
-                        "Paid",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),),
+                    Expanded(child: CustomTextbutton(
+                      textOnBtn: "Paid",
+                      bgColor: [Colors.black.withValues(alpha: 0.25)],
+                    )),
                   ],
                 )
               ],
@@ -505,7 +468,10 @@ class BillsEditOwner extends StatelessWidget {
             SizedBox(height: 15,),
 
             Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.symmetric(
+                vertical: 10,
+                horizontal: 12,
+              ),
               decoration: BoxDecoration(
                 color: Colors.blueAccent.withValues(alpha: 0.25),
                 borderRadius: BorderRadius.circular(12),
@@ -514,7 +480,7 @@ class BillsEditOwner extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Grand Total:", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),),
-                  Text("3020 THB", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),),
+                  Text("$totalGrand THB", style: TextStyle(color: Colors.blue, fontWeight: FontWeight.bold, fontSize: 20),),
                 ],
               ),
             ),
