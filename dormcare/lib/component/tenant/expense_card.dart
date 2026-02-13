@@ -1,4 +1,4 @@
-import 'package:dormcare/model/expense_model.dart';
+import 'package:dormcare/model/tenant/expense_model.dart';
 import 'package:flutter/material.dart';
 
 class CurrentBillCard extends StatelessWidget {

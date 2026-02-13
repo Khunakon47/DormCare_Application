@@ -1,4 +1,4 @@
-import 'package:dormcare/model/alert_model.dart';
+import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:flutter/material.dart';
 
 class AlertFilterSheet extends StatefulWidget {

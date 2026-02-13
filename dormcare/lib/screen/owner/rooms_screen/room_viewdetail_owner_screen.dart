@@ -1,7 +1,7 @@
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/imagegallery_button.dart';
-import 'package:dormcare/component/room_detail_container.dart';
-import 'package:dormcare/component/tag.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/owner/imagegallery_button.dart';
+import 'package:dormcare/component/owner/room_detail_container.dart';
+import 'package:dormcare/component/owner/tag.dart';
 import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_editinfo_owner_screen.dart';

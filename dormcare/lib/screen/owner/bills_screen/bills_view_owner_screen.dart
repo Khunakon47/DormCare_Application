@@ -1,9 +1,9 @@
-import 'package:dormcare/component/filter_sort.dart';
-import 'package:dormcare/component/greeting_container.dart';
-import 'package:dormcare/component/room_bottomsheet_filter.dart';
-import 'package:dormcare/component/room_bottomsheet_sort.dart';
-import 'package:dormcare/component/roombills.dart';
-import 'package:dormcare/component/search_box.dart';
+import 'package:dormcare/component/owner/filter_sort.dart';
+import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/component/owner/room_bottomsheet_filter.dart';
+import 'package:dormcare/component/owner/room_bottomsheet_sort.dart';
+import 'package:dormcare/component/owner/roombills.dart';
+import 'package:dormcare/component/owner/search_box.dart';
 import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';

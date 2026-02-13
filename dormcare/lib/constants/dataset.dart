@@ -4,7 +4,7 @@ import 'package:dormcare/model/owner/owner_app_theme.dart';
 import 'package:dormcare/model/owner/owner_model.dart';
 import 'package:dormcare/model/owner/repair_report_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
-import 'package:dormcare/model/tenant_model.dart';
+import 'package:dormcare/model/tenant/tenant_model.dart';
 import 'package:flutter/material.dart';
 
 

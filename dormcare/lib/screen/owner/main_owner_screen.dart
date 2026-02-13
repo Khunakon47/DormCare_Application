@@ -5,7 +5,7 @@ import 'package:dormcare/screen/owner/profile_screen/profile_owner_screen.dart';
 import 'package:dormcare/screen/owner/repairs_screen/repairs_owner_screen.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_owner_screen.dart';
 import 'package:flutter/material.dart';
-import '../../model/page_data_model.dart';
+import '../../model/tenant/page_data_model.dart';
 
 class MainOwnerScreen extends StatefulWidget {
   const MainOwnerScreen({super.key});

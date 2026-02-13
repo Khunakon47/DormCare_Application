@@ -1,5 +1,5 @@
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/tag.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/owner/tag.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
 import 'package:dormcare/screen/owner/bills_screen/bills_edit_owner_screen.dart';

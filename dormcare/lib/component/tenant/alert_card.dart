@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../model/alert_model.dart';
+import '../../model/tenant/alert_model.dart';
 
 class AlertCard extends StatelessWidget {
   final AlertModel data;

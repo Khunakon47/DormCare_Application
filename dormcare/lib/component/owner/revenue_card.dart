@@ -1,6 +1,6 @@
-import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/component/progressbar.dart';
-import 'package:dormcare/component/stat_box.dart';
+import 'package:dormcare/component/owner/custom_textbutton.dart';
+import 'package:dormcare/component/owner/progressbar.dart';
+import 'package:dormcare/component/owner/stat_box.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/bills_screen/bills_view_owner_screen.dart';
