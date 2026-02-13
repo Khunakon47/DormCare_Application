@@ -1,12 +1,20 @@
+import 'package:dormcare/component/custom_textbutton.dart';
 import 'package:dormcare/component/tag.dart';
+import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_viewdetail_owner_screen.dart';
-import 'package:dormcare/model/room_data_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class RoomListCard extends StatelessWidget {
-  final RoomDataModel maintenance;
+  final RoomModel room;
 
-  const RoomListCard({super.key, required this.maintenance});
+  const RoomListCard({super.key, required this.room});
+  String safe(dynamic v) => v?.toString() ?? "-";
+
+  String formatDate(DateTime? d) {
+    if (d == null) return "-";
+    return DateFormat('dd MMM yyyy').format(d);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,27 +38,29 @@ class RoomListCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: AspectRatio(
               aspectRatio: 16 / 9,
-              child: Image.asset(maintenance.imageUrl, fit: BoxFit.cover),
+              child: Image.network(room.image, fit: BoxFit.cover),
             ),
           ),
           SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Expanded(
-                child: Text(
-                  'Room - ${maintenance.roomNumber}',
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w800,
-                  ),
+              Text(
+                'Room - ${room.roomNumber}',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
                 ),
               ),
-
-              Tag(type: StatusType.roomStatus, value: maintenance.roomStats, text: maintenance.roomStats),
-              SizedBox(width: 10),
-              Tag(type: StatusType.room, value: maintenance.roomType, text: maintenance.roomType),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Tag(type: StatusType.roomStatus, value: room.isOccupied?"Occupied":"Vaccant", text: room.isOccupied?"Occupied":"Vaccant"),
+                  SizedBox(width: 10),
+                  Tag(type: StatusType.room, value: room.roomType, text: room.roomType),  
+                ],
+              ),
             ],
           ),
 
@@ -61,7 +71,7 @@ class RoomListCard extends StatelessWidget {
               Icon(Icons.person_outline),
               SizedBox(width: 10),
               Text(
-                maintenance.userName,
+                safe(room.tenantName),
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -78,7 +88,7 @@ class RoomListCard extends StatelessWidget {
               Icon(Icons.attach_money),
               SizedBox(width: 10),
               Text(
-                '${maintenance.rentFee} THB/month',
+                '${room.price} THB/month',
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -95,7 +105,7 @@ class RoomListCard extends StatelessWidget {
               Icon(Icons.phone_outlined),
               SizedBox(width: 10),
               Text(
-                maintenance.phoneNum,
+                safe(room.tenantPhone),
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 14,
@@ -108,24 +118,14 @@ class RoomListCard extends StatelessWidget {
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
-            child: OutlinedButton(
+            child: CustomTextbutton(
+              textOnBtn: "View Details",
+              outLined: true,
+              bgColor: [Colors.purple],
+              fgColor: Colors.purple,
               onPressed: () => Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => const RoomViewdetail()),
-              ),
-              style: OutlinedButton.styleFrom(
-                side: BorderSide(color: maintenance.viewBtnColor, width: 1.2),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                "View Details",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: maintenance.viewBtnTextColor,
-                ),
+                MaterialPageRoute(builder: (_) => RoomViewdetail(room: room,)),
               ),
             ),
           ),

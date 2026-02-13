@@ -1,55 +1,90 @@
 import 'package:dormcare/component/custom_textbutton.dart';
-import 'package:dormcare/model/repair_tenant_model.dart';
-import 'package:dormcare/model/room_detail_model.dart';
+import 'package:dormcare/model/owner/repair_report_model.dart';
 import 'package:flutter/material.dart';
 
 class RoomEditdetailContainer extends StatelessWidget {
   const RoomEditdetailContainer({
     super.key,
-    required this.roomDetail,
+    required this.title,
+    required this.icon,
+
+    /// 🔥 manual inject
+    this.details = const {},
+    this.status = const {},
+    this.inListView,
+
     this.navBtn = false,
     this.textBtnOnly = true,
     this.shadowOn = false,
-    this.inListView,
+    this.bgColor = Colors.white,
+    this.fgColor = Colors.blueAccent,
+    this.iconColor = Colors.red,
+    this.iconSize = 28,
+    this.boxShadowOn = false,
   });
 
-  final RoomDetailModel roomDetail;
+  final String title;
+  final Icon icon;
+
+  /// 🔥 editable textfields
+  final Map<String, String> details;
+
+  /// 🔥 widget status (dropdown/tag/switch etc)
+  final Map<String, Widget> status;
+
+  /// 🔥 repair/history list
+  final List<RepairReportModel>? inListView;
+
   final bool navBtn;
   final bool textBtnOnly;
   final bool shadowOn;
-  final List<RepairTenant>? inListView;
+  final bool boxShadowOn;
+
+  final Color bgColor;
+  final Color fgColor;
+  final Color iconColor;
+  final double iconSize;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        color: roomDetail.bgColor,
+        color: bgColor,
         borderRadius: BorderRadius.circular(12),
+        boxShadow: boxShadowOn
+            ? [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                )
+              ]
+            : [],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ================= HEADER =================
           Row(
             children: [
-              Icon(roomDetail.icon.icon, color: roomDetail.iconColor, size: 28),
-              SizedBox(width: 6),
+              Icon(icon.icon, color: iconColor, size: iconSize),
+              const SizedBox(width: 6),
               Text(
-                roomDetail.title,
-                style: TextStyle(
-                  color: Colors.black,
+                title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
-              
             ],
           ),
 
           const SizedBox(height: 12),
 
-          if (inListView != null)
+          // ================= LIST =================
+          if (inListView != null && inListView!.isNotEmpty) ...[
             ListView.separated(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
@@ -58,8 +93,23 @@ class RoomEditdetailContainer extends StatelessWidget {
               itemBuilder: (context, index) {
                 final maintenance = inListView![index];
 
+                Icon statusIcon;
+                switch (maintenance.status.toLowerCase()) {
+                  case 'pending':
+                    statusIcon =
+                        const Icon(Icons.pending_actions, color: Colors.orange);
+                    break;
+                  case 'fixing':
+                    statusIcon =
+                        const Icon(Icons.build_circle, color: Colors.amber);
+                    break;
+                  default:
+                    statusIcon =
+                        const Icon(Icons.check_circle, color: Colors.green);
+                }
+
                 return Container(
-                  padding: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                     borderRadius: BorderRadius.circular(12),
@@ -68,70 +118,92 @@ class RoomEditdetailContainer extends StatelessWidget {
                     title: Text(
                       maintenance.title,
                       style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                      ),
+                          fontWeight: FontWeight.bold, fontSize: 14),
                     ),
                     subtitle: Text(
-                      "${maintenance.date} ${maintenance.month}, ${maintenance.year}",
+                      'Room ${maintenance.roomNumber}',
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: Colors.black,
                         fontSize: 12,
                       ),
                     ),
-                    trailing: maintenance.statusIcon,
+                    trailing: statusIcon,
                   ),
                 );
               },
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              separatorBuilder: (_, _) => const SizedBox(height: 10),
             ),
+            const SizedBox(height: 10),
+          ],
 
-          ...(roomDetail.details ?? {}).entries.map(
-            (entry) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
+          // ================= EDITABLE DETAILS =================
+          ...details.entries.map(
+            (entry) => Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              padding: const EdgeInsets.symmetric(
+                vertical: 1,
+                horizontal: 8
+              ),
+              margin: EdgeInsets.symmetric(
+                vertical: 5
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    entry.key,
-                    style: const TextStyle(color: Colors.black54),
-                  ),
-                  Text(
-                    entry.value,
-                    style: const TextStyle(fontWeight: FontWeight.w600),
+                  Text(entry.key,
+                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14)),
+
+                  SizedBox(
+                    width: 140,
+                    child: TextField(
+                      controller: TextEditingController(text: entry.value),
+                      textAlign: TextAlign.end,
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
 
-          ...(roomDetail.status ?? {}).entries.map(
+          // ================= STATUS =================
+          if (status.isNotEmpty) const SizedBox(height: 6),
+
+          ...status.entries.map(
             (entry) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
+              padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    entry.key,
-                    style: const TextStyle(color: Colors.black54),
-                  ),
+                  Text(entry.key,
+                      style: const TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 14)),
                   entry.value,
                 ],
               ),
             ),
           ),
 
-          SizedBox(height: 15,),
+          const SizedBox(height: 15),
 
+          // ================= NAV BTN =================
           if (navBtn)
             CustomTextbutton(
               textOnBtn: "View Full History",
-              icon: Icon(Icons.arrow_forward),
-              iconColor: roomDetail.fgColor,
-              iconSize: 24,
-              bgColor: [roomDetail.bgColor],
-              fgColor: roomDetail.fgColor,
-              shadowOn: shadowOn,
+              icon: const Icon(Icons.arrow_forward),
+              iconColor: fgColor,
+              iconSize: 22,
+              bgColor: [bgColor],
+              fgColor: fgColor,
+              shadowOff: shadowOn,
               textBtnOnly: textBtnOnly,
             ),
         ],

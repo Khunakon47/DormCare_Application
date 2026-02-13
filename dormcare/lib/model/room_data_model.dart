@@ -54,7 +54,7 @@ class RoomDataModel {
     this.userName = "John Doe",
     this.phoneNum = "123456789",
 
-    this.roomStats = "Complete",
+    this.roomStats = "Occupied",
     this.roomType = "Single",
 
     this.roomStatsBgColor = Colors.purpleAccent,

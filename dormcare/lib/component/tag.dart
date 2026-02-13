@@ -31,9 +31,9 @@ class Tag extends StatelessWidget {
 
       case StatusType.repair:
         final String? status = value as String?;
-        if (status == "Completed"){
+        if (status!.toLowerCase() == "completed"){
           return Colors.greenAccent.withValues(alpha: 0.25);
-        } else if (status == "Pending"){
+        } else if (status.toLowerCase() == "pending"){
           return Colors.orangeAccent.withValues(alpha: 0.25);
         } else {
           return Colors.redAccent.withValues(alpha: 0.25);
@@ -41,15 +41,15 @@ class Tag extends StatelessWidget {
 
       case StatusType.room:
         final String? roomType = value as String?;
-        if (roomType == "Single"){
+        if (roomType!.toLowerCase() == "single"){
           return Colors.greenAccent.withValues(alpha: 0.25);
         } else{
           return Colors.blueAccent.withValues(alpha: 0.25);
         }
 
       case StatusType.roomStatus:
-        final String? roomType = value as String?;
-        if (roomType == "Occupied"){
+        final String? roomStats = value as String?;
+        if (roomStats!.toLowerCase() == "occupied"){
           return Colors.orangeAccent.withValues(alpha: 0.25);
         } else{
           return Colors.blueAccent.withValues(alpha: 0.25);
@@ -68,9 +68,9 @@ class Tag extends StatelessWidget {
 
       case StatusType.repair:
         final String? status = value as String?;
-        if (status == "Completed"){
+        if (status!.toLowerCase() == "completed"){
           return Colors.green;
-        } else if (status == "Pending"){
+        } else if (status.toLowerCase() == "pending"){
           return Colors.orange;
         } else {
           return Colors.red;
@@ -78,15 +78,15 @@ class Tag extends StatelessWidget {
 
       case StatusType.room:
         final String? roomType = value as String?;
-        if (roomType == "Single"){
+        if (roomType!.toLowerCase() == "single"){
           return Colors.green;
         } else{
           return Colors.blue;
         }
 
       case StatusType.roomStatus:
-        final String? roomType = value as String?;
-        if (roomType == "Occupied"){
+        final String? roomStats = value as String?;
+        if (roomStats!.toLowerCase() == "occupied"){
           return Colors.orange;
         } else{
           return Colors.blue;

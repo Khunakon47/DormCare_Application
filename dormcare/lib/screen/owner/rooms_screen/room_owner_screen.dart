@@ -5,7 +5,7 @@ import 'package:dormcare/component/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/room_bottomsheet_sort.dart';
 import 'package:dormcare/component/room_list_card.dart';
 import 'package:dormcare/component/search_box.dart';
-import 'package:dormcare/model/room_data_model.dart';
+import 'package:dormcare/constants/dataset.dart'; // IMPORTANT
 import 'package:flutter/material.dart';
 
 class RoomOwnerScreen extends StatelessWidget {
@@ -13,11 +13,9 @@ class RoomOwnerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<RoomDataModel> roominfo = [
-      RoomDataModel(),
-      RoomDataModel(),
-      RoomDataModel(),
-    ];
+
+    // ===== USE REAL DATA =====
+    final rooms = roomList;
 
     return Scaffold(
       floatingActionButton: CustomTextbutton(
@@ -37,21 +35,17 @@ class RoomOwnerScreen extends StatelessWidget {
               GreetingContainer(
                 title: "Room Management",
                 subtitle: "Manage all rooms and tenants",
-                bgColor: [
-                  Colors.purple,
-                  Colors.blue,
-                ],
+                bgColor: ownerTheme.bgGradientColors,
               ),
 
               SizedBox(height: 15),
 
+              /// ===== SEARCH + FILTER =====
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Wrap the search container with Expanded
                   SearchBox(),
-
-                  const SizedBox(width: 8), // Add spacing between widgets
+                  const SizedBox(width: 8),
 
                   FilterSort(
                     iconColor: Colors.blue,
@@ -70,36 +64,37 @@ class RoomOwnerScreen extends StatelessWidget {
                   const SizedBox(width: 8),
 
                   FilterSort(
-                    icon: Icon(Icons.swap_vert,),
+                    icon: Icon(Icons.swap_vert),
                     iconColor: Colors.purple,
                     bgColor: Colors.white,
-                    onPressed: () => {
-                        showModalBottomSheet(
-                          context: context,
-                          builder: (context) {
-                            return SizedBox(child: RoomBottomsheetSort());
-                          },
-                        ),
-                      },
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return SizedBox(child: RoomBottomsheetSort());
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
 
               SizedBox(height: 15),
 
-              Container(
-                padding: EdgeInsets.zero,
-                child: ListView.separated(
-                  shrinkWrap: true, // กำหนดให้ ListView สูงเท่ากับจำนวนรายการจริง (ป้องกัน Error เรื่องความสูง) (ไม่ใช้ = Error)
-                  physics: const NeverScrollableScrollPhysics(), // ปิดการเลื่อนในตัวเอง เพื่อให้เลื่อนตามหน้าจอหลักได้อย่างสมูธ
+              /// ===== ROOM LIST =====
+              ListView.separated(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: rooms.length,
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
 
-                  itemBuilder: (context, index) {
-                    final maintenance = roominfo[index];
-                    return RoomListCard(maintenance: maintenance);
-                  },
-                  separatorBuilder: (context, index) => const SizedBox(height: 10),
-                  itemCount: roominfo.length,
-                ),
+                itemBuilder: (context, index) {
+                  final room = rooms[index];
+
+                  return RoomListCard(
+                    room: room, // 👈 PASS REAL ROOM MODEL
+                  );
+                },
               ),
             ],
           ),

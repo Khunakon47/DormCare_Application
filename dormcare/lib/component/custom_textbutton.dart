@@ -14,11 +14,13 @@ class CustomTextbutton extends StatelessWidget {
   final double conerRadius;
   final bool outLined;
   final double bordWidth;
-  final bool shadowOn;
+  final bool shadowOff;
   final bool textBtnOnly;
+
   final bool? floatingButton;
   final String heroTag;
   final String tooltip;
+  final bool mini;
 
   const CustomTextbutton({
     super.key,
@@ -26,7 +28,7 @@ class CustomTextbutton extends StatelessWidget {
     this.onPressed,
     this.floatingButton,
     this.textBtnOnly = false,
-    this.shadowOn = true,
+    this.shadowOff = true,
     this.textOnBtn = "Click me",
     this.fontSize = 16,
     this.fontWeight = FontWeight.w600,
@@ -39,10 +41,12 @@ class CustomTextbutton extends StatelessWidget {
     this.outLined = false,
     this.bordWidth = 1.2,
     this.tooltip = "Add",
-    this.heroTag = "iii",
+    this.heroTag = "iiii",
+    this.mini = false,
   });
 
   void _handleButton(BuildContext context) {
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
@@ -69,7 +73,9 @@ class CustomTextbutton extends StatelessWidget {
       return FloatingActionButton(
         onPressed: onPressed ?? () { _handleButton(context); },
         heroTag: heroTag,
-        tooltip: "Add Room",
+        tooltip: tooltip,
+        mini: mini,
+        shape: const CircleBorder(),
         backgroundColor: bgColor.first,
         child: Icon(icon?.icon, color: iconColor, size: iconSize,),
       );
@@ -111,11 +117,11 @@ class CustomTextbutton extends StatelessWidget {
                     ? [bgColor.first, bgColor.first]
                     : bgColor,
               ),
-        boxShadow: shadowOn
+        boxShadow: shadowOff
             ? null
             : [
                 BoxShadow(
-                  color: Colors.blue.withValues(alpha: 0.3),
+                  color: Colors.black.withValues(alpha: 0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 5),
                 ),

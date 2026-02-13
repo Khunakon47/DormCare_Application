@@ -17,7 +17,8 @@ class StatBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return SizedBox(
+      width: double.infinity,
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(

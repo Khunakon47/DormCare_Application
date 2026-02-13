@@ -1,243 +1,201 @@
 import 'package:dormcare/component/custom_textbutton.dart';
+import 'package:dormcare/component/imagegallery_button.dart';
 import 'package:dormcare/component/room_detail_container.dart';
 import 'package:dormcare/component/tag.dart';
-import 'package:dormcare/model/repair_tenant_model.dart';
-import 'package:dormcare/model/room_data_model.dart';
-import 'package:dormcare/model/room_detail_model.dart';
-import 'package:dormcare/model/tenant_model.dart';
+import 'package:dormcare/constants/dataset.dart';
+import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/rooms_screen/room_editinfo_owner_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class RoomViewdetail extends StatelessWidget{
+class RoomViewdetail extends StatelessWidget {
+  final RoomModel room;
 
-  const RoomViewdetail({
-    super.key,
-  });
+  const RoomViewdetail({super.key, required this.room});
+
+  String safe(dynamic v) => v?.toString() ?? "-";
+  String formatDate(DateTime? d){
+    if (d == null) return "-";
+    return DateFormat('dd MMM yyyy').format(d);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final bool occupied = room.isOccupied;
 
-    final RoomDataModel roomData = RoomDataModel();
-    final TenantModel tenantModel = TenantModel();
-    
-    final List<RepairTenant> maintenances = [
-      const RepairTenant(
-        title: "Room 301 - Air conditioner not cooling",
-        date: 10,
-        month: "Dec",
-        year: 2024,
-        statusIcon: Icon(Icons.check_circle_outline, color: Colors.green),
-      ),
+    final roomBills =
+        monthlyBills.where((b) => b.roomNumber == room.roomNumber).toList();
+    final latestBill = roomBills.isNotEmpty ? roomBills.last : null;
 
-      const RepairTenant(
-        title: "Room 300 - Light  bulb replacement (Bathroom)",
-        date: 12,
-        month: "Dec",
-        year: 2024,
-        statusIcon: Icon(Icons.access_time, color: Colors.orange),
-      ),
-    ];
-    
+    final roomRepairs =
+        repairReports.where((r) => r.roomNumber == room.roomNumber).toList();
+
     return Scaffold(
-
       appBar: AppBar(
         title: Text(
-          "Room Number",
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-          ),
+          "Room ${room.roomNumber}",
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
         ),
       ),
-      
+
+      /// ===== BOTTOM BUTTONS =====
       bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-          left: 16, right: 16, top: 16,
-          bottom: 28,
-        ),
+        padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 28),
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withValues(alpha: 0.2),
-              spreadRadius: 5,
               blurRadius: 10,
               offset: const Offset(0, -3),
             ),
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             Expanded(
               child: CustomTextbutton(
                 textOnBtn: "Close",
-                onPressed: ()=>Navigator.pop(context), 
+                onPressed: () => Navigator.pop(context),
                 outLined: true,
-                bgColor: [Colors.black],
                 fgColor: Colors.black,
                 fontWeight: FontWeight.w800,
-                fontSize: 16,
               ),
             ),
-
-            SizedBox(width: 12,),
-
+            SizedBox(width: 12),
             Expanded(
               child: CustomTextbutton(
                 textOnBtn: "Edit Info",
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const RoomEditinfo(),
-                  ),
+                  MaterialPageRoute(builder: (_) => RoomEditinfo(room: room,)),
                 ),
                 bgColor: [Colors.purple],
                 fgColor: Colors.white,
-                fontWeight: FontWeight.w800,
-                fontSize: 16,
                 icon: Icon(Icons.edit_note),
                 iconColor: Colors.white,
-                iconSize: 26,
-                spacing: 10,
               ),
-            )
-
+            ),
           ],
         ),
       ),
 
+      /// ===== BODY =====
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.all(16),
           child: Column(
             children: [
-
-              SizedBox(
-                width: double.infinity,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: AspectRatio(
-                        aspectRatio: 16/9,
-                        child: Image.asset(
-                          "assets/images/Flower.png",
-                          fit: BoxFit.cover,
-                        ),
-                      )
-                    ),
-
-                    // Left button
-                    Positioned(
-                      left: 8,
-                      child: FloatingActionButton(
-                        backgroundColor: Colors.black.withValues(alpha: 0.75),
-                        mini: true, 
-                        heroTag: 'image_prev',
-                        onPressed: () {},
-                        child: const Icon(Icons.arrow_left, color: Colors.white, size: 40,),
-                      ),
-                    ),
-                    // Right button
-                    Positioned(
-                      right: 8,
-                      child: FloatingActionButton(
-                        backgroundColor: Colors.black.withValues(alpha: 0.75),
-                        mini: true, 
-                        heroTag: 'image_next',
-                        onPressed: () {},
-                        child: const Icon(Icons.arrow_right, color: Colors.white, size: 34,),
-                      ),
-                    ),
-                  ],
-                ),
+              ImagegalleryButton(
+                bgColor: [Colors.black.withValues(alpha: 0.75)],
+                imagePath: room.image,
+                heroTag: ['l_arrow', 'r_arrow'],
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
+              /// ===== STATUS TAGS =====
               Row(
                 children: [
-                  Tag(type: StatusType.room, value: roomData.roomStats, text: roomData.roomStats),
-                  SizedBox(width: 10,),
-                  Tag(type: StatusType.room, value: roomData.roomType, text: roomData.roomType),
-                  SizedBox(width: 10,),
-                  Tag(type: StatusType.payment, value: tenantModel.statusPaid, text: tenantModel.statusPaid?"Paid":"Unpaid"),
+                  Tag(
+                    type: StatusType.roomStatus,
+                    value: occupied ? "occupied" : "empty",
+                    text: occupied ? "Occupied" : "Vaccant",
+                  ),
+                  SizedBox(width: 10),
+                  Tag(
+                    type: StatusType.room,
+                    value: room.roomType,
+                    text: room.roomType,
+                  ),
+                  SizedBox(width: 10),
+                  if (latestBill != null)
+                    Tag(
+                      type: StatusType.payment,
+                      value: latestBill.isPaid,
+                      text: latestBill.isPaid ? "Paid" : "Unpaid",
+                    ),
                 ],
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
+              /// ===== TENANT INFO =====
               RoomDetailContainer(
-                roomDetail: RoomDetailModel(
-                  bgColor: Colors.blueAccent.withValues(alpha: 0.25), 
-                  icon:Icon(Icons.person_outline), 
-                  iconColor: Colors.blueAccent, 
-                  title: "Tenant Information", 
-                  details: {
-                    'Full Name:': tenantModel.username,
-                    'Phone Number:': tenantModel.phoneNumber,
-                    'Email:': tenantModel.email,
-                    'Move-in Date': tenantModel.moveinDate,
-                    'Contract End': tenantModel.contractEnd,
+                boxShadowOn: false,
+                bgColor: Colors.blueAccent.withValues(alpha: 0.25),
+                icon: Icon(Icons.person_outline),
+                iconColor: Colors.blueAccent,
+                title: "Tenant Information",
+                details: {
+                  'Name:': safe(room.tenantName),
+                  'Phone:': safe(room.tenantPhone),
 
+                  if (occupied) ...{
+                    'Email:': safe(room.tenantEmail),
+                    'Move-in Date': formatDate(room.tenantMoveinDate),
+                    'Contract end Date': formatDate(room.tenantContractEndDate),
                   }
-                )
+                },
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
+              /// ===== ROOM DETAILS =====
               RoomDetailContainer(
-                roomDetail: RoomDetailModel(
-                  bgColor: Colors.purpleAccent.withValues(alpha: 0.25), 
-                  icon:Icon(Icons.house_outlined), 
-                  iconColor: Colors.purple, 
-                  title: "Room Details", 
-                  details: {
-                    'Room Number:': roomData.roomNumber.toString(),
-                    'Floor:': roomData.roomFloor.toString(),
-                    'Room Type:': roomData.roomType,
-                    'Monthly Rent:': roomData.rentFee.toString(),
-                    'Deposit:': roomData.deposit.toString(),
-                  }
-                )
+                boxShadowOn: false,
+                bgColor: Colors.purpleAccent.withValues(alpha: 0.25),
+                icon: Icon(Icons.house_outlined),
+                iconColor: Colors.purple,
+                title: "Room Details",
+                details: {
+                  'Room Number:': room.roomNumber,
+                  'Floor:': room.roomFloor,
+                  'Monthly Rent:': "${room.price} THB",
+                  'Status:': occupied ? "Occupied" : "Available",
+                },
               ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
-              RoomDetailContainer(
-                roomDetail: RoomDetailModel(
+              /// ===== BILL =====
+              if (latestBill != null)
+                RoomDetailContainer(
+                  boxShadowOn: false,
+                  iconColor: Colors.green,
+                  icon: Icon(Icons.receipt_long),
+                  bgColor: Colors.greenAccent.withValues(alpha: 0.25),
                   fgColor: Colors.green,
-                  bgColor: Colors.greenAccent.withValues(alpha: 0.25), 
-                  icon:Icon(Icons.house_outlined), 
-                  iconColor: Colors.green, 
-                  title: "Latest Bills (${roomData.postedMY})", 
+                  navBtn: true,
+                  title: "Latest Bill",
                   details: {
-                    'Rent Fee:': "${roomData.rentFee} THB",
-                    'Water (${tenantModel.waterUnit}):': "${tenantModel.waterBill} THB",
-                    'Electric Bill (${tenantModel.electricUnit}):': "${tenantModel.electricBill} THB",
-                    'Total:': "${roomData.rentFee + tenantModel.waterBill + tenantModel.electricBill} THB",
-                  },
-                  status: {
-                    'Status': Tag(type: StatusType.payment, value: tenantModel.statusPaid, text: tenantModel.statusPaid?"Paid":"Unpaid"),
-                  }
+                      'Rent:': "${latestBill.rent} THB",
+                      'Water:': "${latestBill.water} THB",
+                      'Electric:': "${latestBill.electric} THB",
+                      'Other:': "${latestBill.other} THB",
+                      'Total:':
+                          "${latestBill.rent + latestBill.water + latestBill.electric + latestBill.other} THB",
+                    },
+                    status: {
+                      'Payment': Tag(
+                        type: StatusType.payment,
+                        value: latestBill.isPaid,
+                        text: latestBill.isPaid ? "Paid" : "Unpaid",
+                      )
+                    },
                 ),
-                navBtn: true,
-              ),
 
-              SizedBox(height: 10,),
+              SizedBox(height: 10),
 
+              /// ===== REPAIRS =====
               RoomDetailContainer(
-                roomDetail: RoomDetailModel(
-                  fgColor: Colors.orange,
-                  bgColor: Colors.orangeAccent.withValues(alpha: 0.25), 
-                  icon:Icon(Icons.house_outlined), 
-                  iconColor: Colors.orange, 
-                  title: "Latest Maintences", 
-                ),
-                inListView: maintenances,
+                boxShadowOn: false,
+                fgColor: Colors.orange,
+                bgColor: Colors.orangeAccent.withValues(alpha: 0.25),
+                icon: Icon(Icons.build),
+                iconColor: Colors.orange,
+                title: "Maintenance Reports",
+                inListView: roomRepairs,
                 navBtn: true,
               ),
             ],
@@ -246,5 +204,4 @@ class RoomViewdetail extends StatelessWidget{
       ),
     );
   }
-
 }
