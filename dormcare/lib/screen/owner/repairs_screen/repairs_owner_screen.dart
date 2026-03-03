@@ -5,7 +5,6 @@ import 'package:dormcare/component/owner/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/owner/room_bottomsheet_sort.dart';
 import 'package:dormcare/component/owner/search_box.dart';
 import 'package:dormcare/component/owner/tag.dart';
-import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/model/owner/room_data_model.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +27,7 @@ class RepairsOwnerScreen extends StatelessWidget {
           GreetingContainer(
             title: "Mainatenance",
             subtitle: "Manage all rooms and tenants",
-            bgColor: ownerTheme.bgGradientColors,
+            bgColor: const [Color(0xFF367BF3), Color(0xFF9436F3)],
           ),
           SizedBox(height: 15),
           

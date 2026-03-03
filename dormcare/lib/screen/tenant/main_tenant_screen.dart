@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/page_data_model.dart';
+import 'package:dormcare/model/page_data_model.dart';
 
 import 'login_screen/login_tenant_screen.dart';
 import 'home_screen/home_tenant_screen.dart';
@@ -9,10 +9,7 @@ import 'alter_screen/alter_tenant_screen.dart';
 import 'profile_screen/profile_tenant_screen.dart';
 
 class MainTenantScreen extends StatefulWidget {
-  const MainTenantScreen({
-    super.key, 
-    this.initialIndex = 4
-  });
+  const MainTenantScreen({super.key, this.initialIndex = 0});
 
   final int initialIndex;
 
@@ -38,18 +35,17 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
   @override
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
-      PageDataModel(
-        title: "Login",
-        screen: LoginTenantScreen(
-          onLoginSuccess: () {
-            _onItemTapped(0);
-          },
-        ),
-      ),
+      // Login screen
+      PageDataModel(title: "Login",screen: LoginTenantScreen(onLoginSuccess: () {_onItemTapped(0);})),
+      // Home screen
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
+      // Expenese screen
       const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
+      // Repair screen
       const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
+      // Alert screen
       const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
+      // Profile screen
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
 
@@ -69,7 +65,6 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
               child: Container(color: Colors.grey.shade300, height: 1.0),
             ),
           ),
-
 
       body: currentPage.screen,
 

@@ -1,16 +1,17 @@
 import 'package:dormcare/component/tenant/announcement_container.dart';
 import 'package:dormcare/component/tenant/greeting_container.dart';
+import 'package:dormcare/model/dashboard_card_model.dart';
 import 'package:flutter/material.dart';
 import '../../../component/tenant/home_dashboard_card.dart';
-import '../../../model/tenant/repair_tenant_model.dart';
+import '../../../model/recent_repair_model.dart';
 
 class HomeTenantScreen extends StatelessWidget {
   const HomeTenantScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<RepairTenant> maintenances = [
-      const RepairTenant(
+    final List<RecentRepairModel> repairs = [
+      const RecentRepairModel(
         title: "Air conditioner not cooling",
         date: 10,
         month: "Dec",
@@ -18,7 +19,7 @@ class HomeTenantScreen extends StatelessWidget {
         statusIcon: Icon(Icons.check_circle_outline, color: Colors.green),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         title: "Leaking faucet",
         date: 12,
         month: "Dec",
@@ -26,7 +27,7 @@ class HomeTenantScreen extends StatelessWidget {
         statusIcon: Icon(Icons.access_time, color: Colors.orange),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         title: "Light bulb replacement (Bathroom)",
         date: 5,
         month: "Jan",
@@ -34,7 +35,7 @@ class HomeTenantScreen extends StatelessWidget {
         statusIcon: Icon(Icons.access_time, color: Colors.orange),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         title: "Door lock jammed",
         date: 8,
         month: "Jan",
@@ -42,7 +43,7 @@ class HomeTenantScreen extends StatelessWidget {
         statusIcon: Icon(Icons.build_circle_outlined, color: Colors.redAccent),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         title: "Clogged shower drain",
         date: 20,
         month: "Nov",
@@ -56,57 +57,51 @@ class HomeTenantScreen extends StatelessWidget {
         padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           children: [
-            // Section 1
+            // Greeting Section
             GreetingContainer(
-              bgColor: [
-                const Color(0xFF367BF3),
-                const Color(0xFF2761E9),
-              ], 
+              bgColor: [const Color(0xFF367BF3), const Color(0xFF2761E9)],
               title: "Welcome, JoBy",
-              icon: Icon(Icons.waving_hand), 
-              subtitle: "Room 301 - Dorm 27"
+              icon: Icon(Icons.waving_hand),
+              subtitle: "Room 301 - Dorm 27",
             ),
 
             SizedBox(height: 16),
 
-            // Section 2
+            // Dashboard section
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.white, 
-                    fgColor: Colors.black, 
-                    icon: Icon(Icons.build_outlined), 
-                    iconColor: Colors.orange, 
-                    iconSize: 26, 
-                    topRightText: "2", 
-                    bottomLeftText: "Pending Repairs", 
-                    isOwner: false,
-                  )
+                    model: DashboardCardModel(
+                      icon: Icon(Icons.build_outlined),
+                      iconColor: Colors.orange,
+                      topRightText: "2",
+                      title: "Pending Repairs",
+                    ),
+                  ),
                 ),
 
                 SizedBox(width: 10),
 
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.white, 
-                    fgColor: Colors.black, 
-                    icon: Icon(Icons.attach_money), 
-                    iconColor: Colors.green, 
-                    iconSize: 30, 
-                    topRightText: "3,212", 
-                    currency: "THB",
-                    bottomLeftText: "Room Rent - Unpaid", 
-                    isOwner: false,
-                  )
+                    model: DashboardCardModel(
+                      icon: Icon(Icons.attach_money),
+                      iconColor: Colors.green,
+                      iconSize: 30,
+                      topRightText: "3,212",
+                      currency: "THB",
+                      title: "Room Rent - Unpaid",
+                    ),
+                  ),
                 ),
               ],
             ),
 
             SizedBox(height: 16),
 
-            // Section 3
+            // Announcement Section
             AnnouncementContainer(
               sideColor: const Color(0xFFFFC107),
               bgColor: const Color(0xFFFFF9E6),
@@ -119,7 +114,7 @@ class HomeTenantScreen extends StatelessWidget {
 
             SizedBox(height: 16),
 
-            // section 4
+            // Recent Repairs Section
             Container(
               padding: const EdgeInsets.all(16),
               width: double.infinity,
@@ -139,9 +134,18 @@ class HomeTenantScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Icon(Icons.build_outlined,color: Theme.of(context).colorScheme.primary,),
+                      Icon(
+                        Icons.build_outlined,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                       SizedBox(width: 8),
-                      Text("Recent Maintenance",style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),),
+                      Text(
+                        "Recent Maintenance",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
                     ],
                   ),
 
@@ -151,9 +155,9 @@ class HomeTenantScreen extends StatelessWidget {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
 
-                    itemCount: maintenances.length,
+                    itemCount: repairs.length,
                     itemBuilder: (context, index) {
-                      final maintenance = maintenances[index];
+                      final maintenance = repairs[index];
                       return Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
@@ -189,7 +193,7 @@ class HomeTenantScreen extends StatelessWidget {
                 ],
               ),
             ),
-          
+
             SizedBox(height: 16),
           ],
         ),

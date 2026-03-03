@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RepairTenant {
-  const RepairTenant({
+class RecentRepairModel {
+  const RecentRepairModel({
     this.roomNumber,
     required this.title,
     required this.date,

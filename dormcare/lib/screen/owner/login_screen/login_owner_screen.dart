@@ -14,43 +14,43 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // ใช้ MediaQuery เพื่อคำนวณความสูงจอ สำหรับการจัดตำแหน่ง
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
-      decoration: BoxDecoration(color: const Color(0xFFF0F2F5)),
+      color: const Color(0xFFF0F2F5),
       child: Stack(
-        alignment: Alignment.topCenter,
         children: [
-          // ส่วนพื้นหลังสีฟ้า (HEADER BACKGROUND)
+          // HEADER BACKGROUND
           Container(
-            height: screenHeight * 0.45,
+            height: screenHeight * 0.4,
             width: double.infinity,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color.fromARGB(255,163, 76, 243), Color.fromARGB(255,79,69,226)],
+                colors: [
+                  Color.fromARGB(255, 163, 76, 243),
+                  Color.fromARGB(255, 79, 69, 226),
+                ],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
           ),
 
-          // ส่วนเนื้อหา (CONTENT)
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 24),
+          // SCROLLABLE CONTENT
+          SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
-                  // ดัน Content ลงมาให้อยู่กึ่งกลางมากขึ้น (ปรับค่านี้เพื่อ เลื่อนขึ้น-ลง ทั้งหมด)
-                  SizedBox(height: screenHeight * 0.15),
+                  SizedBox(height: screenHeight * 0.1),
 
-                  // ===== LOGO SECTION =====
+                  // LOGO SECTION
                   Column(
                     children: [
                       Container(
                         padding: const EdgeInsets.all(18),
                         decoration: BoxDecoration(
-                          color: const Color.fromARGB(255,163, 76, 243),
+                          color: const Color.fromARGB(255, 163, 76, 243),
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
@@ -81,7 +81,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
                   const SizedBox(height: 30),
 
-                  // ===== LOGIN CARD SECTION =====
+                  // LOGIN CARD
                   Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 24,
@@ -111,98 +111,32 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          "Manage Your Domitory",
+                          "Manage Your Dormitory",
                           style: TextStyle(fontSize: 14, color: Colors.grey),
                         ),
 
                         const SizedBox(height: 24),
 
-                        // ===== Email/Username Field =====
-                        const Text(
-                          "Email or Username",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                        ),
+                        // Email/Username Field
+                        _buildLabel("Email or Username"),
                         const SizedBox(height: 8),
-                        TextField(
-                          decoration: InputDecoration(
-                            hintText: "Enter your email or username",
-                            hintStyle: TextStyle(
-                              color: Colors.grey.withValues(alpha: 0.6),
-                              fontSize: 14,
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFFF9FAFB),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: Colors.grey.withValues(alpha: 0.3),
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Color(0xFF3F7BF6),
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
+                        _buildTextField(
+                          hintText: "Enter your email or username",
                         ),
 
                         const SizedBox(height: 16),
 
-                        // ===== Password Field =====
-                        const Text(
-                          "Password",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            color: Colors.black87,
-                          ),
-                        ),
+                        // Password Field
+                        _buildLabel("Password"),
                         const SizedBox(height: 8),
-                        TextField(
-                          obscureText: true,
-                          decoration: InputDecoration(
-                            hintText: "Enter your password",
-                            hintStyle: TextStyle(
-                              color: Colors.grey.withValues(alpha: 0.6),
-                              fontSize: 14,
-                            ),
-                            filled: true,
-                            fillColor: const Color(0xFFF9FAFB),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 12,
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(
-                                color: Colors.grey.withValues(alpha: 0.3),
-                                width: 1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                color: Color(0xFF3F7BF6),
-                                width: 1.5,
-                              ),
-                            ),
-                          ),
+                        _buildTextField(
+                          hintText: "Enter your password",
+                          obscure: true,
                         ),
 
                         const SizedBox(height: 12),
 
-                        // ===== Remember & Forgot =====
+                        // Remember & Forgot
                         Row(
                           children: [
                             SizedBox(
@@ -210,15 +144,17 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                               width: 24,
                               child: Checkbox(
                                 value: _rememberMe,
-                                activeColor: const Color(0xFF3F7BF6),
+                                activeColor: const Color.fromARGB(
+                                  255,
+                                  163,
+                                  76,
+                                  243,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(4),
                                 ),
-                                onChanged: (v) {
-                                  setState(() {
-                                    _rememberMe = v!;
-                                  });
-                                },
+                                onChanged: (v) =>
+                                    setState(() => _rememberMe = v!),
                               ),
                             ),
                             const SizedBox(width: 8),
@@ -234,17 +170,17 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                               onPressed: () {
                                 ScaffoldMessenger.of(context).clearSnackBars();
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: const Text(
+                                  const SnackBar(
+                                    content: Text(
                                       "This feature is currently under development",
                                     ),
                                     behavior: SnackBarBehavior.floating,
-                                    duration: const Duration(seconds: 2),
+                                    duration: Duration(seconds: 2),
                                   ),
                                 );
                               },
                               style: TextButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                   horizontal: 10,
                                   vertical: 3,
                                 ),
@@ -256,7 +192,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255,163, 76, 243),
+                                  color: Color.fromARGB(255, 163, 76, 243),
                                 ),
                               ),
                             ),
@@ -265,19 +201,25 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
                         const SizedBox(height: 20),
 
-                        // ===== Sign In Button =====
+                        // Sign In Button
                         Container(
                           width: double.infinity,
                           height: 50,
                           decoration: BoxDecoration(
                             gradient: const LinearGradient(
-                              colors: [Color.fromARGB(255,163, 76, 243), Color.fromARGB(255,79,69,226)],
+                              colors: [
+                                Color.fromARGB(255, 163, 76, 243),
+                                Color.fromARGB(255, 79, 69, 226),
+                              ],
                             ),
                             borderRadius: BorderRadius.circular(12),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color(
-                                  0xFF3F7BF6,
+                                color: const Color.fromARGB(
+                                  255,
+                                  163,
+                                  76,
+                                  243,
                                 ).withValues(alpha: 0.3),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
@@ -292,9 +234,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                                 borderRadius: BorderRadius.circular(12),
                               ),
                             ),
-                            onPressed: () {
-                              widget.onLoginSuccess();
-                            },
+                            onPressed: widget.onLoginSuccess,
                             child: const Text(
                               "Sign In",
                               style: TextStyle(
@@ -311,7 +251,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
                   const SizedBox(height: 30),
 
-                  // ===== Footer Text =====
+                  // Footer Text
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Text(
@@ -327,7 +267,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
                   const SizedBox(height: 20),
 
-                  // ===== Divider =====
+                  // Divider
                   Divider(
                     color: Colors.grey.withValues(alpha: 0.3),
                     thickness: 1,
@@ -335,28 +275,74 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
                   const SizedBox(height: 5),
 
-                  // ===== Login as Owner =====
+                  // Login as Tenant
                   TextButton.icon(
                     onPressed: () {},
                     icon: const Icon(
                       Icons.person_outline,
-                      color: Color.fromARGB(255,163, 76, 243),
+                      color: Color.fromARGB(255, 163, 76, 243),
                       size: 20,
                     ),
                     label: const Text(
                       "Login as Tenant",
                       style: TextStyle(
-                        color: Color.fromARGB(255,163, 76, 243),
+                        color: Color.fromARGB(255, 163, 76, 243),
                         fontWeight: FontWeight.w600,
                         fontSize: 15,
                       ),
                     ),
                   ),
+
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
-          )
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLabel(String text) {
+    return Text(
+      text,
+      style: const TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 14,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Widget _buildTextField({required String hintText, bool obscure = false}) {
+    return TextField(
+      obscureText: obscure,
+      decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.grey.withValues(alpha: 0.6),
+          fontSize: 14,
+        ),
+        filled: true,
+        fillColor: const Color(0xFFF9FAFB),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 12,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Colors.grey.withValues(alpha: 0.3),
+            width: 1,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(
+            color: Color.fromARGB(255, 163, 76, 243),
+            width: 1.5,
+          ),
+        ),
       ),
     );
   }

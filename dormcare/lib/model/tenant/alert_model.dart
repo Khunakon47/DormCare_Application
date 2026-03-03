@@ -8,7 +8,7 @@ class AlertModel {
   final String description;
   final String date; // e.g. 'Today', 'Yesterday', '10 Jan'
   final AlertCategory category;
-  bool isRead; // เพิ่มสถานะการอ่าน
+  bool isRead;
 
   AlertModel({
     required this.id,
