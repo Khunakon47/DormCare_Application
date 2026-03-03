@@ -1,21 +1,19 @@
+import 'package:flutter/material.dart';
+
 import 'package:dormcare/component/tenant/announcement_container.dart';
-import 'package:dormcare/component/owner/custom_textbutton.dart';
 import 'package:dormcare/component/tenant/greeting_container.dart';
 import 'package:dormcare/component/tenant/home_dashboard_card.dart';
-// import 'package:dormcare/component/owner/room_detail_container.dart';
-import 'package:dormcare/constants/dataset.dart';
-// import 'package:dormcare/model/owner/repair_report_model.dart';
-// import 'package:dormcare/model/owner/room_model.dart';
-import 'package:dormcare/model/tenant/repair_tenant_model.dart';
-import 'package:flutter/material.dart';
+
+import 'package:dormcare/model/recent_repair_model.dart';
+import 'package:dormcare/model/dashboard_card_model.dart';
 
 class HomeOwnerScreen extends StatelessWidget {
   const HomeOwnerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final List<RepairTenant> maintenances = [
-      const RepairTenant(
+    final List<RecentRepairModel> maintenances = [
+      const RecentRepairModel(
         roomNumber: "Room 301",
         title: "Air conditioner not cooling",
         date: 10,
@@ -24,7 +22,7 @@ class HomeOwnerScreen extends StatelessWidget {
         statusIcon: Icon(Icons.check_circle_outline, color: Colors.green),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         roomNumber: "Room 201",
         title: "Leaking faucet",
         date: 12,
@@ -33,7 +31,7 @@ class HomeOwnerScreen extends StatelessWidget {
         statusIcon: Icon(Icons.access_time, color: Colors.orange),
       ),
 
-      const RepairTenant(
+      const RecentRepairModel(
         roomNumber: "Room 101",
         title: "Light bulb replacement (Bathroom)",
         date: 5,
@@ -43,52 +41,42 @@ class HomeOwnerScreen extends StatelessWidget {
       ),
     ];
 
-    // ===== CALCULATED DATA =====
-    final int totalRooms = roomList.length;
-
-    final double monthlyRevenue = monthlyBills
-        .where((b) => b.isPaid) // only paid bills count
-        .fold(0, (sum, b) => sum + b.rent + b.water + b.electric + b.other);
-
-    final int pendingRepairs = repairReports
-        .where((r) => r.status == "pending")
-        .length;
-
-    final int fixingRepairs = repairReports
-        .where((r) => r.status == "fixing")
-        .length;
-
-    // final latestReport = repairReports.isNotEmpty ? repairReports.first : null;
-
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           children: [
+            // Greeting Section
             GreetingContainer(
               title: "Welcome, Owner",
-              subtitle: dormsList.dormName,
-              bgColor: [Color.fromARGB(255,163, 76, 243), Color.fromARGB(255,79,69,226)],
+              icon: Icon(Icons.waving_hand),
+              subtitle: "KKU Dorm 27",
+              bgColor: [
+                Color.fromARGB(255, 163, 76, 243),
+                Color.fromARGB(255, 79, 69, 226),
+              ],
             ),
 
             SizedBox(height: 15),
 
-            /// ================= DASHBOARD ROW 1 =================
+            // Dashboard Row 1
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.blue,
-                    fgColor: Colors.white,
-                    icon: Icon(Icons.home_outlined),
-                    iconColor: Colors.white,
-                    iconSize: 32,
-                    topRightText: totalRooms.toString(),
-                    bottomLeftText: "Rooms Occupied",
-                    isOwner: true,
-                    topRightTextSize: 24,
-                    totalRoom: totalRooms,
+                    model: DashboardCardModel(
+                      bgColor: Colors.blueAccent,
+                      fgColor: Colors.white,
+                      isRoomOccupiedCard: true,
+                      occupiedRoom: 45,
+                      totalRoom: 50,
+                      icon: Icon(Icons.home_outlined),
+                      title: "Rooms Occupied",
+                      titleSize: 16, 
+                      topRightText: '',
+                      iconSize: 30
+                    ),
                   ),
                 ),
 
@@ -96,15 +84,17 @@ class HomeOwnerScreen extends StatelessWidget {
 
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.green,
-                    fgColor: Colors.white,
-                    icon: Icon(Icons.attach_money),
-                    iconColor: Colors.white,
-                    iconSize: 32,
-                    topRightText: monthlyRevenue.toStringAsFixed(0),
-                    bottomLeftText: "Monthly Revenue",
-                    isOwner: false,
-                    topRightTextSize: 24,
+                    model: DashboardCardModel(
+                      bgColor: Colors.green,
+                      fgColor: Colors.white,
+                      icon: Icon(Icons.attach_money),
+                      iconColor: Colors.white,
+                      iconSize: 30,
+                      topRightText: "8097",
+                      currency: "THB",
+                      title: "Monthly Revenue",
+                      titleSize: 16, 
+                    ),
                   ),
                 ),
               ],
@@ -112,21 +102,22 @@ class HomeOwnerScreen extends StatelessWidget {
 
             SizedBox(height: 15),
 
-            /// ================= DASHBOARD ROW 2 =================
+            // Dashboard Row 2
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.orange,
-                    fgColor: Colors.white,
-                    icon: Icon(Icons.build_outlined),
-                    iconColor: Colors.white,
-                    iconSize: 28,
-                    topRightText: pendingRepairs.toString(),
-                    bottomLeftText: "Pending Repairs",
-                    topRightTextSize: 24,
-                    isOwner: false,
+                    model: DashboardCardModel(
+                      bgColor: Colors.orange,
+                      fgColor: Colors.white,
+                      icon: Icon(Icons.build_outlined),
+                      iconColor: Colors.white,
+                      topRightText: "5",
+                      title: "Pending Repairs",
+                      titleSize: 16, 
+                      iconSize: 30
+                    ),
                   ),
                 ),
 
@@ -134,15 +125,16 @@ class HomeOwnerScreen extends StatelessWidget {
 
                 Expanded(
                   child: HomeDashboardCard(
-                    bgColor: Colors.red,
-                    fgColor: Colors.white,
-                    icon: Icon(Icons.info_outline),
-                    iconColor: Colors.white,
-                    iconSize: 32,
-                    topRightText: fixingRepairs.toString(),
-                    bottomLeftText: "Unpaid Bills",
-                    topRightTextSize: 24,
-                    isOwner: false,
+                    model: DashboardCardModel(
+                      bgColor: Colors.redAccent,
+                      fgColor: Colors.white,
+                      icon: Icon(Icons.info_outline),
+                      iconColor: Colors.white,
+                      iconSize: 30,
+                      topRightText: "2",
+                      title: "Unpaid Bills",
+                      titleSize: 16,
+                    ),
                   ),
                 ),
               ],
@@ -150,7 +142,7 @@ class HomeOwnerScreen extends StatelessWidget {
 
             SizedBox(height: 15),
 
-            /// ================= QUICK ACTION =================
+            // Quick Actions section
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -159,9 +151,8 @@ class HomeOwnerScreen extends StatelessWidget {
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.25),
-                    offset: const Offset(0, 1),
-                    spreadRadius: 1,
                     blurRadius: 10,
+                    offset: const Offset(0, 5),
                   ),
                 ],
               ),
@@ -171,40 +162,93 @@ class HomeOwnerScreen extends StatelessWidget {
                   Text(
                     "Quick Actions",
                     style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                     ),
                   ),
-                  SizedBox(height: 15),
+
+                  SizedBox(height: 20),
+
                   Row(
                     children: [
+                      // Manage Rooms Button
                       Expanded(
-                        child: CustomTextbutton(
-                          icon: Icon(Icons.add),
-                          iconColor: Colors.blueAccent,
-                          iconSize: 24,
-                          spacing: 4,
-                          fontSize: 14,
-                          textOnBtn: "Post New Bills",
-                          fgColor: Colors.blueAccent,
-                          bgColor: [Colors.blueAccent.withValues(alpha: 0.15)],
-                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.blueAccent.withValues(alpha: 0.15),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "This feature is currently under development",
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.meeting_room_outlined, color: Colors.blueAccent, size: 20),
+                                SizedBox(width: 8),
+                                Text(
+                                  "Manage Rooms",
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                       ),
+
                       SizedBox(width: 10),
+
+                      // View Reports Button
                       Expanded(
-                        child: CustomTextbutton(
-                          icon: Icon(Icons.group_outlined),
-                          iconColor: Colors.purpleAccent,
-                          iconSize: 20,
-                          spacing: 2,
-                          textOnBtn: "Manage Rooms",
-                          fontSize: 14,
-                          fgColor: Colors.purpleAccent,
-                          bgColor: [
-                            Colors.purpleAccent.withValues(alpha: 0.15),
-                          ],
-                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12),
+                            color: Colors.green.withValues(alpha: 0.15),
+                          ),
+                          child: TextButton(
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).clearSnackBars();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                    "This feature is currently under development",
+                                  ),
+                                  behavior: SnackBarBehavior.floating,
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.receipt_long_outlined, color: Colors.green, size: 20),
+                                SizedBox(width: 8),
+                                Text(
+                                  "View Reports",
+                                  style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
                       ),
                     ],
                   ),
@@ -214,23 +258,13 @@ class HomeOwnerScreen extends StatelessWidget {
 
             SizedBox(height: 15),
 
-            AnnouncementContainer(
-              sideColor: Colors.red,
-              bgColor: Colors.redAccent.withValues(alpha: 0.15),
-              textColor: Colors.redAccent,
-              icon: Icon(Icons.info_outline),
-              title: "Payment Reminder Needed",
-              decscription: "12 Rooms have unpaid bills. Due date: 5 Jan 2025",
-            ),
-
-            SizedBox(height: 15),
-
-            /// ================= RECENT REPAIRS =================
+            // Recent Repairs Section 
             Container(
               padding: const EdgeInsets.all(16),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.25),
@@ -238,7 +272,6 @@ class HomeOwnerScreen extends StatelessWidget {
                     offset: const Offset(0, 5),
                   ),
                 ],
-                borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -307,8 +340,17 @@ class HomeOwnerScreen extends StatelessWidget {
 
             SizedBox(height: 15),
 
-            /// ================= ANNOUNCEMENT =================
-            // if (latestReport != null)
+            // Announcement Section
+            AnnouncementContainer(
+              sideColor: Colors.red,
+              bgColor: Colors.red.withValues(alpha: 0.1),
+              textColor: Colors.redAccent,
+              icon: Icon(Icons.info_outline),
+              title: "Payment Reminder Needed",
+              decscription: "12 Rooms have unpaid bills. Due date: 5 Jan 2025",
+            ),
+
+            SizedBox(height: 15),
           ],
         ),
       ),

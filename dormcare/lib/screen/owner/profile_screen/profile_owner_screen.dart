@@ -48,7 +48,7 @@ class ProfileOwnerScreen extends StatelessWidget {
                   ),
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundColor: Color(0xFF3B82F6),
+                    backgroundColor: const Color.fromARGB(255, 163, 76, 243),
                     child: Icon(Icons.person, size: 60, color: Colors.white),
                   ),
                 ),
@@ -78,13 +78,12 @@ class ProfileOwnerScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1,),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
               ],
             ),
-            // ใช้ ClipRRect เพื่อบังคับให้ Ripple และพื้นหลังอยู่ในกรอบโค้งมน
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Material(
@@ -94,9 +93,13 @@ class ProfileOwnerScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
 
                   itemCount: profileItems.length,
-                  
-                  separatorBuilder: (context, index) => 
-                    const Divider(height: 1, thickness: 1, indent: 16, /* เว้นระยะซ้าย */ endIndent: 16, /* เว้นระยะขวา */ color: Color(0xFFEEEEEE),
+
+                  separatorBuilder: (context, index) => const Divider(
+                    height: 1,
+                    thickness: 1,
+                    indent: 16,
+                    /* เว้นระยะซ้าย */ endIndent: 16,
+                    /* เว้นระยะขวา */ color: Color(0xFFEEEEEE),
                   ),
 
                   itemBuilder: (context, index) {

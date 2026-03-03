@@ -28,7 +28,7 @@ class ProfileTenantScreen extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withValues(alpha: 0.2),
                   blurRadius: 10,
-                  offset: const Offset(0, 5),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -84,7 +84,6 @@ class ProfileTenantScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // ใช้ ClipRRect เพื่อบังคับให้ Ripple และพื้นหลังอยู่ในกรอบโค้งมน
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Material(

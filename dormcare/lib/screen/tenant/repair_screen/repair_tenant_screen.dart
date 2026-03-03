@@ -47,6 +47,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         color: const Color(0xFFF5F7FA),
         child: Column(
           children: [
+            // section 1
             GreetingContainer(
               bgColor: [const Color(0xFF367BF3), const Color(0xFF2761E9)],
               title: "Welcome, JoBy",
@@ -56,6 +57,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
 
             SizedBox(height: 16),
 
+            // section 2
             Row(
               children: [
                 // Search bar
@@ -159,6 +161,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
 
             SizedBox(height: 16),
 
+            // section 3
             Expanded(
               child: _allRepairs.isEmpty
                   ? Center(
@@ -187,7 +190,14 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                         return RepairCard(
                           data: _allRepairs[index],
                           onTap: () {
-
+                            ScaffoldMessenger.of(context).clearSnackBars();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("This feature is currently under development"),
+                                behavior: SnackBarBehavior.floating,
+                                duration: Duration(seconds: 2),
+                              )
+                            );
                           },
                         );
                       },
@@ -197,7 +207,16 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => {},
+        onPressed: () => {
+          ScaffoldMessenger.of(context).clearSnackBars(),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text("This feature is currently under development"),
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            )
+          )
+        },
         tooltip: "Report new issue",
         backgroundColor: Color(0xFF367BF3),
         shape: const CircleBorder(),

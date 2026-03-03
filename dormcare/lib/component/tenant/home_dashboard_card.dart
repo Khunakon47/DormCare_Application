@@ -1,51 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/dashboard_card_model.dart';
 
 class HomeDashboardCard extends StatelessWidget {
-  const HomeDashboardCard({
-    super.key,
-    required this.bgColor,
-    required this.fgColor,
-    required this.icon,
-    required this.iconColor,
-    required this.iconSize,
-    required this.topRightText,
-    this.topRightTextSize,
-    this.totalUser,
-    required this.bottomLeftText,
-    this.bottomLeftTextSize, 
-    this.currency,
-    this.totalRoom,
-    required this.isOwner,
-    this.fontSize = 20,
-  });
+  const HomeDashboardCard({super.key, required this.model});
 
-  final Color bgColor;
-  final Color fgColor;
-  final Icon icon;
-  
-  final Color iconColor;
-  final double iconSize;
-  final String topRightText;
-  final int? totalUser;
-  final double? topRightTextSize;
-  final int? totalRoom;
-
-  final String? currency;
-  final String bottomLeftText;
-  final double? bottomLeftTextSize;
-  final bool isOwner;
-
-  final double fontSize;
+  final DashboardCardModel model;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: model.bgColor,
         boxShadow: [
           BoxShadow(
-            color: Colors.blue.withValues(alpha: 0.1),
+            color: Colors.black.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
@@ -58,12 +27,20 @@ class HomeDashboardCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Icon(icon.icon, color: iconColor, size: iconSize),
+              Icon(
+                model.icon.icon,
+                color: model.iconColor,
+                size: model.iconSize,
+              ),
               Text(
-                isOwner
-                  ? "${topRightText.toString()} / ${totalRoom.toString()}"
-                  : topRightText.toString(),
-                style: TextStyle(color:fgColor, fontSize: topRightTextSize, fontWeight: FontWeight.bold),
+                model.isRoomOccupiedCard
+                    ? "${model.occupiedRoom} / ${model.totalRoom}"
+                    : model.topRightText,
+                style: TextStyle(
+                  color: model.fgColor,
+                  fontSize: model.topRightTextSize,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ],
           ),
@@ -71,8 +48,8 @@ class HomeDashboardCard extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             child: Text(
-              currency ?? '',
-              style: TextStyle(fontSize: 12, color: fgColor),
+              model.currency ?? '',
+              style: TextStyle(fontSize: 12, color: model.fgColor),
               textAlign: TextAlign.right,
             ),
           ),
@@ -80,11 +57,8 @@ class HomeDashboardCard extends StatelessWidget {
           SizedBox(height: 12),
 
           Text(
-            bottomLeftText, 
-            style: TextStyle(
-              color: fgColor, 
-              fontSize: bottomLeftTextSize
-            )
+            model.title,
+            style: TextStyle(color: model.fgColor, fontSize: model.titleSize),
           ),
         ],
       ),

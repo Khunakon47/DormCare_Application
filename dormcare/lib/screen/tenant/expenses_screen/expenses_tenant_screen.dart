@@ -10,12 +10,9 @@ class ExpensesTenantScreen extends StatefulWidget {
   State<ExpensesTenantScreen> createState() => _ExpensesTenantScreenState();
 }
 
-class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
-  with SingleTickerProviderStateMixin {
-
+class _ExpensesTenantScreenState extends State<ExpensesTenantScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  // จำลองข้อมูล (Mock Data)
   final List<ExpenseModel> _allBills = [
     // Current Bill (Unpaid)
     ExpenseModel(
@@ -44,6 +41,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       dueDate: '',
       paidDate: 'Paid on Nov 1, 2024',
     ),
+
     ExpenseModel(
       id: '3',
       month: 'October',
@@ -78,9 +76,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       orElse: () => _allBills[0], // กันตายกรณีไม่มีบิลค้าง
     );
     // historyBills
-    final historyBills = _allBills
-      .where((e) => e.status == ExpenseStatus.paid)
-      .toList();
+    final historyBills = _allBills.where(
+      (e) => e.status == ExpenseStatus.paid
+      ).toList();
 
     return Column(
       children: [
@@ -167,7 +165,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                         icon: Icon(Icons.info_outline),
                         title: 'Payment Location',
                         decscription:
-                          'Please visit the management office on the ground floor to make your payment. Office hours: Mon-Fri 8:00-17:00, Sat 9:00-12:00',
+                            'Please visit the management office on the ground floor to make your payment. Office hours: Mon-Fri 8:00-17:00, Sat 9:00-12:00',
                       ),
 
                       SizedBox(height: 16),
@@ -176,7 +174,8 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton.icon(
-                          onPressed: () => {ScaffoldMessenger.of(context).showSnackBar(
+                          onPressed: () => {
+                            ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: const Text(
                                   "This feature is currently under development",
@@ -185,7 +184,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                                 duration: const Duration(seconds: 2),
                               ),
                             ),
-                            
                           },
                           icon: const Icon(
                             Icons.report_problem_outlined,
@@ -217,16 +215,129 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
 
               // ============ Tab 2: History ============
               SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: historyBills.length,
-                  separatorBuilder: (context, index) =>
-                      const SizedBox(height: 16),
-                  itemBuilder: (context, index) {
-                    return HistoryBillCard(data: historyBills[index]);
-                  },
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                child: Column(
+                  children: [
+                    // Searchbar and filter & sort
+                    Row(
+                      children: [
+                        // Search bar
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 5,
+                              horizontal: 12,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.1),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.search, color: Colors.grey),
+
+                                const SizedBox(width: 10),
+
+                                Expanded(
+                                  child: TextField(
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: "Search by room...",
+                                      hintStyle: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    // keyboardType: TextInputType.text, TextInputType.number, TextInputType.emailAddress
+                                    // default is .text
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // Filter button
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.filter_alt_outlined,
+                              color: Colors.blue,
+                              size: 30,
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(width: 8),
+
+                        // Sort button
+                        Container(
+                          padding: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: 0.1),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: IconButton(
+                            onPressed: () => {},
+                            icon: Icon(
+                              Icons.swap_vert,
+                              size: 30,
+                              color: Colors.purple,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 16,),
+
+                    // List of bills history
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: historyBills.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        return HistoryBillCard(data: historyBills[index]);
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'screen/owner/main_owner_screen.dart';
-import 'constants/dataset.dart';
 
 void main() {
   runApp(
@@ -17,7 +16,7 @@ void main() {
         ),
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: ownerTheme.primary,
+          seedColor: Color(0xFFA34CF3),
           brightness: Brightness.light,
         ),
       ),
@@ -25,7 +24,7 @@ void main() {
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: ownerTheme.primary,
+          seedColor: Color(0xFFA34CF3),
           brightness: Brightness.dark,
         ),
       ),
