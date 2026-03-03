@@ -3,7 +3,8 @@ import 'package:dormcare/component/owner/imagegallery_button.dart';
 import 'package:dormcare/component/owner/room_detail_container.dart';
 import 'package:dormcare/component/owner/room_editdetail_container.dart';
 import 'package:dormcare/component/owner/tag.dart';
-import 'package:dormcare/constants/dataset.dart';
+import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/repair_report_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,6 +21,87 @@ class RoomEditinfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
+    final List<MonthlyBillingModel> monthlyBills = [
+      MonthlyBillingModel(
+        billId: "bill001",
+        roomNumber: "A101",
+        postedDate: DateTime(2026, 1, 28),
+        dueDate: DateTime(2026, 2, 5),
+        rent: 3500,
+
+        water: 12,        // 12 units used
+        waterUnit: 15,    // 15฿ per unit
+
+        electric: 120,    // 120 units used
+        electricUnit: 7,  // 7฿ per unit
+
+        other: 0,
+        isPaid: true,
+      ),
+      MonthlyBillingModel(
+        billId: "bill002",
+        roomNumber: "A102",
+        postedDate: DateTime(2026, 2, 28),
+        dueDate: DateTime(2026, 5, 5),
+        rent: 3500,
+
+        water: 8,
+        waterUnit: 15,
+
+        electric: 90,
+        electricUnit: 7,
+
+        other: 0,
+        isPaid: false,
+      ),
+      MonthlyBillingModel(
+        billId: "bill003",
+        roomNumber: "B201",
+        postedDate: DateTime(2026, 1, 28),
+        dueDate: DateTime(2026, 2, 5),
+        rent: 4200,
+
+        water: 15,
+        waterUnit: 15,
+
+        electric: 150,
+        electricUnit: 7,
+
+        other: 100,
+        isPaid: true,
+      ),
+    ];
+
+    final List<RepairReportModel> repairReports = [
+      RepairReportModel(
+        reportId: "rep001",
+        roomNumber: "A101",
+        title: "Air conditioner broken",
+        description: "AC not cooling properly",
+        status: "pending",
+        date: DateTime(2026, 2, 5),
+      ),
+      RepairReportModel(
+        reportId: "rep002",
+        roomNumber: "B201",
+        title: "Water leak",
+        description: "Leak under sink",
+        status: "fixing",
+        date: DateTime(2026, 2, 6),
+      ),
+      RepairReportModel(
+        reportId: "rep003",
+        roomNumber: "A102",
+        title: "Light bulb out",
+        description: "Bathroom light not working",
+        status: "done",
+        date: DateTime(2026, 1, 28),
+      ),
+    ];
+
+
     final bool occupied = room.isOccupied;
 
     final roomBills =

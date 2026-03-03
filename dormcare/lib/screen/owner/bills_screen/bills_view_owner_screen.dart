@@ -4,8 +4,8 @@ import 'package:dormcare/component/owner/room_bottomsheet_filter.dart';
 import 'package:dormcare/component/owner/room_bottomsheet_sort.dart';
 import 'package:dormcare/component/owner/roombills.dart';
 import 'package:dormcare/component/owner/search_box.dart';
-import 'package:dormcare/constants/dataset.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/owner_app_theme.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -23,6 +23,21 @@ class BillsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final OwnerAppTheme ownerTheme = OwnerAppTheme(
+      primary: Color(0xFFA34CF3),
+      secondary: const Color(0xFF9436F3),
+      accent: const Color(0xFFFFB703),
+
+      textPrimary: Colors.white,
+      textSecondary: const Color(0xFFE0E0E0),
+      textAccent: const Color(0xFFFFB703),
+
+      mutedColor: const Color(0xFF9E9E9E),
+      bgGradientColors: const [Color(0xFF367BF3), Color(0xFF9436F3)],
+    );
+
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Back", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
