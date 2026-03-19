@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LoginOwnerScreen extends StatefulWidget {
-  const LoginOwnerScreen({super.key, required this.onLoginSuccess});
-
-  final VoidCallback onLoginSuccess;
+  const LoginOwnerScreen({super.key});
 
   @override
   State<LoginOwnerScreen> createState() => _LoginOwnerScreenState();
@@ -16,289 +14,297 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
 
-    return Container(
-      color: const Color(0xFFF0F2F5),
-      child: Stack(
-        children: [
-          // HEADER BACKGROUND
-          Container(
-            height: screenHeight * 0.4,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 163, 76, 243),
-                  Color.fromARGB(255, 79, 69, 226),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+    return Scaffold(
+      body: Container(
+        color: const Color(0xFFF0F2F5),
+        child: Stack(
+          children: [
+            // HEADER BACKGROUND
+            Container(
+              height: screenHeight * 0.4,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 163, 76, 243),
+                    Color.fromARGB(255, 79, 69, 226),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
             ),
-          ),
 
-          // SCROLLABLE CONTENT
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                children: [
-                  SizedBox(height: screenHeight * 0.1),
+            // SCROLLABLE CONTENT
+            SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  children: [
+                    SizedBox(height: screenHeight * 0.1),
 
-                  // LOGO SECTION
-                  Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(18),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 163, 76, 243),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.15),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            ),
-                          ],
-                        ),
-                        child: const Icon(
-                          Icons.home_outlined,
-                          color: Colors.white,
-                          size: 50,
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        "DormCare",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  // LOGIN CARD
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 30,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.1),
-                          blurRadius: 24,
-                          offset: const Offset(0, 8),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    // LOGO SECTION
+                    Column(
                       children: [
-                        const Text(
-                          "Owner Login",
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black87,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          "Manage Your Dormitory",
-                          style: TextStyle(fontSize: 14, color: Colors.grey),
-                        ),
-
-                        const SizedBox(height: 24),
-
-                        // Email/Username Field
-                        _buildLabel("Email or Username"),
-                        const SizedBox(height: 8),
-                        _buildTextField(
-                          hintText: "Enter your email or username",
-                        ),
-
-                        const SizedBox(height: 16),
-
-                        // Password Field
-                        _buildLabel("Password"),
-                        const SizedBox(height: 8),
-                        _buildTextField(
-                          hintText: "Enter your password",
-                          obscure: true,
-                        ),
-
-                        const SizedBox(height: 12),
-
-                        // Remember & Forgot
-                        Row(
-                          children: [
-                            SizedBox(
-                              height: 24,
-                              width: 24,
-                              child: Checkbox(
-                                value: _rememberMe,
-                                activeColor: const Color.fromARGB(
-                                  255,
-                                  163,
-                                  76,
-                                  243,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(4),
-                                ),
-                                onChanged: (v) =>
-                                    setState(() => _rememberMe = v!),
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            const Text(
-                              "Remember me",
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).clearSnackBars();
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                      "This feature is currently under development",
-                                    ),
-                                    behavior: SnackBarBehavior.floating,
-                                    duration: Duration(seconds: 2),
-                                  ),
-                                );
-                              },
-                              style: TextButton.styleFrom(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 3,
-                                ),
-                                minimumSize: Size.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: const Text(
-                                "Forgot Password?",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color.fromARGB(255, 163, 76, 243),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // Sign In Button
                         Container(
-                          width: double.infinity,
-                          height: 50,
+                          padding: const EdgeInsets.all(18),
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Color.fromARGB(255, 163, 76, 243),
-                                Color.fromARGB(255, 79, 69, 226),
-                              ],
-                            ),
-                            borderRadius: BorderRadius.circular(12),
+                            color: const Color.fromARGB(255, 163, 76, 243),
+                            borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: const Color.fromARGB(
-                                  255,
-                                  163,
-                                  76,
-                                  243,
-                                ).withValues(alpha: 0.3),
+                                color: Colors.black.withValues(alpha: 0.15),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),
                             ],
                           ),
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.transparent,
-                              shadowColor: Colors.transparent,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            onPressed: widget.onLoginSuccess,
-                            child: const Text(
-                              "Sign In",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
+                          child: const Icon(
+                            Icons.home_outlined,
+                            color: Colors.white,
+                            size: 50,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        const Text(
+                          "DormCare",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 0.5,
                           ),
                         ),
                       ],
                     ),
-                  ),
 
-                  const SizedBox(height: 30),
+                    const SizedBox(height: 30),
 
-                  // Footer Text
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Text(
-                      "Contact system support for admin registration.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey.withValues(alpha: 0.8),
-                        height: 1.5,
+                    // LOGIN CARD
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 30,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.1),
+                            blurRadius: 24,
+                            offset: const Offset(0, 8),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Owner Login",
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(height: 6),
+                          Text(
+                            "Manage Your Dormitory",
+                            style: TextStyle(fontSize: 14, color: Colors.grey),
+                          ),
+
+                          const SizedBox(height: 24),
+
+                          // Email/Username Field
+                          _buildLabel("Email or Username"),
+                          const SizedBox(height: 8),
+                          _buildTextField(
+                            hintText: "Enter your email or username",
+                          ),
+
+                          const SizedBox(height: 16),
+
+                          // Password Field
+                          _buildLabel("Password"),
+                          const SizedBox(height: 8),
+                          _buildTextField(
+                            hintText: "Enter your password",
+                            obscure: true,
+                          ),
+
+                          const SizedBox(height: 12),
+
+                          // Remember & Forgot
+                          Row(
+                            children: [
+                              SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: Checkbox(
+                                  value: _rememberMe,
+                                  activeColor: const Color.fromARGB(
+                                    255,
+                                    163,
+                                    76,
+                                    243,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  onChanged: (v) =>
+                                      setState(() => _rememberMe = v!),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              const Text(
+                                "Remember me",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).clearSnackBars();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "This feature is currently under development",
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                      duration: Duration(seconds: 2),
+                                    ),
+                                  );
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 3,
+                                  ),
+                                  minimumSize: Size.zero,
+                                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                ),
+                                child: const Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color.fromARGB(255, 163, 76, 243),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          // Sign In Button
+                          Container(
+                            width: double.infinity,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              gradient: const LinearGradient(
+                                colors: [
+                                  Color.fromARGB(255, 163, 76, 243),
+                                  Color.fromARGB(255, 79, 69, 226),
+                                ],
+                              ),
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color.fromARGB(
+                                    255,
+                                    163,
+                                    76,
+                                    243,
+                                  ).withValues(alpha: 0.3),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                ),
+                              ],
+                            ),
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.transparent,
+                                shadowColor: Colors.transparent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                              ),
+                              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                                context, '/owner/home', (route) => false, // clear stack ทิ้งทั้งหมด ไม่ให้กด back กลับมาหน้า login
+                              ),
+                              child: const Text(
+                                "Sign In",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 20),
+                    const SizedBox(height: 30),
 
-                  // Divider
-                  Divider(
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    thickness: 1,
-                  ),
-
-                  const SizedBox(height: 5),
-
-                  // Login as Tenant
-                  TextButton.icon(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.person_outline,
-                      color: Color.fromARGB(255, 163, 76, 243),
-                      size: 20,
+                    // Footer Text
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        "Contact system support for admin registration.",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Colors.grey.withValues(alpha: 0.8),
+                          height: 1.5,
+                        ),
+                      ),
                     ),
-                    label: const Text(
-                      "Login as Tenant",
-                      style: TextStyle(
+
+                    const SizedBox(height: 20),
+
+                    // Divider
+                    Divider(
+                      color: Colors.grey.withValues(alpha: 0.3),
+                      thickness: 1,
+                    ),
+
+                    const SizedBox(height: 5),
+
+                    // Login as Tenant
+                    TextButton.icon(
+                      onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/',
+                        (route) => false,
+                      ),
+                      icon: const Icon(
+                        Icons.person_outline,
                         color: Color.fromARGB(255, 163, 76, 243),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        size: 20,
+                      ),
+                      label: const Text(
+                        "Login as Tenant",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 163, 76, 243),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15,
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 24),
-                ],
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

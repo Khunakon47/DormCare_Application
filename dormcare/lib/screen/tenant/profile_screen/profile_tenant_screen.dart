@@ -1,4 +1,3 @@
-import 'package:dormcare/screen/tenant/main_tenant_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTenantScreen extends StatelessWidget {
@@ -152,17 +151,8 @@ class ProfileTenantScreen extends StatelessWidget {
               ],
             ),
             child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MainTenantScreen(
-                      initialIndex: 0,
-                    ), // ส่งกลับไปหน้า Main โดยเริ่มที่ index 0
-                  ),
-                  (route) => false, // ล้าง Stack ทั้งหมด
-                );
-              },
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/', (route) => false),
               label: const Text(
                 'Logout',
                 style: TextStyle(
