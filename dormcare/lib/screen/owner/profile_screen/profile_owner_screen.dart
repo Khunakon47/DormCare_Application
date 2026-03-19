@@ -1,4 +1,3 @@
-import 'package:dormcare/screen/owner/main_owner_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileOwnerScreen extends StatelessWidget {
@@ -156,17 +155,8 @@ class ProfileOwnerScreen extends StatelessWidget {
               ],
             ),
             child: OutlinedButton.icon(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MainOwnerScreen(
-                      initialIndex: 0,
-                    ), // ส่งกลับไปหน้า Main โดยเริ่มที่ index 0
-                  ),
-                  (route) => false, // ล้าง Stack ทั้งหมด
-                );
-              },
+              onPressed: () => Navigator.pushNamedAndRemoveUntil(
+                context, '/', (route) => false),
               label: const Text(
                 'Logout',
                 style: TextStyle(

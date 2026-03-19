@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/page_data_model.dart';
 
-import 'login_screen/login_tenant_screen.dart';
 import 'home_screen/home_tenant_screen.dart';
 import 'expenses_screen/expenses_tenant_screen.dart';
 import 'repair_screen/repair_tenant_screen.dart';
@@ -9,68 +8,49 @@ import 'alter_screen/alter_tenant_screen.dart';
 import 'profile_screen/profile_tenant_screen.dart';
 
 class MainTenantScreen extends StatefulWidget {
-  const MainTenantScreen({super.key, this.initialIndex = 0});
-
-  final int initialIndex;
+  const MainTenantScreen({super.key});
 
   @override
   State<MainTenantScreen> createState() => _MainTenantScreenState();
 }
 
 class _MainTenantScreenState extends State<MainTenantScreen> {
-  late int _selectedIndex;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedIndex = widget.initialIndex; // กำหนดค่าเริ่มต้นจาก parameter
-  }
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index + 1;
+      _selectedIndex = index;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
-      // Login screen
-      PageDataModel(title: "Login",screen: LoginTenantScreen(onLoginSuccess: () {_onItemTapped(0);})),
-      // Home screen
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
-      // Expenese screen
       const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
-      // Repair screen
       const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
-      // Alert screen
       const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
-      // Profile screen
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
 
     final PageDataModel currentPage = pages[_selectedIndex];
 
     return Scaffold(
-       appBar: currentPage.title == "Login"
-        ? null
-        : AppBar(
-            title: Text(
-              currentPage.title,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            actions: currentPage.actions,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(color: Colors.grey.shade300, height: 1.0),
-            ),
-          ),
+      appBar: AppBar(
+        title: Text(
+          currentPage.title,
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        actions: currentPage.actions,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0),
+          child: Container(color: Colors.grey.shade300, height: 1.0),
+        ),
+      ),
 
       body: currentPage.screen,
 
-      bottomNavigationBar: currentPage.title == "Login" 
-      ? null
-      : Container(
+      bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
@@ -84,93 +64,72 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
-            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
+            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
+            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
           ),
           child: BottomNavigationBar(
-            currentIndex: _selectedIndex - 1,
+            currentIndex: _selectedIndex,
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
 
             backgroundColor: Colors.white,
             selectedItemColor: const Color(0xFF367BF3),
             selectedFontSize: 13,
-            selectedIconTheme: IconThemeData(size: 26),
+            selectedIconTheme: const IconThemeData(size: 26),
 
             showUnselectedLabels: true,
             unselectedItemColor: Colors.grey,
             unselectedFontSize: 12,
-            unselectedIconTheme: IconThemeData(size: 25),
+            unselectedIconTheme: const IconThemeData(size: 25),
 
             items: [
               // Home
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.home_outlined),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.home),
-                ),
-                label: 'Home',
+              _buildBottomNavBarItem(
+                lebel: 'Home',
+                icon: const Icon(Icons.home_outlined),
+                activeIcon: const Icon(Icons.home),
               ),
-              
               // Expenses
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.receipt_long_outlined),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.receipt_long),
-                ),
-                label: 'Expenses',
+              _buildBottomNavBarItem(
+                lebel: 'Expenses',
+                icon: const Icon(Icons.receipt_long_outlined),
+                activeIcon: const Icon(Icons.receipt_long),
               ),
-
               // Repairs
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.build_outlined),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.build),
-                ),
-                label: 'Repairs',
+              _buildBottomNavBarItem(
+                lebel: 'Repairs',
+                icon: const Icon(Icons.build_outlined),
+                activeIcon: const Icon(Icons.build),
               ),
-
               // Alerts
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.notifications_outlined),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.notifications),
-                ),
-                label: 'Alerts',
+              _buildBottomNavBarItem(
+                lebel: 'Alerts',
+                icon: const Icon(Icons.notifications_outlined),
+                activeIcon: const Icon(Icons.notifications),
               ),
-
               // Profile
-              BottomNavigationBarItem(
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.person_outline),
-                ),
-                activeIcon: Padding(
-                  padding: EdgeInsets.only(top: 8),
-                  child: const Icon(Icons.person),
-                ),
-                label: 'Profile',
+              _buildBottomNavBarItem(
+                lebel: 'Profile',
+                icon: const Icon(Icons.person_outline),
+                activeIcon: const Icon(Icons.person),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // Private method to build BottomNavigationBarItem
+  BottomNavigationBarItem _buildBottomNavBarItem({
+    required String lebel,
+    required Icon icon,
+    required Icon activeIcon,
+  }) {
+    return BottomNavigationBarItem(
+      icon: Padding(padding: EdgeInsets.only(top: 8), child: icon),
+      activeIcon: Padding(padding: EdgeInsets.only(top: 8), child: activeIcon),
+      label: lebel,
     );
   }
 }
