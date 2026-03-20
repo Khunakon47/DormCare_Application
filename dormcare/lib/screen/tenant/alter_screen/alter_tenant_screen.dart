@@ -3,7 +3,6 @@ import 'package:dormcare/component/tenant/alert_filter_sheet.dart';
 import 'package:dormcare/component/tenant/alert_sort_sheet.dart'; 
 import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/component/tenant/greeting_container.dart';
 
 class AlertTenantScreen extends StatefulWidget {
   const AlertTenantScreen({super.key});
@@ -97,17 +96,6 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
       backgroundColor: const Color(0xFFF5F7FA),
       body: Column(
         children: [
-          // Header
-          Container(
-             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-             child: const GreetingContainer(
-              bgColor: [Color(0xFF367BF3), Color(0xFF2761E9)],
-              title: "Notifications",
-              icon: Icon(Icons.notifications_active),
-              subtitle: "Stay updated with dorm news",
-            ),
-          ),
-
           const SizedBox(height: 16),
 
           // Search & Filter Area

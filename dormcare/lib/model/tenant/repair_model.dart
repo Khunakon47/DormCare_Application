@@ -2,38 +2,55 @@ import 'package:flutter/material.dart';
 
 enum RepairStatus { pending, inProgress, completed, cancelled }
 
+enum RepairCategory { electrical, plumbing, furniture, appliance, other }
+
 class RepairModel {
   final String id;
   final String title;
   final String description;
-  final String date;
-  final String imageUrl;
+  final DateTime reportedAt;
+  final String? imageUrl;
   final RepairStatus status;
+  final RepairCategory category;
 
   RepairModel({
     required this.id,
     required this.title,
     required this.description,
-    required this.date,
-    required this.imageUrl,
+    required this.reportedAt,
+    this.imageUrl,
     required this.status,
+    required this.category,
   });
 
-  // Helper สำหรับดึงสีตามสถานะ
+  // format helper
+  String get reportedTime {
+    return '${reportedAt.hour.toString().padLeft(2, '0')}:${reportedAt.minute.toString().padLeft(2, '0')}';
+  }
+
+  String get reportedDate {
+    return '${reportedAt.day} ${_month(reportedAt.month)} ${reportedAt.year}';
+  }
+
+  String _month(int m) {
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',];
+    return months[m - 1];
+  }
+
+  // --- Status helpers ---
   Color get statusColor {
     switch (status) {
       case RepairStatus.pending:
-        return const Color(0xFFFFA726); // Orange
+        return const Color(0xFFFFA726);
       case RepairStatus.inProgress:
-        return const Color(0xFF42A5F5); // Blue
+        return const Color(0xFF42A5F5);
       case RepairStatus.completed:
-        return const Color(0xFF66BB6A); // Green
+        return const Color(0xFF66BB6A);
       case RepairStatus.cancelled:
-        return const Color(0xFFEF5350); // Red
+        return const Color(0xFFEF5350);
     }
   }
 
-  // Helper สำหรับดึงสีพื้นหลังตามสถานะ
   Color get statusBgColor {
     switch (status) {
       case RepairStatus.pending:
@@ -47,7 +64,6 @@ class RepairModel {
     }
   }
 
-  // Helper สำหรับดึงข้อความสถานะ
   String get statusText {
     switch (status) {
       case RepairStatus.pending:
@@ -58,6 +74,50 @@ class RepairModel {
         return 'Completed';
       case RepairStatus.cancelled:
         return 'Cancelled';
+    }
+  }
+
+  IconData get statusIcon {
+    switch (status) {
+      case RepairStatus.pending:
+        return Icons.schedule;
+      case RepairStatus.inProgress:
+        return Icons.autorenew;
+      case RepairStatus.completed:
+        return Icons.check_circle_outline;
+      case RepairStatus.cancelled:
+        return Icons.cancel_outlined;
+    }
+  }
+
+  // --- Category helpers ---
+  String get categoryText {
+    switch (category) {
+      case RepairCategory.electrical:
+        return 'Electrical';
+      case RepairCategory.plumbing:
+        return 'Plumbing';
+      case RepairCategory.furniture:
+        return 'Furniture';
+      case RepairCategory.appliance:
+        return 'Appliance';
+      case RepairCategory.other:
+        return 'Other';
+    }
+  }
+
+  IconData get categoryIcon {
+    switch (category) {
+      case RepairCategory.electrical:
+        return Icons.bolt_outlined;
+      case RepairCategory.plumbing:
+        return Icons.water_drop_outlined;
+      case RepairCategory.furniture:
+        return Icons.chair_outlined;
+      case RepairCategory.appliance:
+        return Icons.kitchen_outlined;
+      case RepairCategory.other:
+        return Icons.build_outlined;
     }
   }
 }

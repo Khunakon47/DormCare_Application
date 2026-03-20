@@ -28,7 +28,20 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
     final List<PageDataModel> pages = [
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
       const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
-      const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
+      PageDataModel(
+        title: "Repairs",
+        screen: RepairTenantScreen(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No new repair notifications')),
+              );
+            },
+          ),
+        ],
+      ),
       const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
