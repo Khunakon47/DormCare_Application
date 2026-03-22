@@ -1,5 +1,6 @@
-import 'package:dormcare/model/owner/alert_owner_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/owner/alert_owner_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class AlertOwnerCard extends StatelessWidget {
   final AlertOwnerModel data;
@@ -13,16 +14,16 @@ class AlertOwnerCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: data.isRead
-                ? Colors.grey.shade100
+                ? AppColors.border
                 : data.categoryColor.withValues(alpha: 0.3),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.textPrimary.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 3),
             ),
@@ -64,7 +65,7 @@ class AlertOwnerCard extends StatelessWidget {
                               fontWeight: data.isRead
                                   ? FontWeight.w600
                                   : FontWeight.w700,
-                              color: const Color(0xFF0D1B2A),
+                              color: AppColors.textPrimary,
                             ),
                           ),
                         ),
@@ -73,7 +74,7 @@ class AlertOwnerCard extends StatelessWidget {
                           data.displayDate,
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey.shade400,
+                            color: AppColors.textHint,
                           ),
                         ),
                       ],
@@ -97,7 +98,7 @@ class AlertOwnerCard extends StatelessWidget {
                             const Icon(
                               Icons.meeting_room_outlined,
                               size: 11,
-                              color: Color(0xFFA34CF3),
+                              color: AppColors.ownerPrimary,
                             ),
                             const SizedBox(width: 4),
                             Text(
@@ -105,7 +106,7 @@ class AlertOwnerCard extends StatelessWidget {
                               '${data.tenantName != null ? '  ·  ${data.tenantName}' : ''}',
                               style: const TextStyle(
                                 fontSize: 11,
-                                color: Color(0xFFA34CF3),
+                                color: AppColors.ownerPrimary,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -120,7 +121,7 @@ class AlertOwnerCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.grey.shade500,
+                        color: AppColors.textSecondary,
                         height: 1.4,
                       ),
                     ),
@@ -134,7 +135,7 @@ class AlertOwnerCard extends StatelessWidget {
                   height: 8,
                   margin: const EdgeInsets.only(top: 4),
                   decoration: const BoxDecoration(
-                    color: Color(0xFFA34CF3),
+                    color: AppColors.ownerPrimary,
                     shape: BoxShape.circle,
                   ),
                 ),

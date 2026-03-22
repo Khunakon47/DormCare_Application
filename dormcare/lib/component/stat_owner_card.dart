@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class StatOwnerCard extends StatelessWidget {
   const StatOwnerCard({
@@ -21,12 +22,12 @@ class StatOwnerCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.border),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.textPrimary.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -83,7 +84,7 @@ class StatOwnerCard extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 10,
-                    color: Colors.grey.shade400,
+                    color: AppColors.textHint,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

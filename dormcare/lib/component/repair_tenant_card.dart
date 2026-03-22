@@ -1,5 +1,6 @@
-import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RepairTenantCard extends StatelessWidget {
   final RepairModel data;
@@ -13,12 +14,12 @@ class RepairTenantCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade100),
+          border: Border.all(color: AppColors.border),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.textPrimary.withValues(alpha: 0.04),
               blurRadius: 16,
               offset: const Offset(0, 4),
             ),
@@ -45,7 +46,7 @@ class RepairTenantCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   _buildInfoRow(),
                   const SizedBox(height: 12),
-                  Divider(color: Colors.grey.shade100, height: 1),
+                  Divider(color: AppColors.border, height: 1),
                   const SizedBox(height: 10),
                   _buildFooter(),
                 ],
@@ -77,15 +78,15 @@ class RepairTenantCard extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 16 / 7,
       child: Container(
-        color: Colors.grey.shade50,
+        color: AppColors.divider,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.image_outlined, color: Colors.grey.shade300, size: 22),
+            Icon(Icons.image_outlined, color: AppColors.textHint, size: 22),
             const SizedBox(width: 8),
             Text(
               'No image attached',
-              style: TextStyle(color: Colors.grey.shade300, fontSize: 12),
+              style: TextStyle(color: AppColors.textHint, fontSize: 12),
             ),
           ],
         ),
@@ -129,7 +130,7 @@ class RepairTenantCard extends StatelessWidget {
       style: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w700,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
         letterSpacing: -0.2,
       ),
     );
@@ -140,7 +141,7 @@ class RepairTenantCard extends StatelessWidget {
       data.description,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: 13, color: Colors.grey.shade500, height: 1.5),
+      style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5),
     );
   }
 
@@ -154,14 +155,14 @@ class RepairTenantCard extends StatelessWidget {
             Icon(
               Icons.category_outlined,
               size: 16,
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
             ),
             const SizedBox(width: 5),
             Text(
               data.categoryText,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey.shade500,
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -174,14 +175,14 @@ class RepairTenantCard extends StatelessWidget {
             Icon(
               Icons.access_time_outlined,
               size: 16,
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
             ),
             const SizedBox(width: 5),
             Text(
               data.reportedTime,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey.shade500,
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -194,14 +195,14 @@ class RepairTenantCard extends StatelessWidget {
             Icon(
               Icons.calendar_today_outlined,
               size: 16,
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
             ),
             const SizedBox(width: 5),
             Text(
               data.reportedDate,
               style: TextStyle(
                 fontSize: 12,
-                color: Colors.grey.shade500,
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -221,7 +222,7 @@ class RepairTenantCard extends StatelessWidget {
             'View details',
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF367BF3),
+              color: AppColors.tenantPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -229,7 +230,7 @@ class RepairTenantCard extends StatelessWidget {
           const Icon(
             Icons.arrow_forward_ios,
             size: 14,
-            color: Color(0xFF367BF3),
+            color: AppColors.tenantPrimary,
           ),
         ],
       ),

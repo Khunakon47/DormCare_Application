@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class TimelineTile extends StatelessWidget {
   final String label;
@@ -27,7 +28,7 @@ class TimelineTile extends StatelessWidget {
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: isDone ? color : Colors.white,
+                color: isDone ? color : AppColors.surface,
                 shape: BoxShape.circle,
                 border: Border.all(color: color, width: 2),
                 boxShadow: isDone
@@ -41,7 +42,7 @@ class TimelineTile extends StatelessWidget {
                     : [],
               ),
               child: isDone
-                  ? const Icon(Icons.check, size: 14, color: Colors.white)
+                  ? const Icon(Icons.check, size: 14, color: AppColors.surface)
                   : null,
             ),
             if (!isLast)
@@ -70,14 +71,14 @@ class TimelineTile extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
                   color: isDone
-                      ? const Color(0xFF0D1B2A)
-                      : Colors.grey.shade400,
+                      ? AppColors.textPrimary
+                      : AppColors.textHint,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+                style: TextStyle(fontSize: 12, color: AppColors.textHint),
               ),
               const SizedBox(height: 10),
             ],

@@ -1,6 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
-import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 
 class BillRoomCard extends StatelessWidget {
@@ -19,9 +20,9 @@ class BillRoomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final isPaid = bill.isPaid;
     final statusColor = isPaid
-        ? const Color(0xFF66BB6A)
-        : const Color(0xFFFFA726);
-    final statusBg = isPaid ? const Color(0xFFE8F5E9) : const Color(0xFFFFF8E1);
+        ? AppColors.success
+        : AppColors.warning;
+    final statusBg = isPaid ? AppColors.successSoft : AppColors.warningSoft;
     final statusLabel = isPaid ? 'Paid' : 'Unpaid';
     final statusIcon = isPaid
         ? Icons.check_circle_outline
@@ -29,16 +30,16 @@ class BillRoomCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isPaid
-              ? const Color(0xFF66BB6A).withValues(alpha: 0.25)
-              : Colors.grey.shade100,
+              ? AppColors.success.withValues(alpha: 0.25)
+              : AppColors.border,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.textPrimary.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -57,7 +58,7 @@ class BillRoomCard extends StatelessWidget {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                    color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(9),
                   ),
                   child: Row(
@@ -66,13 +67,13 @@ class BillRoomCard extends StatelessWidget {
                       const Icon(
                         Icons.meeting_room_outlined,
                         size: 12,
-                        color: Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         bill.roomNumber,
                         style: const TextStyle(
-                          color: Color(0xFFA34CF3),
+                          color: AppColors.ownerPrimary,
                           fontSize: 13,
                           fontWeight: FontWeight.w800,
                         ),
@@ -90,7 +91,7 @@ class BillRoomCard extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF0D1B2A),
+                          color: AppColors.textPrimary,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -99,7 +100,7 @@ class BillRoomCard extends StatelessWidget {
                           room!.roomType,
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey.shade400,
+                            color: AppColors.textHint,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -135,7 +136,7 @@ class BillRoomCard extends StatelessWidget {
             ),
           ),
 
-          Divider(height: 1, thickness: 0.5, color: Colors.grey.shade100),
+          Divider(height: 1, thickness: 0.5, color: AppColors.border),
 
           // Breakdown chips
           Padding(
@@ -145,8 +146,8 @@ class BillRoomCard extends StatelessWidget {
                 Expanded(
                   child: _buildChip(
                     Icons.home_outlined,
-                    const Color(0xFF367BF3),
-                    const Color(0xFFEFF6FF),
+                    AppColors.billRent,
+                    AppColors.billRentSoft,
                     'Rent',
                     bill.rent.toInt(),
                   ),
@@ -155,8 +156,8 @@ class BillRoomCard extends StatelessWidget {
                 Expanded(
                   child: _buildChip(
                     Icons.water_drop_outlined,
-                    const Color(0xFF00BCD4),
-                    const Color(0xFFECFEFF),
+                    AppColors.billWater,
+                    AppColors.billWaterSoft,
                     'Water',
                     (bill.water * bill.waterUnit).toInt(),
                   ),
@@ -165,8 +166,8 @@ class BillRoomCard extends StatelessWidget {
                 Expanded(
                   child: _buildChip(
                     Icons.bolt_outlined,
-                    const Color(0xFFFFA726),
-                    const Color(0xFFFFFBEB),
+                    AppColors.warning,
+                    AppColors.billElecSoft,
                     'Elec.',
                     (bill.electric * bill.electricUnit).toInt(),
                   ),
@@ -176,8 +177,8 @@ class BillRoomCard extends StatelessWidget {
                   Expanded(
                     child: _buildChip(
                       Icons.add_circle_outline,
-                      Colors.grey.shade400,
-                      Colors.grey.shade50,
+                      AppColors.textHint,
+                      AppColors.divider,
                       'Other',
                       bill.other.toInt(),
                     ),
@@ -191,11 +192,11 @@ class BillRoomCard extends StatelessWidget {
           Container(
             padding: const EdgeInsets.fromLTRB(14, 10, 14, 12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF9FAFB),
+              color: AppColors.background,
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(16),
               ),
-              border: Border(top: BorderSide(color: Colors.grey.shade100)),
+              border: Border(top: BorderSide(color: AppColors.border)),
             ),
             child: Row(
               children: [
@@ -206,7 +207,7 @@ class BillRoomCard extends StatelessWidget {
                       'Total',
                       style: TextStyle(
                         fontSize: 10,
-                        color: Colors.grey.shade400,
+                        color: AppColors.textHint,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -218,7 +219,7 @@ class BillRoomCard extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 19,
                             fontWeight: FontWeight.w800,
-                            color: Color(0xFF0D1B2A),
+                            color: AppColors.textPrimary,
                             letterSpacing: -0.5,
                             height: 1,
                           ),
@@ -230,7 +231,7 @@ class BillRoomCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF9AA5B4),
+                              color: AppColors.textHint,
                             ),
                           ),
                         ),
@@ -247,10 +248,10 @@ class BillRoomCard extends StatelessWidget {
                       vertical: 9,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                      color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: const Color(0xFFA34CF3).withValues(alpha: 0.2),
+                        color: AppColors.ownerPrimary.withValues(alpha: 0.2),
                       ),
                     ),
                     child: Row(
@@ -259,7 +260,7 @@ class BillRoomCard extends StatelessWidget {
                         Icon(
                           Icons.payments_outlined,
                           size: 14,
-                          color: Color(0xFFA34CF3),
+                          color: AppColors.ownerPrimary,
                         ),
                         SizedBox(width: 5),
                         Text(
@@ -267,7 +268,7 @@ class BillRoomCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFFA34CF3),
+                            color: AppColors.ownerPrimary,
                           ),
                         ),
                       ],

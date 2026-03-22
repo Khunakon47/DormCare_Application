@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../model/tenant/alert_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class AlertTenantCard extends StatelessWidget {
   final AlertModel data;
@@ -12,11 +13,11 @@ class AlertTenantCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: data.isRead ? const Color(0xFFF5F5F5) : Colors.white,
+        color: data.isRead ? AppColors.divider : AppColors.surface,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: AppColors.textPrimary.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -66,7 +67,7 @@ class AlertTenantCard extends StatelessWidget {
                                 fontWeight: data.isRead
                                     ? FontWeight.w600
                                     : FontWeight.bold,
-                                color: Colors.black87,
+                                color: AppColors.textPrimary,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -76,7 +77,7 @@ class AlertTenantCard extends StatelessWidget {
                             data.displayDate,
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey.shade500,
+                              color: AppColors.textSecondary,
                             ),
                           ),
                         ],
@@ -113,7 +114,7 @@ class AlertTenantCard extends StatelessWidget {
                         data.description,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey.shade600,
+                          color: AppColors.textSecondary,
                           height: 1.4,
                         ),
                         maxLines: 2,
@@ -130,7 +131,7 @@ class AlertTenantCard extends StatelessWidget {
                     width: 10,
                     height: 10,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFF3D00),
+                      color: AppColors.error,
                       shape: BoxShape.circle,
                     ),
                   ),

@@ -1,5 +1,6 @@
-import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/owner/room_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RoomSelectCard extends StatelessWidget {
   final RoomModel room;
@@ -22,15 +23,15 @@ class RoomSelectCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.surface,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
-              color: isPosted ? Colors.grey.shade200 : Colors.grey.shade100,
+              color: isPosted ? AppColors.border : AppColors.border,
             ),
             boxShadow: [
               if (!isPosted)
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.04),
+                  color: AppColors.textPrimary.withValues(alpha: 0.04),
                   blurRadius: 10,
                   offset: const Offset(0, 3),
                 ),
@@ -50,7 +51,7 @@ class RoomSelectCard extends StatelessWidget {
                 child: const Icon(
                   Icons.meeting_room_outlined,
                   size: 20,
-                  color: Color(0xFFA34CF3),
+                  color: AppColors.ownerPrimary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -63,7 +64,7 @@ class RoomSelectCard extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF0D1B2A),
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 3),
@@ -72,28 +73,28 @@ class RoomSelectCard extends StatelessWidget {
                         Icon(
                           Icons.person_outline,
                           size: 12,
-                          color: Colors.grey.shade400,
+                          color: AppColors.textHint,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           room.tenantName ?? '-',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey.shade500,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                         const SizedBox(width: 10),
                         Icon(
                           Icons.layers_outlined,
                           size: 12,
-                          color: Colors.grey.shade400,
+                          color: AppColors.textHint,
                         ),
                         const SizedBox(width: 4),
                         Text(
                           'Floor ${room.roomFloor}',
                           style: TextStyle(
                             fontSize: 12,
-                            color: Colors.grey.shade500,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -108,7 +109,7 @@ class RoomSelectCard extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.grey.shade100,
+                    color: AppColors.border,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -117,7 +118,7 @@ class RoomSelectCard extends StatelessWidget {
                       const Icon(
                         Icons.check,
                         size: 12,
-                        color: Color(0xFF66BB6A),
+                        color: AppColors.success,
                       ),
                       const SizedBox(width: 4),
                       Text(
@@ -125,7 +126,7 @@ class RoomSelectCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Colors.grey.shade500,
+                          color: AppColors.textSecondary,
                         ),
                       ),
                     ],
@@ -138,7 +139,7 @@ class RoomSelectCard extends StatelessWidget {
                     vertical: 5,
                   ),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                    color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Row(
@@ -149,14 +150,14 @@ class RoomSelectCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: Color(0xFFA34CF3),
+                          color: AppColors.ownerPrimary,
                         ),
                       ),
                       SizedBox(width: 2),
                       Icon(
                         Icons.arrow_forward_ios,
                         size: 10,
-                        color: Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                       ),
                     ],
                   ),
