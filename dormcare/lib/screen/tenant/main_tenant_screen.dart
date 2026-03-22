@@ -28,7 +28,20 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
     final List<PageDataModel> pages = [
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
       const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
-      const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
+      PageDataModel(
+        title: "Repairs",
+        screen: RepairTenantScreen(),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('No new repair notifications')),
+              );
+            },
+          ),
+        ],
+      ),
       const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
@@ -72,44 +85,47 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
             onTap: _onItemTapped,
             type: BottomNavigationBarType.fixed,
 
-            backgroundColor: Colors.white,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+
             selectedItemColor: const Color(0xFF367BF3),
+            unselectedItemColor: Colors.grey,
+
             selectedFontSize: 13,
+            unselectedFontSize: 12,
+
             selectedIconTheme: const IconThemeData(size: 26),
+            unselectedIconTheme: const IconThemeData(size: 24),
 
             showUnselectedLabels: true,
-            unselectedItemColor: Colors.grey,
-            unselectedFontSize: 12,
-            unselectedIconTheme: const IconThemeData(size: 25),
 
             items: [
               // Home
               _buildBottomNavBarItem(
-                lebel: 'Home',
+                label: 'Home',
                 icon: const Icon(Icons.home_outlined),
                 activeIcon: const Icon(Icons.home),
               ),
               // Expenses
               _buildBottomNavBarItem(
-                lebel: 'Expenses',
+                label: 'Expenses',
                 icon: const Icon(Icons.receipt_long_outlined),
                 activeIcon: const Icon(Icons.receipt_long),
               ),
               // Repairs
               _buildBottomNavBarItem(
-                lebel: 'Repairs',
+                label: 'Repairs',
                 icon: const Icon(Icons.build_outlined),
                 activeIcon: const Icon(Icons.build),
               ),
               // Alerts
               _buildBottomNavBarItem(
-                lebel: 'Alerts',
+                label: 'Alerts',
                 icon: const Icon(Icons.notifications_outlined),
                 activeIcon: const Icon(Icons.notifications),
               ),
               // Profile
               _buildBottomNavBarItem(
-                lebel: 'Profile',
+                label: 'Profile',
                 icon: const Icon(Icons.person_outline),
                 activeIcon: const Icon(Icons.person),
               ),
@@ -122,14 +138,14 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
   // Private method to build BottomNavigationBarItem
   BottomNavigationBarItem _buildBottomNavBarItem({
-    required String lebel,
+    required String label,
     required Icon icon,
     required Icon activeIcon,
   }) {
     return BottomNavigationBarItem(
       icon: Padding(padding: EdgeInsets.only(top: 8), child: icon),
       activeIcon: Padding(padding: EdgeInsets.only(top: 8), child: activeIcon),
-      label: lebel,
+      label: label,
     );
   }
 }

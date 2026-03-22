@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../model/tenant/alert_model.dart';
+import '../model/tenant/alert_model.dart';
 
 class AlertCard extends StatelessWidget {
   final AlertModel data;
@@ -74,7 +74,7 @@ class AlertCard extends StatelessWidget {
                           ),
                           // วันที่
                           Text(
-                            data.date,
+                            data.displayDate,
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey.shade500,
