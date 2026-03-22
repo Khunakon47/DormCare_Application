@@ -15,7 +15,6 @@ class RepairTenantScreen extends StatefulWidget {
 class _RepairTenantScreenState extends State<RepairTenantScreen> {
   int _selectedStatusIndex = 0;
 
-  // Sample data for repairs list
   final List<RepairModel> _allRepairs = [
     RepairModel(
       id: '1',
@@ -67,7 +66,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     ),
   ];
 
-  // Filter repairs based on selected status tab
   List<RepairModel> get _filteredRepairs {
     if (_selectedStatusIndex == 0) return _allRepairs;
     final statuses = [
@@ -195,6 +193,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
+          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -202,7 +201,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
@@ -217,27 +218,41 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             ),
           ),
           const SizedBox(width: 8),
+          // Filter button
           Container(
             height: 42,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            width: 42,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
             ),
-            child: Row(
-              children: [
-                Icon(Icons.sort, size: 18, color: AppColors.tenantPrimary),
-                const SizedBox(width: 6),
-                Text(
-                  'Sort',
-                  style: TextStyle(
-                    color: AppColors.tenantPrimary,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            child: const Center(
+              child: Icon(
+                Icons.filter_alt_outlined,
+                size: 20,
+                color: AppColors.tenantPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          // Sort button
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
+            ),
+            child: const Icon(
+              Icons.sort,
+              size: 20,
+              color: AppColors.tenantPrimary,
             ),
           ),
         ],

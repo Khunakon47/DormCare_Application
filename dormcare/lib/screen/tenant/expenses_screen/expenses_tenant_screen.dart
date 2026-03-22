@@ -737,9 +737,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
       child: Column(
         children: [
-          // Search + filter + sort
           Row(
             children: [
+              // Search bar
               Expanded(
                 child: Container(
                   height: 42,
@@ -747,14 +747,16 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade200),
+                    border: Border.all(
+                      color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     children: [
                       Icon(Icons.search, size: 18, color: Colors.grey.shade400),
                       const SizedBox(width: 8),
                       Text(
-                        'Search bills...',
+                        'Search repairs...',
                         style: TextStyle(
                           color: Colors.grey.shade400,
                           fontSize: 13,
@@ -765,28 +767,36 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
               ),
               const SizedBox(width: 8),
+              // Filter button
               Container(
                 height: 42,
                 width: 42,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(
+                    color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                  ),
                 ),
-                child: const Icon(
-                  Icons.filter_alt_outlined,
-                  size: 20,
-                  color: AppColors.tenantPrimary,
+                child: const Center(
+                  child: Icon(
+                    Icons.filter_alt_outlined,
+                    size: 20,
+                    color: AppColors.tenantPrimary,
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
+              // Sort button
               Container(
                 height: 42,
                 width: 42,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.grey.shade200),
+                  border: Border.all(
+                    color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: const Icon(
                   Icons.sort,

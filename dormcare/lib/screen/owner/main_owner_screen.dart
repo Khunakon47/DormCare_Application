@@ -29,10 +29,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
   @override
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
-      const PageDataModel(title: "Dashboard", screen: HomeOwnerScreen()),
-      const PageDataModel(title: "Rooms", screen: RoomOwnerScreen()),
-      const PageDataModel(title: "Bills", screen: BillsOwnerScreen()),
-      const PageDataModel(title: "Repairs", screen: RepairsOwnerScreen()),
+      const PageDataModel(title: "Home", screen: HomeOwnerScreen()),
+      const PageDataModel(title: "Rooms Management", screen: RoomOwnerScreen()),
+      const PageDataModel(title: "Bills Management", screen: BillsOwnerScreen()),
+      const PageDataModel(title: "Repairs Management", screen: RepairsOwnerScreen()),
       const PageDataModel(title: "Profile", screen: ProfileOwnerScreen()),
     ];
 
@@ -40,10 +40,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.ownerPrimary,
+        // backgroundColor: AppColors.ownerPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.surface),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.ownerPrimary),
         ),
         centerTitle: false,
         actions: [
@@ -63,9 +63,9 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                   );
                 },
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  // padding: const EdgeInsets.all(6),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
                       color: Colors.white.withValues(alpha: 0.3),
@@ -77,17 +77,17 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                       // notification icon
                       const Icon(
                         Icons.notifications_outlined,
-                        size: 24,
-                        color: Colors.white,
+                        size: 26,
+                        color: AppColors.ownerPrimary,
                       ),
 
                       // badge(Ui only)
                       Positioned(
-                        right: -1,
-                        top: -1,
+                        right: 1,
+                        top: 1,
                         child: Container(
-                          width: 10,
-                          height: 10,
+                          width: 8,
+                          height: 8,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             color: Colors.red,

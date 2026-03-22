@@ -148,69 +148,65 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
           // Search bar
           Expanded(
             child: Container(
-              height: AppConstants.buttonHeightSm,
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppConstants.paddingMd,
-              ),
+              height: 42,
+              padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-                border: Border.all(color: AppColors.border),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.search,
-                    size: AppConstants.iconMd,
-                    color: AppColors.textHint,
-                  ),
-                  const SizedBox(width: AppConstants.paddingSm),
+                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                  const SizedBox(width: 8),
                   Text(
-                    'Search alerts...',
-                    style: TextStyle(
-                      color: AppColors.textHint,
-                      fontSize: AppConstants.fontMd,
-                    ),
+                    'Search repairs...',
+                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(width: AppConstants.paddingSm),
-
+          const SizedBox(width: 8),
           // Filter button
-          _buildIconButton(
-            child: const Icon(
-              Icons.filter_alt_outlined,
-              size: AppConstants.iconMd,
-              color: AppColors.tenantPrimary,
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.filter_alt_outlined,
+                size: 20,
+                color: AppColors.tenantPrimary,
+              ),
             ),
           ),
-          const SizedBox(width: AppConstants.paddingSm),
-
+          const SizedBox(width: 8),
           // Sort button
-          _buildIconButton(
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.tenantPrimary.withValues(alpha: 0.3)),
+            ),
             child: const Icon(
-              Icons.swap_vert,
-              size: AppConstants.iconMd,
+              Icons.sort,
+              size: 20,
               color: AppColors.tenantPrimary,
             ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildIconButton({required Widget child}) {
-    return Container(
-      height: AppConstants.buttonHeightSm,
-      width: AppConstants.buttonHeightSm,
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(AppConstants.radiusMd),
-        border: Border.all(color: AppColors.border),
-      ),
-      child: Center(child: child),
     );
   }
 

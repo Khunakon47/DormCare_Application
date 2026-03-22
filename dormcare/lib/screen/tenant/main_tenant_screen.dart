@@ -29,9 +29,9 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
-      const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
-      const PageDataModel(title: "Repairs", screen: RepairTenantScreen()),
-      const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
+      const PageDataModel(title: "Monthly Bills", screen: ExpensesTenantScreen()),
+      const PageDataModel(title: "Repairs Report", screen: RepairTenantScreen()),
+      const PageDataModel(title: "Notifications", screen: AlertTenantScreen()),
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
 
@@ -39,10 +39,10 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: AppColors.tenantPrimary,
+        // backgroundColor: AppColors.tenantPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.surface),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.tenantPrimary),          
         ),
         centerTitle: false,
         bottom: PreferredSize(
