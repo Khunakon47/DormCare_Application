@@ -981,7 +981,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               children: [
                 const Text(
                   'Total paid',
-                  style: TextStyle(fontSize: 12, color: Colors.white70),
+                  style: TextStyle(fontSize: 12, color: AppColors.surface, fontWeight: FontWeight.w600),
                 ),
                 const Spacer(),
                 Text(
