@@ -280,7 +280,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Text(
                     tab.label,
                     style: TextStyle(
-                      fontSize: AppConstants.fontBase,
+                      fontSize: 12,
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,
@@ -306,7 +306,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             '${_displayedAlerts.length} notifications',
             style: const TextStyle(
               color: AppColors.textHint,
-              fontSize: AppConstants.fontBase,
+              fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -325,7 +325,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Text(
                     'Mark all as read',
                     style: TextStyle(
-                      fontSize: AppConstants.fontBase,
+                      fontSize: 12,
                       color: AppColors.tenantPrimary,
                       fontWeight: FontWeight.w600,
                     ),
@@ -344,8 +344,8 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: AppConstants.iconContainerAvatar,
-            height: AppConstants.iconContainerAvatar,
+            width: 72,
+            height: 72,
             decoration: BoxDecoration(
               color: AppColors.divider,
               shape: BoxShape.circle,

@@ -20,9 +20,9 @@ class HomeTenantScreen extends StatelessWidget {
             _buildBillCard(),
             const SizedBox(height: 14),
             _buildStatRow(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 14),
             _buildSectionLabel('Recent Repairs'),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             _buildRecentRepairs(),
           ],
         ),
@@ -58,8 +58,8 @@ class HomeTenantScreen extends StatelessWidget {
                 Text(
                   'Good morning 👋',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
-                    fontSize: 13,
+                    color: AppColors.surface.withValues(alpha: 0.8),
+                    fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
