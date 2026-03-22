@@ -25,11 +25,9 @@ class AlertOwnerModel {
     this.isRead = false,
   });
 
-  // Format helpers
   String get displayDate => AppFormat.smart(createdAt);
   String get fullDateTime => AppFormat.dateTime(createdAt);
 
-  // Category helpers
   String get categoryText {
     switch (category) {
       case AlertOwnerCategory.repairRequest:

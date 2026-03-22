@@ -31,7 +31,6 @@ class ExpenseModel {
     this.electricityRate = AppConstants.defaultElectricRate,
   });
 
-  // Computed amounts
   int get waterBill => waterUnits * waterRate;
   int get electricityBill => electricityUnits * electricityRate;
   int get totalAmount => roomRent + waterBill + electricityBill;

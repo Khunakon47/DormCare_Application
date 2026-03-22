@@ -21,11 +21,9 @@ class AlertTenantModel {
     this.isRead = false,
   });
 
-  // Format helpers
   String get displayDate => AppFormat.smart(createdAt);
   String get fullDateTime => AppFormat.dateTime(createdAt);
 
-  // Category helpers
   IconData get categoryIcon {
     switch (category) {
       case AlertCategory.parcel:
