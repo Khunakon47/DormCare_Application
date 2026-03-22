@@ -1,5 +1,6 @@
-import 'package:dormcare/model/owner/alert_owner_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/owner/alert_owner_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class AlertDetailOwnerScreen extends StatelessWidget {
   final AlertOwnerModel data;
@@ -9,7 +10,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Notification',
@@ -73,7 +74,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
       style: const TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w800,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
         letterSpacing: -0.5,
         height: 1.3,
       ),
@@ -118,7 +119,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
                 const Icon(
                   Icons.meeting_room_outlined,
                   size: 16,
-                  color: Color(0xFFA34CF3),
+                  color: AppColors.ownerPrimary,
                 ),
                 const SizedBox(width: 8),
                 Column(
@@ -129,7 +130,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
                       style: const TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                       ),
                     ),
                     if (data.tenantName != null)

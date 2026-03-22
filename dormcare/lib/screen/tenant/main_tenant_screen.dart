@@ -7,6 +7,8 @@ import 'repair_screen/repair_tenant_screen.dart';
 import 'alter_screen/alter_tenant_screen.dart';
 import 'profile_screen/profile_tenant_screen.dart';
 
+import 'package:dormcare/theme/app_theme.dart';
+
 class MainTenantScreen extends StatefulWidget {
   const MainTenantScreen({super.key});
 
@@ -37,11 +39,10 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: const Color(0xFF367BF3),
-        foregroundColor: Color(0xFFFFFFFF),
+        backgroundColor: AppColors.tenantPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.surface),
         ),
         centerTitle: false,
         bottom: PreferredSize(

@@ -8,6 +8,8 @@ import 'repairs_screen/repairs_owner_screen.dart';
 import 'profile_screen/profile_owner_screen.dart';
 import 'alter_screen/alter_owner_screen.dart';
 
+import 'package:dormcare/theme/app_theme.dart';
+
 class MainOwnerScreen extends StatefulWidget {
   const MainOwnerScreen({super.key});
 
@@ -38,11 +40,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xFFA34CF3),
-        foregroundColor: Color(0xFFFFFFFF),
+        backgroundColor: AppColors.ownerPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.surface),
         ),
         centerTitle: false,
         actions: [

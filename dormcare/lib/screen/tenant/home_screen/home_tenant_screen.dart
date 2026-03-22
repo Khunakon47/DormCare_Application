@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/model/repair_model.dart';
-import 'package:dormcare/component/stat_card.dart';
+import 'package:dormcare/component/stat_tenant_card.dart';
 
 class HomeTenantScreen extends StatelessWidget {
   const HomeTenantScreen({super.key});
@@ -151,9 +151,7 @@ class HomeTenantScreen extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: AppColors.error.withValues(alpha: 0.3),
-        ),
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.04),
@@ -227,19 +225,19 @@ class HomeTenantScreen extends StatelessWidget {
 
   Widget _buildStatRow() {
     final stats = [
-      StatCard(
+      StatTenantCard(
         icon: Icons.build_outlined,
         label: 'Pending\nRepairs',
         value: '2',
         color: AppColors.warning,
       ),
-      StatCard(
+      StatTenantCard(
         icon: Icons.check_circle_outline,
         label: 'Completed\nRepairs',
         value: '5',
         color: AppColors.success,
       ),
-      StatCard(
+      StatTenantCard(
         icon: Icons.notifications_outlined,
         label: 'Unread\nAlerts',
         value: '2',
@@ -254,7 +252,7 @@ class HomeTenantScreen extends StatelessWidget {
           child: Row(
             children: [
               Expanded(
-                child: StatCard(
+                child: StatTenantCard(
                   icon: e.value.icon,
                   label: e.value.label,
                   value: e.value.value,

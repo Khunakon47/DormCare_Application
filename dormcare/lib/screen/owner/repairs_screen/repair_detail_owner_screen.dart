@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/owner/repair_owner_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RepairDetailOwnerScreen extends StatefulWidget {
   final RepairOwnerModel data;
@@ -20,7 +21,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Repair Detail',
@@ -127,7 +128,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                  color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Row(
@@ -136,13 +137,13 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                     const Icon(
                       Icons.meeting_room_outlined,
                       size: 13,
-                      color: Color(0xFFA34CF3),
+                      color: AppColors.ownerPrimary,
                     ),
                     const SizedBox(width: 4),
                     Text(
                       'Room ${widget.data.roomNumber}',
                       style: const TextStyle(
-                        color: Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                       ),
@@ -156,7 +157,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                 style: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF0D1B2A),
+                  color: AppColors.textPrimary,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -255,7 +256,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 12,
-            color: Color(0xFF0D1B2A),
+            color: AppColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -272,7 +273,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
           style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF0D1B2A),
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: 12),
@@ -355,7 +356,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: isSelected ? color : const Color(0xFF0D1B2A),
+                          color: isSelected ? color : AppColors.textPrimary,
                         ),
                       ),
                       Text(
@@ -390,7 +391,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFA34CF3),
+          backgroundColor: AppColors.ownerPrimary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -413,7 +414,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                   Text('Status updated successfully'),
                 ],
               ),
-              backgroundColor: const Color(0xFF66BB6A),
+              backgroundColor: AppColors.success,
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -433,13 +434,13 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
   Color _statusColor(RepairOwnerStatus status) {
     switch (status) {
       case RepairOwnerStatus.pending:
-        return const Color(0xFFFFA726);
+        return AppColors.warning;
       case RepairOwnerStatus.inProgress:
-        return const Color(0xFF42A5F5);
+        return AppColors.info;
       case RepairOwnerStatus.completed:
-        return const Color(0xFF66BB6A);
+        return AppColors.success;
       case RepairOwnerStatus.cancelled:
-        return const Color(0xFFEF5350);
+        return AppColors.error;
     }
   }
 }

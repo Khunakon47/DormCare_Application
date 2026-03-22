@@ -1,5 +1,6 @@
-import 'package:dormcare/model/owner/alert_owner_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/owner/alert_owner_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class ComposeAlertOwnerScreen extends StatefulWidget {
   const ComposeAlertOwnerScreen({super.key});
@@ -31,7 +32,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Send Alert',
@@ -79,8 +80,6 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildCategoryPicker() {
     final categories = [
       (
@@ -105,7 +104,11 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
       runSpacing: 8,
       children: categories.map((item) {
         final isSelected = _selectedCategory == item.category;
-        final color = _categoryColor(item.category);
+        final color = switch (item.category) {
+          AlertOwnerCategory.repairRequest => AppColors.ownerPrimary,
+          AlertOwnerCategory.billReminder => AppColors.info,
+          AlertOwnerCategory.general => AppColors.success,
+        };
         return GestureDetector(
           onTap: () => setState(() => _selectedCategory = item.category),
           child: AnimatedContainer(
@@ -163,12 +166,12 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               color: _selectedTarget == 'all'
-                  ? const Color(0xFFA34CF3).withValues(alpha: 0.06)
+                  ? AppColors.ownerPrimary.withValues(alpha: 0.06)
                   : Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _selectedTarget == 'all'
-                    ? const Color(0xFFA34CF3)
+                    ? AppColors.ownerPrimary
                     : Colors.grey.shade200,
                 width: _selectedTarget == 'all' ? 1.5 : 1,
               ),
@@ -180,7 +183,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                   height: 36,
                   decoration: BoxDecoration(
                     color: _selectedTarget == 'all'
-                        ? const Color(0xFFA34CF3).withValues(alpha: 0.1)
+                        ? AppColors.ownerPrimary.withValues(alpha: 0.1)
                         : Colors.grey.shade50,
                     shape: BoxShape.circle,
                   ),
@@ -188,7 +191,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                     Icons.apartment_outlined,
                     size: 18,
                     color: _selectedTarget == 'all'
-                        ? const Color(0xFFA34CF3)
+                        ? AppColors.ownerPrimary
                         : Colors.grey.shade400,
                   ),
                 ),
@@ -203,8 +206,8 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: _selectedTarget == 'all'
-                              ? const Color(0xFFA34CF3)
-                              : const Color(0xFF0D1B2A),
+                              ? AppColors.ownerPrimary
+                              : AppColors.textPrimary,
                         ),
                       ),
                       Text(
@@ -221,7 +224,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                   const Icon(
                     Icons.check_circle,
                     size: 20,
-                    color: Color(0xFFA34CF3),
+                    color: AppColors.ownerPrimary,
                   )
                 else
                   Icon(
@@ -244,7 +247,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _selectedTarget != 'all'
-                  ? const Color(0xFFA34CF3)
+                  ? AppColors.ownerPrimary
                   : Colors.grey.shade200,
               width: _selectedTarget != 'all' ? 1.5 : 1,
             ),
@@ -259,7 +262,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                     height: 36,
                     decoration: BoxDecoration(
                       color: _selectedTarget != 'all'
-                          ? const Color(0xFFA34CF3).withValues(alpha: 0.1)
+                          ? AppColors.ownerPrimary.withValues(alpha: 0.1)
                           : Colors.grey.shade50,
                       shape: BoxShape.circle,
                     ),
@@ -267,7 +270,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                       Icons.meeting_room_outlined,
                       size: 18,
                       color: _selectedTarget != 'all'
-                          ? const Color(0xFFA34CF3)
+                          ? AppColors.ownerPrimary
                           : Colors.grey.shade400,
                     ),
                   ),
@@ -279,8 +282,8 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: _selectedTarget != 'all'
-                            ? const Color(0xFFA34CF3)
-                            : const Color(0xFF0D1B2A),
+                            ? AppColors.ownerPrimary
+                            : AppColors.textPrimary,
                       ),
                     ),
                   ),
@@ -302,12 +305,12 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? const Color(0xFFA34CF3)
+                            ? AppColors.ownerPrimary
                             : Colors.grey.shade50,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
                           color: isSelected
-                              ? const Color(0xFFA34CF3)
+                              ? AppColors.ownerPrimary
                               : Colors.grey.shade200,
                         ),
                       ),
@@ -338,7 +341,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFA34CF3),
+          backgroundColor: AppColors.ownerPrimary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -362,7 +365,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 14,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -375,7 +378,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      style: const TextStyle(fontSize: 14, color: Color(0xFF0D1B2A)),
+      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
@@ -391,20 +394,9 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFA34CF3), width: 1.5),
+          borderSide: const BorderSide(color: AppColors.ownerPrimary, width: 1.5),
         ),
       ),
     );
-  }
-
-  Color _categoryColor(AlertOwnerCategory category) {
-    switch (category) {
-      case AlertOwnerCategory.repairRequest:
-        return const Color(0xFFA34CF3);
-      case AlertOwnerCategory.billReminder:
-        return const Color(0xFF42A5F5);
-      case AlertOwnerCategory.general:
-        return const Color(0xFF66BB6A);
-    }
   }
 }

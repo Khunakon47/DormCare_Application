@@ -1,6 +1,8 @@
-import 'package:dormcare/model/owner/room_model.dart';
-import 'room_detail_owner_screen.dart';
 import 'package:flutter/material.dart';
+import 'room_detail_owner_screen.dart';
+import 'package:dormcare/model/owner/room_model.dart';
+import 'package:dormcare/component/room_card.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RoomOwnerScreen extends StatefulWidget {
   const RoomOwnerScreen({super.key});
@@ -74,12 +76,10 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
   int get _occupiedCount => _allRooms.where((r) => r.isOccupied).length;
   int get _vacantCount => _allRooms.where((r) => !r.isOccupied).length;
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           ScaffoldMessenger.of(context).clearSnackBars();
@@ -91,7 +91,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             ),
           );
         },
-        backgroundColor: const Color(0xFFA34CF3),
+        backgroundColor: AppColors.ownerPrimary,
         shape: const CircleBorder(),
         child: const Icon(Icons.add, color: Colors.white),
       ),
@@ -113,7 +113,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
                       itemCount: _filteredRooms.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) => _RoomCard(
+                      itemBuilder: (context, index) => RoomCard(
                         room: _filteredRooms[index],
                         onTap: () => Navigator.push(
                           context,
@@ -130,8 +130,6 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
       ),
     );
   }
-
-  // ─── Private Helpers ─────────────────────────────────────────────────────
 
   Widget _buildSummaryRow() {
     final total = _allRooms.length;
@@ -208,14 +206,14 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildLegendRow(
-                    color: const Color(0xFFA34CF3),
+                    color: AppColors.ownerPrimary,
                     label: 'Occupied',
                     count: occupied,
                     total: total,
                   ),
                   const SizedBox(height: 10),
                   _buildLegendRow(
-                    color: const Color(0xFF66BB6A),
+                    color: AppColors.success,
                     label: 'Vacant',
                     count: vacant,
                     total: total,
@@ -283,7 +281,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
+                border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
@@ -304,12 +302,12 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
             ),
             child: const Icon(
               Icons.filter_alt_outlined,
               size: 20,
-              color: Color(0xFFA34CF3),
+              color: AppColors.ownerPrimary,
             ),
           ),
           const SizedBox(width: 8),
@@ -319,9 +317,9 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
             ),
-            child: const Icon(Icons.sort, size: 20, color: Color(0xFFA34CF3)),
+            child: const Icon(Icons.sort, size: 20, color: AppColors.ownerPrimary),
           ),
         ],
       ),
@@ -393,301 +391,6 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
   }
 }
 
-// ─── Room Card ────────────────────────────────────────────────────────────────
-
-class _RoomCard extends StatelessWidget {
-  final RoomModel room;
-  final VoidCallback onTap;
-
-  const _RoomCard({required this.room, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final isOccupied = room.isOccupied;
-    final statusColor = isOccupied
-        ? const Color(0xFFA34CF3)
-        : const Color(0xFF66BB6A);
-    final statusBg = isOccupied
-        ? const Color(0xFFF3E8FF)
-        : const Color(0xFFE8F5E9);
-    final statusLabel = isOccupied ? 'Occupied' : 'Vacant';
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade100),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
-              blurRadius: 16,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Image
-            _buildImage(),
-
-            Padding(
-              padding: const EdgeInsets.all(14),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Top row
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      // Room number badge
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(
-                            0xFFA34CF3,
-                          ).withValues(alpha: 0.08),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.meeting_room_outlined,
-                              size: 12,
-                              color: Color(0xFFA34CF3),
-                            ),
-                            const SizedBox(width: 4),
-                            Text(
-                              'Room ${room.roomNumber}',
-                              style: const TextStyle(
-                                color: Color(0xFFA34CF3),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      // Room type
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 9,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text(
-                          room.roomType,
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      const Spacer(),
-                      // Status
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 9,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: statusBg,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              decoration: BoxDecoration(
-                                color: statusColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              statusLabel,
-                              style: TextStyle(
-                                color: statusColor,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 10),
-
-                  // Price
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.attach_money,
-                        size: 14,
-                        color: Colors.grey.shade400,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        '${room.price.toStringAsFixed(0)} THB / month',
-                        style: const TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF0D1B2A),
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  // Tenant info
-                  if (isOccupied && room.tenantName != null) ...[
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.person_outline,
-                          size: 13,
-                          color: Colors.grey.shade400,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          room.tenantName!,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade600,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        if (room.tenantPhone != null) ...[
-                          const SizedBox(width: 12),
-                          Icon(
-                            Icons.phone_outlined,
-                            size: 13,
-                            color: Colors.grey.shade400,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            room.tenantPhone!,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey.shade500,
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ],
-
-                  if (!isOccupied) ...[
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.person_off_outlined,
-                          size: 13,
-                          color: Colors.grey.shade300,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          'No tenant',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-
-                  const SizedBox(height: 12),
-                  Divider(color: Colors.grey.shade100, height: 1),
-                  const SizedBox(height: 10),
-
-                  // Footer
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'View details',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Color(0xFFA34CF3),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 2),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          size: 10,
-                          color: Color(0xFFA34CF3),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildImage() {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-      child: room.imageUrl.isNotEmpty
-          ? AspectRatio(
-              aspectRatio: 16 / 7,
-              child: Image.network(
-                room.imageUrl,
-                fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
-              ),
-            )
-          : _buildImagePlaceholder(),
-    );
-  }
-
-  Widget _buildImagePlaceholder() {
-    return AspectRatio(
-      aspectRatio: 16 / 7,
-      child: Container(
-        color: Colors.grey.shade50,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.image_outlined, color: Colors.grey.shade300, size: 22),
-            const SizedBox(width: 8),
-            Text(
-              'No image',
-              style: TextStyle(color: Colors.grey.shade300, fontSize: 12),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Donut Painter ────────────────────────────────────────────────────────────
-
 class _DonutPainter extends CustomPainter {
   final int total;
   final double occupiedArc;
@@ -740,8 +443,8 @@ class _DonutPainter extends CustomPainter {
       );
     }
 
-    drawArc(const Color(0xFFA34CF3), occupiedArc, occupiedOffset);
-    drawArc(const Color(0xFF66BB6A), vacantArc, vacantOffset);
+    drawArc(AppColors.ownerPrimary, occupiedArc, occupiedOffset);
+    drawArc(AppColors.success, vacantArc, vacantOffset);
   }
 
   @override

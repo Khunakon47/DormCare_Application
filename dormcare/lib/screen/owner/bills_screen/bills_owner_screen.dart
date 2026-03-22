@@ -1,9 +1,10 @@
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'monthly_payment_owner_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'post_bill_room_select_screen.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class BillsOwnerScreen extends StatefulWidget {
   const BillsOwnerScreen({super.key});
@@ -129,7 +130,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
   ];
 
   // Fixed year options — add more as needed
-  static const List<int> _yearOptions = [2026, 2025, 2024, 2023];
+  static const List<int> _yearOptions = [2026, 2025, 2024, 2023, 2022];
 
   Map<String, List<MonthlyBillingModel>> get _grouped {
     final filtered = _selectedYear == null
@@ -177,15 +178,13 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     );
   }
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showMonthPicker,
-        backgroundColor: const Color(0xFFA34CF3),
+        backgroundColor: AppColors.ownerPrimary,
         elevation: 2,
         icon: const Icon(Icons.add, color: Colors.white, size: 18),
         label: const Text(
@@ -225,8 +224,6 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildYearTabs() {
     // null = All, followed by fixed year options
     final options = <int?>[null, ..._yearOptions];
@@ -248,17 +245,17 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
               duration: const Duration(milliseconds: 180),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
               decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFA34CF3) : Colors.white,
+                color: isSelected ? AppColors.ownerPrimary : Colors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: isSelected
-                      ? const Color(0xFFA34CF3)
+                      ? AppColors.ownerPrimary
                       : Colors.grey.shade200,
                 ),
                 boxShadow: isSelected
                     ? [
                         BoxShadow(
-                          color: const Color(0xFFA34CF3).withValues(alpha: 0.3),
+                          color: AppColors.ownerPrimary.withValues(alpha: 0.3),
                           blurRadius: 8,
                           offset: const Offset(0, 2),
                         ),
@@ -347,8 +344,6 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
   }
 }
 
-// ─── Month Bill Card ──────────────────────────────────────────────────────────
-
 class _MonthBillCard extends StatelessWidget {
   final List<MonthlyBillingModel> bills;
   final List<RoomModel> roomList;
@@ -391,7 +386,7 @@ class _MonthBillCard extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFFA34CF3), Color(0xFF7B2FD4)],
+                  colors: [AppColors.ownerPrimary, AppColors.ownerDark],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -471,8 +466,8 @@ class _MonthBillCard extends StatelessWidget {
                     children: [
                       Expanded(
                         child: _buildAmountTile(
-                          color: const Color(0xFF43A047),
-                          bgColor: const Color(0xFFE8F5E9),
+                          color: AppColors.successDark,
+                          bgColor: AppColors.successSoft,
                           amount: collected,
                           label: 'THB collected',
                         ),
@@ -481,7 +476,7 @@ class _MonthBillCard extends StatelessWidget {
                       Expanded(
                         child: _buildAmountTile(
                           color: const Color(0xFFF59800),
-                          bgColor: const Color(0xFFFFF8E1),
+                          bgColor: AppColors.warningSoft,
                           amount: pending,
                           label: 'THB pending',
                         ),
@@ -496,8 +491,8 @@ class _MonthBillCard extends StatelessWidget {
                     children: [
                       _buildStatPill(
                         icon: Icons.check_circle_outline,
-                        color: const Color(0xFF43A047),
-                        bgColor: const Color(0xFFE8F5E9),
+                        color: AppColors.successDark,
+                        bgColor: AppColors.successSoft,
                         value: '$paid',
                         label: 'Paid rooms',
                       ),
@@ -505,14 +500,14 @@ class _MonthBillCard extends StatelessWidget {
                       _buildStatPill(
                         icon: Icons.pending_outlined,
                         color: const Color(0xFFF59800),
-                        bgColor: const Color(0xFFFFF8E1),
+                        bgColor: AppColors.warningSoft,
                         value: '$unpaid',
                         label: 'Unpaid rooms',
                       ),
                       const SizedBox(width: 8),
                       _buildStatPill(
                         icon: Icons.receipt_outlined,
-                        color: const Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                         bgColor: const Color(0xFFF3E8FF),
                         value: '$total',
                         label: 'Bills issued',
@@ -539,14 +534,14 @@ class _MonthBillCard extends StatelessWidget {
                       icon: const Icon(
                         Icons.payments_outlined,
                         size: 16,
-                        color: Color(0xFFA34CF3),
+                        color: AppColors.ownerPrimary,
                       ),
                       label: const Text(
                         'Manage Payments',
                         style: TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFFA34CF3),
+                          color: AppColors.ownerPrimary,
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
@@ -654,8 +649,6 @@ class _MonthBillCard extends StatelessWidget {
   }
 }
 
-// ─── Month Picker Sheet ───────────────────────────────────────────────────────
-
 class _MonthPickerSheet extends StatefulWidget {
   final void Function(int year, int month) onSelected;
   const _MonthPickerSheet({required this.onSelected});
@@ -759,7 +752,7 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
                   duration: const Duration(milliseconds: 150),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? const Color(0xFFA34CF3)
+                        ? AppColors.ownerPrimary
                         : isFuture
                         ? Colors.grey.shade50
                         : Colors.grey.shade100,
@@ -793,7 +786,7 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
             height: 50,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFA34CF3),
+                backgroundColor: AppColors.ownerPrimary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
