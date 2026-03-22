@@ -171,7 +171,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Card header
           Row(
             children: [
               Container(

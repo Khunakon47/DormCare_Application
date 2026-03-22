@@ -45,8 +45,8 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
             ),
           ),
           Positioned(
-            top: 60,
-            right: 30,
+            top: 200,
+            left: 20,
             child: Container(
               width: 100,
               height: 100,

@@ -13,11 +13,11 @@ class HomeOwnerScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeaderCard(),
-            const SizedBox(height: 14),
+            const SizedBox(height: 16),
             _buildStatsGrid(),
-            const SizedBox(height: 14),
+            const SizedBox(height: 16),
             _buildAlertBanner(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 16),
             _buildSectionLabel('Recent Repair Requests'),
             const SizedBox(height: 10),
             _buildRecentRepairs(),
@@ -62,7 +62,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'JoBy Khuna',
+                  'JoBy Khunakon',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -80,7 +80,8 @@ class HomeOwnerScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
               children: [
@@ -172,8 +173,8 @@ class HomeOwnerScreen extends StatelessWidget {
       crossAxisCount: 2,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
-      crossAxisSpacing: 12,
-      mainAxisSpacing: 12,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
       childAspectRatio: 2,
       children: stats.map((s) => _buildStatCard(s)).toList(),
     );
