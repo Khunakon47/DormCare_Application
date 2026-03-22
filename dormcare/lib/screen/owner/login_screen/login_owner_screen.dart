@@ -16,7 +16,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       body: Stack(
         children: [
           // Top gradient background
@@ -32,31 +31,24 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           ),
 
           // Decorative circles
-          Positioned(
-            top: -60,
-            right: -40,
-            child: Container(
-              width: 220,
-              height: 220,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.06),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 60,
-            right: 30,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.04),
-              ),
-            ),
-          ),
+          _buildDecorativeCircles(),
 
+          // Positioned(
+          //   top: screenHeight * 0.4,
+          //   left: 0,
+          //   right: 0,
+          //   bottom: 0,
+          //   child: Container(
+          //     decoration: const BoxDecoration(
+          //       color: Color(0xFFF8F9FB),
+          //       borderRadius: BorderRadius.vertical(
+          //         top: Radius.circular(26),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          // Content(Header, Card, Footer)
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -78,7 +70,50 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     );
   }
 
-  // ─── Sections ─────────────────────────────────────────────────────────────
+  Widget _buildDecorativeCircles() {
+    return Stack(
+      children: [
+        Positioned(
+          top: -60,
+          right: -40,
+          child: Container(
+            width: 220,
+            height: 220,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.06),
+            ),
+          ),
+        ),
+
+        Positioned(
+          top: 250,
+          left: 10,
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.04),
+            ),
+          ),
+        ),
+
+        Positioned(
+          top: 240,
+          right: 60,
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.05),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildLogoSection() {
     return Column(
@@ -371,8 +406,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
       ],
     );
   }
-
-  // ─── Helpers ──────────────────────────────────────────────────────────────
 
   Widget _buildLabel(String text) {
     return Text(

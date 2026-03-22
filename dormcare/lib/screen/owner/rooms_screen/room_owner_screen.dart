@@ -283,7 +283,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
@@ -304,7 +304,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
             ),
             child: const Icon(
               Icons.filter_alt_outlined,
@@ -319,7 +319,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
             ),
             child: const Icon(Icons.sort, size: 20, color: Color(0xFFA34CF3)),
           ),

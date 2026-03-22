@@ -164,7 +164,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade100),
+          border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.04),
@@ -288,7 +288,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
@@ -332,7 +332,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
               ),
               child: Stack(
                 clipBehavior: Clip.none,
@@ -388,7 +388,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(color: Color(0xFFA34CF3).withValues(alpha: 0.3)),
             ),
             child: const Center(
               child: Icon(Icons.sort, size: 20, color: Color(0xFFA34CF3)),

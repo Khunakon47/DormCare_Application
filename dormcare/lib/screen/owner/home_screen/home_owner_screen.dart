@@ -369,7 +369,7 @@ class HomeOwnerScreen extends StatelessWidget {
           indent: 56,
           color: Colors.grey.shade100,
         ),
-        itemBuilder: (_, i) => _buildRepairTile(repairs[i]),
+        itemBuilder: (context, index) => _buildRepairTile(repairs[index]),
       ),
     );
   }
