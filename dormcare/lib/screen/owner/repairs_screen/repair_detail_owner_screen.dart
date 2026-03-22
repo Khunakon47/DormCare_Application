@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/owner/repair_owner_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class RepairDetailOwnerScreen extends StatefulWidget {
-  final RepairOwnerModel data;
+  final RepairModel data;
   final VoidCallback onStatusUpdated;
 
   const RepairDetailOwnerScreen({
@@ -285,25 +285,25 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
   Widget _buildStatusOptions() {
     final options = [
       (
-        status: RepairOwnerStatus.pending,
+        status: RepairStatus.pending,
         label: 'Pending',
         subtitle: 'Waiting to be assigned',
         icon: Icons.schedule,
       ),
       (
-        status: RepairOwnerStatus.inProgress,
+        status: RepairStatus.inProgress,
         label: 'In Progress',
         subtitle: 'Staff has been assigned',
         icon: Icons.autorenew,
       ),
       (
-        status: RepairOwnerStatus.completed,
+        status: RepairStatus.completed,
         label: 'Completed',
         subtitle: 'Issue has been resolved',
         icon: Icons.check_circle_outline,
       ),
       (
-        status: RepairOwnerStatus.cancelled,
+        status: RepairStatus.cancelled,
         label: 'Cancelled',
         subtitle: 'Request was cancelled',
         icon: Icons.cancel_outlined,
@@ -431,15 +431,15 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
     );
   }
 
-  Color _statusColor(RepairOwnerStatus status) {
+  Color _statusColor(RepairStatus status) {
     switch (status) {
-      case RepairOwnerStatus.pending:
+      case RepairStatus.pending:
         return AppColors.warning;
-      case RepairOwnerStatus.inProgress:
+      case RepairStatus.inProgress:
         return AppColors.info;
-      case RepairOwnerStatus.completed:
+      case RepairStatus.completed:
         return AppColors.success;
-      case RepairOwnerStatus.cancelled:
+      case RepairStatus.cancelled:
         return AppColors.error;
     }
   }

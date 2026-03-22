@@ -1,7 +1,7 @@
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dormcare/model/owner/monthly_billing_model.dart';
-import 'package:dormcare/model/owner/repair_report_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 
 import 'package:dormcare/theme/app_theme.dart';
@@ -12,30 +12,40 @@ class RoomDetailScreen extends StatelessWidget {
 
   const RoomDetailScreen({super.key, required this.room});
 
-  static final List<RepairReportModel> _allRepairs = [
-    RepairReportModel(
-      reportId: 'rep001',
+  // enum RepairStatus { pending, inProgress, completed, cancelled }
+  static final List<RepairModel> _allRepairs = [
+    RepairModel(
+      id: 'rep001',
       roomNumber: 'A101',
       title: 'Air conditioner broken',
       description: 'AC not cooling properly',
-      status: 'pending',
-      date: DateTime(2026, 2, 5),
+      tenantName: 'Somchai Prasert',
+      phoneNumber: '089-123-8574',
+      reportedAt: DateTime(2026, 2, 5),
+      status: RepairStatus.pending,
+      category: RepairCategory.appliance,
     ),
-    RepairReportModel(
-      reportId: 'rep002',
+    RepairModel(
+      id: 'rep002',
       roomNumber: 'B201',
       title: 'Water leak',
       description: 'Leak under sink',
-      status: 'fixing',
-      date: DateTime(2026, 2, 6),
+      tenantName: 'Natcha Wong',
+      phoneNumber: '081-456-7890',
+      reportedAt: DateTime(2026, 2, 6),
+      status: RepairStatus.inProgress,
+      category: RepairCategory.plumbing,
     ),
-    RepairReportModel(
-      reportId: 'rep003',
+    RepairModel(
+      id: 'rep003',
       roomNumber: 'A102',
       title: 'Light bulb out',
       description: 'Bathroom light not working',
-      status: 'done',
-      date: DateTime(2026, 1, 28),
+      tenantName: 'Somchai Prasert',
+      phoneNumber: '089-123-8574',
+      reportedAt: DateTime(2026, 1, 28),
+      status: RepairStatus.completed,
+      category: RepairCategory.electrical,
     ),
   ];
 
@@ -641,35 +651,7 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRepairRow(RepairReportModel repair) {
-    final Color color;
-    final Color bg;
-    final IconData icon;
-    final String label;
-
-    switch (repair.status) {
-      case 'pending':
-        color = AppColors.warning;
-        bg = AppColors.warningSoft;
-        icon = Icons.pending_outlined;
-        label = 'Pending';
-      case 'fixing':
-        color = AppColors.ownerPrimary;
-        bg = const Color(0xFFF3E8FF);
-        icon = Icons.build_outlined;
-        label = 'Fixing';
-      case 'done':
-        color = AppColors.success;
-        bg = AppColors.successSoft;
-        icon = Icons.check_circle_outline;
-        label = 'Done';
-      default:
-        color = Colors.grey.shade400;
-        bg = Colors.grey.shade100;
-        icon = Icons.help_outline;
-        label = 'Unknown';
-    }
-
+  Widget _buildRepairRow(RepairModel repair) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -693,7 +675,7 @@ class RoomDetailScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  DateFormat('d MMM yyyy').format(repair.date),
+                  repair.reportedDate,
                   style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
                 ),
               ],
@@ -702,20 +684,20 @@ class RoomDetailScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: bg,
+              color: repair.statusBgColor, // ใช้ helper จาก model โดยตรง
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 11, color: color),
+                Icon(repair.statusIcon, size: 11, color: repair.statusColor),
                 const SizedBox(width: 4),
                 Text(
-                  label,
+                  repair.statusText,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: color,
+                    color: repair.statusColor,
                   ),
                 ),
               ],

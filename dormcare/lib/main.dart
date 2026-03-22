@@ -17,9 +17,7 @@ class DormCareApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       
-      // Tenant theme เป็น default (หน้าแรกคือ login tenant)
-      // Todo: switch theme ตาม role หลัง login
-      // เมื่อทำ Firebase auth แล้วค่อยเปลี่ยนมาใช้การ switch ระหว่าง AppTheme.tenantTheme() และ AppTheme.ownerTheme()
+      // เมื่อทำ Firebase auth แล้วค่อยเปลี่ยนมาใช้การ switch theme ตาม role หลัง login ระหว่าง AppTheme.tenantTheme() และ AppTheme.ownerTheme()
       theme: AppTheme.tenantTheme(),
       darkTheme: AppTheme.tenantTheme(),
 

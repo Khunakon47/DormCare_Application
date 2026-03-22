@@ -1,8 +1,8 @@
-import 'package:dormcare/model/owner/repair_owner_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 
 class RepairOwnerCard extends StatelessWidget {
-  final RepairOwnerModel data;
+  final RepairModel data;
   final VoidCallback onTap;
 
   const RepairOwnerCard({super.key, required this.data, required this.onTap});

@@ -20,7 +20,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     RepairModel(
       id: '1',
       title: 'TV Broken',
-      description: 'The TV in the living room is not turning on. Please fix it as soon as possible.',
+      description:
+          'The TV in the living room is not turning on. Please fix it as soon as possible.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 10, 9, 30),
       imageUrl: 'https://picsum.photos/500/300?random=1',
       status: RepairStatus.completed,
@@ -29,7 +33,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     RepairModel(
       id: '2',
       title: 'Leaking Faucet',
-      description: 'The kitchen faucet is leaking and causing water to pool around the sink area.',
+      description:
+          'The kitchen faucet is leaking and causing water to pool around the sink area.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 12, 14, 45),
       status: RepairStatus.inProgress,
       category: RepairCategory.plumbing,
@@ -38,6 +46,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       id: '3',
       title: 'Air Conditioner',
       description: 'The air conditioner in my bedroom is not cooling properly.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 15, 11, 20),
       status: RepairStatus.pending,
       category: RepairCategory.appliance,
@@ -45,7 +56,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     RepairModel(
       id: '4',
       title: 'Broken Door Lock',
-      description: 'The lock on my bedroom door is broken and does not secure properly.',
+      description:
+          'The lock on my bedroom door is broken and does not secure properly.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 18, 16, 10),
       status: RepairStatus.cancelled,
       category: RepairCategory.other,

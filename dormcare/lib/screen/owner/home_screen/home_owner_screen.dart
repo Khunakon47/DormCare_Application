@@ -1,6 +1,6 @@
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 import 'package:dormcare/theme/app_theme.dart';
-import 'package:dormcare/model/owner/repair_owner_model.dart';
 import 'package:dormcare/component/stat_owner_card.dart';
 
 class HomeOwnerScreen extends StatelessWidget {
@@ -245,8 +245,8 @@ class HomeOwnerScreen extends StatelessWidget {
   }
 
   Widget _buildRecentRepairs() {
-    final repairs = <RepairOwnerModel>[
-      RepairOwnerModel(
+    final repairs = <RepairModel>[
+      RepairModel(
         id: "1",
         title: "Air conditioner not cooling",
         description: "The air conditioner in room 301 is not cooling properly.",
@@ -254,9 +254,10 @@ class HomeOwnerScreen extends StatelessWidget {
         tenantName: "John Doe",
         phoneNumber: "+1234567890",
         reportedAt: DateTime(2024, 12, 10),
-        status: RepairOwnerStatus.completed,
+        status: RepairStatus.completed,
+        category: RepairCategory.electrical,
       ),
-      RepairOwnerModel(
+      RepairModel(
         id: "2",
         title: "Leaking faucet",
         roomNumber: "201",
@@ -264,9 +265,10 @@ class HomeOwnerScreen extends StatelessWidget {
         tenantName: "Jane Smith",
         phoneNumber: "+0987654321",
         reportedAt: DateTime(2024, 12, 12),
-        status: RepairOwnerStatus.inProgress,
+        status: RepairStatus.inProgress,
+        category: RepairCategory.plumbing,
       ),
-      RepairOwnerModel(
+      RepairModel(
         id: "3",
         title: "Light bulb replacement",
         roomNumber: "101",
@@ -274,9 +276,10 @@ class HomeOwnerScreen extends StatelessWidget {
         tenantName: "Alice Johnson",
         phoneNumber: "+1122334455",
         reportedAt: DateTime(2024, 12, 15),
-        status: RepairOwnerStatus.pending,
+        status: RepairStatus.pending,
+        category: RepairCategory.other,
       ),
-      RepairOwnerModel(
+      RepairModel(
         id: "4",
         title: "Leaking faucet",
         roomNumber: "201",
@@ -284,9 +287,10 @@ class HomeOwnerScreen extends StatelessWidget {
         tenantName: "Bob Wilson",
         phoneNumber: "+1122334455",
         reportedAt: DateTime(2024, 12, 12),
-        status: RepairOwnerStatus.inProgress,
+        status: RepairStatus.inProgress,
+        category: RepairCategory.plumbing,
       ),
-      RepairOwnerModel(
+      RepairModel(
         id: "5",
         title: "Light bulb replacement",
         roomNumber: "101",
@@ -294,7 +298,8 @@ class HomeOwnerScreen extends StatelessWidget {
         tenantName: "Charlie Brown",
         phoneNumber: "+5544332211",
         reportedAt: DateTime(2024, 12, 15),
-        status: RepairOwnerStatus.pending,
+        status: RepairStatus.pending,
+        category: RepairCategory.other,
       ),
     ];
 
@@ -327,7 +332,7 @@ class HomeOwnerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRepairTile(RepairOwnerModel item) {
+  Widget _buildRepairTile(RepairModel item) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       // Icon pill

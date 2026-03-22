@@ -1,5 +1,5 @@
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/owner/repair_owner_model.dart';
 import 'repair_detail_owner_screen.dart';
 import 'repair_filter_owner_sheet.dart';
 import 'package:dormcare/theme/app_theme.dart';
@@ -14,12 +14,12 @@ class RepairsOwnerScreen extends StatefulWidget {
 
 class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
 
-  RepairOwnerStatus? _selectedStatus;
+  RepairStatus? _selectedStatus;
   int _selectedFloor = 0; // 0 = All floors
 
   // Mock data
-  final List<RepairOwnerModel> _allRepairs = [
-    RepairOwnerModel(
+  final List<RepairModel> _allRepairs = [
+    RepairModel(
       id: '1',
       title: 'TV Broken',
       description:
@@ -29,9 +29,10 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       phoneNumber: '081-234-5678',
       imageUrl: 'https://picsum.photos/500/300?random=10',
       reportedAt: DateTime(2024, 12, 10, 9, 30),
-      status: RepairOwnerStatus.pending,
+      status: RepairStatus.pending,
+      category: RepairCategory.electrical,
     ),
-    RepairOwnerModel(
+    RepairModel(
       id: '2',
       title: 'Leaking Faucet',
       description: 'The kitchen faucet is leaking constantly.',
@@ -39,9 +40,10 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       tenantName: 'Nattaya P.',
       phoneNumber: '082-345-6789',
       reportedAt: DateTime(2024, 12, 12, 14, 45),
-      status: RepairOwnerStatus.inProgress,
+      status: RepairStatus.inProgress,
+      category: RepairCategory.plumbing,
     ),
-    RepairOwnerModel(
+    RepairModel(
       id: '3',
       title: 'Air Conditioner',
       description: 'Not cooling properly, making loud noise.',
@@ -49,9 +51,10 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       tenantName: 'Wichai T.',
       phoneNumber: '083-456-7890',
       reportedAt: DateTime(2024, 12, 15, 11, 20),
-      status: RepairOwnerStatus.completed,
+      status: RepairStatus.completed,
+      category: RepairCategory.electrical,
     ),
-    RepairOwnerModel(
+    RepairModel(
       id: '4',
       title: 'Broken Door Lock',
       description: 'Door lock is jammed and cannot be opened from outside.',
@@ -59,9 +62,10 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       tenantName: 'Malee S.',
       phoneNumber: '084-567-8901',
       reportedAt: DateTime(2024, 12, 18, 16, 10),
-      status: RepairOwnerStatus.cancelled,
+      status: RepairStatus.cancelled,
+      category: RepairCategory.security,
     ),
-    RepairOwnerModel(
+    RepairModel(
       id: '5',
       title: 'Broken Window',
       description: 'Window latch is broken, cannot lock properly.',
@@ -69,11 +73,12 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       tenantName: 'Prayut C.',
       phoneNumber: '085-678-9012',
       reportedAt: DateTime(2024, 12, 20, 10, 0),
-      status: RepairOwnerStatus.pending,
+      status: RepairStatus.pending,
+      category: RepairCategory.furniture,
     ),
   ];
 
-  List<RepairOwnerModel> get _filteredRepairs {
+  List<RepairModel> get _filteredRepairs {
     var result = _allRepairs;
     if (_selectedFloor != 0) {
       result = result
@@ -140,16 +145,16 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
   Widget _buildStatusSummaryBar() {
     final total = _allRepairs.length;
     final pending = _allRepairs
-        .where((r) => r.status == RepairOwnerStatus.pending)
+        .where((r) => r.status == RepairStatus.pending)
         .length;
     final inProgress = _allRepairs
-        .where((r) => r.status == RepairOwnerStatus.inProgress)
+        .where((r) => r.status == RepairStatus.inProgress)
         .length;
     final completed = _allRepairs
-        .where((r) => r.status == RepairOwnerStatus.completed)
+        .where((r) => r.status == RepairStatus.completed)
         .length;
     final cancelled = _allRepairs
-        .where((r) => r.status == RepairOwnerStatus.cancelled)
+        .where((r) => r.status == RepairStatus.cancelled)
         .length;
 
     final segments = [

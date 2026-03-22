@@ -1,11 +1,11 @@
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/owner/repair_owner_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class RepairFilterOwnerSheet extends StatefulWidget {
-  final RepairOwnerStatus? initialStatus;
+  final RepairStatus? initialStatus;
   final int initialFloor; // 0 = All floors
-  final void Function(RepairOwnerStatus? status, int floor) onApply;
+  final void Function(RepairStatus? status, int floor) onApply;
 
   const RepairFilterOwnerSheet({
     super.key,
@@ -20,7 +20,7 @@ class RepairFilterOwnerSheet extends StatefulWidget {
 
 class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
   
-  RepairOwnerStatus? _selectedStatus;
+  RepairStatus? _selectedStatus;
   int _selectedFloor = 0;
 
   @override
@@ -136,10 +136,10 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
   Widget _buildStatusOptions() {
     final status = [
       (status: null, label: 'All Statuses'),
-      (status: RepairOwnerStatus.pending, label: 'Pending'),
-      (status: RepairOwnerStatus.inProgress, label: 'In Progress'),
-      (status: RepairOwnerStatus.completed, label: 'Completed'),
-      (status: RepairOwnerStatus.cancelled, label: 'Cancelled'),
+      (status: RepairStatus.pending, label: 'Pending'),
+      (status: RepairStatus.inProgress, label: 'In Progress'),
+      (status: RepairStatus.completed, label: 'Completed'),
+      (status: RepairStatus.cancelled, label: 'Cancelled'),
     ];
 
     return Wrap(
