@@ -21,17 +21,23 @@ class AppColors {
   // Semantic — Success
   static const Color success = Color(0xFF66BB6A);
   static const Color successDark = Color(0xFF43A047);
-  static const Color successSoft = Color(0xFFE8F5E9);
   static const Color successDeep = Color(0xFF2E7D32);
+  static const Color successBorder = Color(0xFFA5D6A7);
+  static const Color successSoft = Color(0xFFE8F5E9);
 
   // Semantic — Warning
   static const Color warning = Color(0xFFFFA726);
+  static const Color warningDark = Color(0xFFFF9800);
+  static const Color warningDeep = Color(0xFFFF6F00);
+  static const Color warningBorder = Color(0xFFFFCC80);
   static const Color warningSoft = Color(0xFFFFF8E1);
 
   // Semantic — Error
   static const Color error = Color(0xFFEF5350);
-  static const Color errorSoft = Color(0xFFFFEBEE);
+  static const Color errorDark = Color(0xFFE53935);
+  static const Color errorDeep = Color(0xFFB71C1C);
   static const Color errorBorder = Color(0xFFEF9A9A);
+  static const Color errorSoft = Color(0xFFFFEBEE);
 
   // Semantic — Info
   static const Color info = Color(0xFF42A5F5);
@@ -49,8 +55,11 @@ class AppColors {
 
   // Text
   static const Color textPrimary = Color(0xFF0D1B2A);
+  static const Color textPrimarySoft = Color(0xFF1E293B);
   static const Color textSecondary = Color(0xFF4A5568);
+  static const Color textSecondarySoft = Color(0xFF718096);
   static const Color textHint = Color(0xFF9AA5B4);
+  static const Color textHintSoft = Color(0xFFCBD5E1);
 
   // Background / Surface
   static const Color background = Color(0xFFF7F8FA);
@@ -89,17 +98,6 @@ class AppColors {
   static const Color onGradientRent = Color(0xFF90CAF9); // ฟ้าอ่อนบน gradient
   static const Color onGradientWater = Color(0xFF80DEEA,); // ฟ้าเขียวอ่อนบน gradient
   static const Color onGradientElec = Color(0xFFFFCC80); // ส้มอ่อนบน gradient
-
-  // Grey shades (แทน Colors.grey.shadeX00)
-  static const Color grey50 = Color(0xFFFAFAFA);
-  static const Color grey100 = Color(0xFFF5F5F5);
-  static const Color grey200 = Color(0xFFEEEEEE);
-  static const Color grey300 = Color(0xFFE0E0E0);
-  static const Color grey400 = Color(0xFFBDBDBD);
-  static const Color grey500 = Color(0xFF9E9E9E);
-  static const Color grey600 = Color(0xFF757575);
-  static const Color grey700 = Color(0xFF616161);
-  static const Color grey800 = Color(0xFF424242);
 }
 
 // App Text Styles
