@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class LoginTenantScreen extends StatefulWidget {
   const LoginTenantScreen({super.key});
@@ -16,7 +17,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: Stack(
         children: [
           // Top gradient background
@@ -24,7 +25,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
             height: screenHeight * 0.42,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF367BF3), Color(0xFF2457D9)],
+                colors: [AppColors.tenantPrimary, AppColors.tenantSecondary],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -152,13 +153,13 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF367BF3).withValues(alpha: 0.1),
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(
                   Icons.person_outline,
                   size: 18,
-                  color: Color(0xFF367BF3),
+                  color: AppColors.tenantPrimary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -170,13 +171,13 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF0D1B2A),
+                      color: AppColors.textPrimary,
                       letterSpacing: -0.3,
                     ),
                   ),
                   Text(
                     'Sign in to your account',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF9AA5B4)),
+                    style: TextStyle(fontSize: 12, color: AppColors.textHint),
                   ),
                 ],
               ),
@@ -230,12 +231,12 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                       height: 20,
                       decoration: BoxDecoration(
                         color: _rememberMe
-                            ? const Color(0xFF367BF3)
+                            ? AppColors.tenantPrimary
                             : Colors.white,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           color: _rememberMe
-                              ? const Color(0xFF367BF3)
+                              ? AppColors.tenantPrimary
                               : Colors.grey.shade300,
                         ),
                       ),
@@ -277,7 +278,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF367BF3),
+                    color: AppColors.tenantPrimary,
                   ),
                 ),
               ),
@@ -307,12 +308,12 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF367BF3), Color(0xFF2457D9)],
+                    colors: [AppColors.tenantPrimary, AppColors.tenantSecondary],
                   ),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFF367BF3).withValues(alpha: 0.35),
+                      color: AppColors.tenantPrimary.withValues(alpha: 0.35),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -368,13 +369,13 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           ),
           icon: const Icon(
             Icons.manage_accounts_outlined,
-            color: Color(0xFF367BF3),
+            color: AppColors.tenantPrimary,
             size: 18,
           ),
           label: const Text(
             'Login as Owner',
             style: TextStyle(
-              color: Color(0xFF367BF3),
+              color: AppColors.tenantPrimary,
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),
@@ -392,7 +393,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 13,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -405,14 +406,14 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
   }) {
     return TextField(
       obscureText: obscure,
-      style: const TextStyle(fontSize: 14, color: Color(0xFF0D1B2A)),
+      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
         prefixIcon: Icon(prefixIcon, size: 18, color: Colors.grey.shade400),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: const Color(0xFFF7F8FA),
+        fillColor: AppColors.background,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -423,7 +424,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF367BF3), width: 1.5),
+          borderSide: const BorderSide(color: AppColors.tenantPrimary, width: 1.5),
         ),
       ),
     );

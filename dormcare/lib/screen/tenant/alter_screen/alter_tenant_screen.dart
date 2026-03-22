@@ -1,7 +1,7 @@
 import 'package:dormcare/component/alert_card.dart';
-import 'package:dormcare/component/alert_filter_sheet.dart';
-import 'package:dormcare/component/alert_sort_sheet.dart';
 import 'package:dormcare/model/tenant/alert_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
+import 'package:dormcare/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'alter_detail_tenant_screen.dart';
 
@@ -16,11 +16,9 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
   final _now = DateTime.now();
 
   late final List<AlertModel> _allAlerts;
-
   List<AlertModel> _displayedAlerts = [];
-  AlertCategory? _selectedCategory;
-  bool? _selectedReadStatus;
-  AlertSortOption _currentSort = AlertSortOption.newest;
+
+  AlertCategory? _selectedCategory; // null = All
 
   @override
   void initState() {
@@ -62,52 +60,30 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         isRead: true,
       ),
     ];
-    _processData();
+    _applyFilters();
   }
 
-  void _processData() {
+  void _applyFilters() {
     setState(() {
-      var result = _allAlerts.where((alert) {
-        final matchCategory =
-            _selectedCategory == null || alert.category == _selectedCategory;
-        final matchRead =
-            _selectedReadStatus == null || alert.isRead == _selectedReadStatus;
-        return matchCategory && matchRead;
+      _displayedAlerts = _allAlerts.where((a) {
+        return _selectedCategory == null || a.category == _selectedCategory;
       }).toList();
-
-      if (_currentSort == AlertSortOption.unreadFirst) {
-        result.sort((a, b) {
-          if (a.isRead == b.isRead) return 0;
-          return a.isRead ? 1 : -1;
-        });
-      } else if (_currentSort == AlertSortOption.oldest) {
-        result = result.reversed.toList();
-      }
-
-      _displayedAlerts = result;
     });
   }
 
   void _markAsRead(String id) {
-    final index = _allAlerts.indexWhere((e) => e.id == id);
-    if (index != -1 && !_allAlerts[index].isRead) {
-      _allAlerts[index].isRead = true;
-      _processData();
+    final idx = _allAlerts.indexWhere((a) => a.id == id);
+    if (idx != -1 && !_allAlerts[idx].isRead) {
+      _allAlerts[idx].isRead = true;
+      _applyFilters();
     }
   }
 
   void _markAllAsRead() {
-    for (final alert in _allAlerts) {
-      alert.isRead = true;
+    for (final a in _allAlerts) {
+      a.isRead = true;
     }
-    _processData();
-  }
-
-  int get _activeFilterCount {
-    int count = 0;
-    if (_selectedCategory != null) count++;
-    if (_selectedReadStatus != null) count++;
-    return count;
+    _applyFilters();
   }
 
   bool get _hasUnread => _allAlerts.any((a) => !a.isRead);
@@ -115,7 +91,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,13 +99,20 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             const SizedBox(height: 12),
             _buildSearchAndActions(),
             const SizedBox(height: 10),
+            _buildCategoryTabs(),
+            const SizedBox(height: 8),
             _buildListHeader(),
-            const SizedBox(height: 6),
+            const SizedBox(height: 4),
             Expanded(
               child: _displayedAlerts.isEmpty
                   ? _buildEmptyState()
                   : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                      padding: const EdgeInsets.fromLTRB(
+                        AppConstants.paddingLg,
+                        4,
+                        AppConstants.paddingLg,
+                        16,
+                      ),
                       itemCount: _displayedAlerts.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 4),
                       itemBuilder: (context, index) {
@@ -158,115 +141,160 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
 
   Widget _buildSearchAndActions() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLg),
       child: Row(
         children: [
+          // Search bar
           Expanded(
             child: Container(
-              height: 42,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
+              height: AppConstants.buttonHeightSm,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppConstants.paddingMd,
+              ),
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+                border: Border.all(color: AppColors.border),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
-                  const SizedBox(width: 8),
+                  Icon(
+                    Icons.search,
+                    size: AppConstants.iconMd,
+                    color: AppColors.textHint,
+                  ),
+                  const SizedBox(width: AppConstants.paddingSm),
                   Text(
                     'Search alerts...',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    style: TextStyle(
+                      color: AppColors.textHint,
+                      fontSize: AppConstants.fontMd,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppConstants.paddingSm),
 
           // Filter button
-          GestureDetector(
-            onTap: () => showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              useSafeArea: true,
-              showDragHandle: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-              builder: (context) => AlertFilterSheet(
-                initialCategory: _selectedCategory,
-                initialReadStatus: _selectedReadStatus,
-                onApply: (category, isRead) {
-                  _selectedCategory = category;
-                  _selectedReadStatus = isRead;
-                  _processData();
-                },
-              ),
-            ),
-            child: Container(
-              height: 42,
-              width: 42,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: Center(
-                child: _activeFilterCount > 0
-                    ? Text(
-                        '$_activeFilterCount',
-                        style: const TextStyle(
-                          color: Color(0xFF367BF3),
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    : const Icon(
-                        Icons.filter_alt_outlined,
-                        size: 20,
-                        color: Color(0xFF367BF3),
-                      ),
-              ),
-            ),
+          _buildIconButton(
+            child: const Icon(
+                    Icons.filter_alt_outlined,
+                    size: AppConstants.iconMd,
+                    color: AppColors.tenantPrimary,
+                  ),
           ),
-
-          const SizedBox(width: 8),
+          const SizedBox(width: AppConstants.paddingSm),
 
           // Sort button
-          GestureDetector(
-            onTap: () => showModalBottomSheet(
-              context: context,
-              isScrollControlled: true,
-              useSafeArea: true,
-              showDragHandle: true,
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-              ),
-              builder: (context) => AlertSortSheet(
-                currentSort: _currentSort,
-                onApply: (sortOption) {
-                  _currentSort = sortOption;
-                  _processData();
-                },
-              ),
-            ),
-            child: Container(
-              height: 42,
-              width: 42,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: const Icon(
-                Icons.swap_vert,
-                size: 20,
-                color: Color(0xFF367BF3),
-              ),
+          _buildIconButton(
+            child: const Icon(
+              Icons.swap_vert,
+              size: AppConstants.iconMd,
+              color: AppColors.tenantPrimary,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildIconButton({required Widget child}) {
+    return Container(
+      height: AppConstants.buttonHeightSm,
+      width: AppConstants.buttonHeightSm,
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: BorderRadius.circular(AppConstants.radiusMd),
+        border: Border.all(color: AppColors.border),
+      ),
+      child: Center(child: child),
+    );
+  }
+
+  Widget _buildCategoryTabs() {
+    final tabs = [
+      (label: 'All', value: null, icon: Icons.notifications_outlined),
+      (
+        label: 'Emergency',
+        value: AlertCategory.emergency,
+        icon: Icons.warning_amber_outlined,
+      ),
+      (label: 'Bill', value: AlertCategory.bill, icon: Icons.receipt_outlined),
+      (
+        label: 'Parcel',
+        value: AlertCategory.parcel,
+        icon: Icons.inventory_2_outlined,
+      ),
+      (
+        label: 'General',
+        value: AlertCategory.general,
+        icon: Icons.info_outline,
+      ),
+    ];
+
+    return SizedBox(
+      height: 36,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLg),
+        itemCount: tabs.length,
+        separatorBuilder: (context, index) =>
+            const SizedBox(width: AppConstants.paddingSm),
+        itemBuilder: (context, index) {
+          final tab = tabs[index];
+          final isSelected = _selectedCategory == tab.value;
+          return GestureDetector(
+            onTap: () {
+              setState(() => _selectedCategory = tab.value);
+              _applyFilters();
+            },
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: isSelected ? AppColors.tenantPrimary : AppColors.surface,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(
+                  color: isSelected
+                      ? AppColors.tenantPrimary
+                      : AppColors.border,
+                ),
+                boxShadow: isSelected
+                    ? [
+                        BoxShadow(
+                          color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                          blurRadius: 8,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                    : [],
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    tab.icon,
+                    size: 13,
+                    color: isSelected ? Colors.white : AppColors.textHint,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    tab.label,
+                    style: TextStyle(
+                      fontSize: AppConstants.fontBase,
+                      fontWeight: isSelected
+                          ? FontWeight.w700
+                          : FontWeight.w500,
+                      color: isSelected ? Colors.white : AppColors.textHint,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -279,29 +307,29 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         children: [
           Text(
             '${_displayedAlerts.length} notifications',
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 12,
+            style: const TextStyle(
+              color: AppColors.textHint,
+              fontSize: AppConstants.fontBase,
               fontWeight: FontWeight.w500,
             ),
           ),
           if (_hasUnread)
             GestureDetector(
               onTap: _markAllAsRead,
-              child: Row(
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.done_all,
                     size: 13,
-                    color: Color(0xFF367BF3),
+                    color: AppColors.tenantPrimary,
                   ),
-                  const SizedBox(width: 4),
-                  const Text(
+                  SizedBox(width: 4),
+                  Text(
                     'Mark all as read',
                     style: TextStyle(
-                      fontSize: 12,
-                      color: Color(0xFF367BF3),
+                      fontSize: AppConstants.fontBase,
+                      color: AppColors.tenantPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -319,31 +347,31 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 72,
-            height: 72,
+            width: AppConstants.iconContainerAvatar,
+            height: AppConstants.iconContainerAvatar,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.divider,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.notifications_off_outlined,
               size: 32,
-              color: Colors.grey.shade300,
+              color: AppColors.textHint,
             ),
           ),
           const SizedBox(height: 16),
-          Text(
+          const Text(
             'No notifications found',
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(height: 6),
-          Text(
+          const Text(
             "You're all caught up!",
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+            style: TextStyle(color: AppColors.textHint, fontSize: 12),
           ),
         ],
       ),

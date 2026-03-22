@@ -1,5 +1,6 @@
-import 'package:dormcare/component/repair_card.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/component/repair_card.dart';
+import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/model/repair_model.dart';
 import 'repair_detail_tenant_screen.dart';
 import 'report_tenant_screen.dart';
@@ -69,7 +70,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +130,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                     Text('Report submitted successfully'),
                   ],
                 ),
-                backgroundColor: const Color(0xFF66BB6A),
+                backgroundColor: AppColors.success,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -147,7 +148,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                     Text('Failed to submit. Please try again.'),
                   ],
                 ),
-                backgroundColor: const Color(0xFFEF5350),
+                backgroundColor: AppColors.error,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -157,7 +158,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             );
           }
         },
-        backgroundColor: const Color(0xFF367BF3),
+        backgroundColor: AppColors.tenantPrimary,
         elevation: 2,
         icon: const Icon(Icons.add, color: Colors.white, size: 20),
         label: const Text(
@@ -210,12 +211,12 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             ),
             child: Row(
               children: [
-                Icon(Icons.sort, size: 18, color: const Color(0xFF367BF3)),
+                Icon(Icons.sort, size: 18, color: AppColors.tenantPrimary),
                 const SizedBox(width: 6),
                 Text(
                   'Sort',
                   style: TextStyle(
-                    color: const Color(0xFF367BF3),
+                    color: AppColors.tenantPrimary,
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
@@ -232,11 +233,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
   Widget _buildFilterTabs() {
     final labels = ['All', 'Pending', 'In Progress', 'Completed', 'Cancelled'];
     final colors = [
-      const Color(0xFF367BF3),
-      const Color(0xFFFFA726),
-      const Color(0xFF42A5F5),
-      const Color(0xFF66BB6A),
-      const Color(0xFFEF5350),
+      AppColors.tenantPrimary,
+      AppColors.warning,
+      AppColors.info,
+      AppColors.success,
+      AppColors.error,
     ];
 
     return SizedBox(

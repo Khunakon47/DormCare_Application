@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 enum RepairStatus { pending, inProgress, completed, cancelled }
 
-enum RepairCategory { electrical, plumbing, furniture, appliance, other }
+enum RepairCategory { electrical, plumbing, furniture, appliance, security, other }
 
 class RepairModel {
   final String id;
@@ -92,6 +92,8 @@ class RepairModel {
         return 'Furniture';
       case RepairCategory.appliance:
         return 'Appliance';
+      case RepairCategory.security:
+        return 'Security';
       case RepairCategory.other:
         return 'Other';
     }
@@ -107,6 +109,8 @@ class RepairModel {
         return Icons.chair_outlined;
       case RepairCategory.appliance:
         return Icons.kitchen_outlined;
+      case RepairCategory.security:
+        return Icons.security_outlined;
       case RepairCategory.other:
         return Icons.build_outlined;
     }

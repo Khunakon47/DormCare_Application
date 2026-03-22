@@ -1,5 +1,6 @@
-import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/tenant/alert_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class AlertDetailTenantScreen extends StatelessWidget {
   final AlertModel data;
@@ -75,7 +76,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
       style: const TextStyle(
         fontSize: 22,
         fontWeight: FontWeight.w800,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
         letterSpacing: -0.5,
         height: 1.3,
       ),
@@ -88,7 +89,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
         Icon(Icons.access_time_outlined, size: 13, color: Colors.grey.shade400),
         const SizedBox(width: 5),
         Text(
-          _fullDateTime(),
+          data.fullDateTime,
           style: TextStyle(
             fontSize: 12,
             color: Colors.grey.shade400,
@@ -101,7 +102,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
             width: 7,
             height: 7,
             decoration: const BoxDecoration(
-              color: Color(0xFF367BF3),
+              color: AppColors.tenantPrimary,
               shape: BoxShape.circle,
             ),
           ),
@@ -110,7 +111,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
             'Unread',
             style: TextStyle(
               fontSize: 11,
-              color: Color(0xFF367BF3),
+              color: AppColors.tenantPrimary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -124,28 +125,5 @@ class AlertDetailTenantScreen extends StatelessWidget {
       data.description,
       style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.7),
     );
-  }
-
-  // ─── Utils ────────────────────────────────────────────────────────────────
-
-  String _fullDateTime() {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final d = data.createdAt;
-    final h = d.hour.toString().padLeft(2, '0');
-    final m = d.minute.toString().padLeft(2, '0');
-    return '${d.day} ${months[d.month - 1]} ${d.year}  ·  $h:$m';
   }
 }

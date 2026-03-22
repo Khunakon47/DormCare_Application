@@ -1,5 +1,6 @@
-import 'package:dormcare/model/tenant/expense_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/tenant/expense_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class ExpensesTenantScreen extends StatefulWidget {
   const ExpensesTenantScreen({super.key});
@@ -75,7 +76,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         .toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
           _buildTabBar(),
@@ -102,7 +103,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         decoration: BoxDecoration(
           color: Color(0xFFF3F7FF),
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Color(0xFF367BF3).withValues(alpha: 0.15)),
+          border: Border.all(color: AppColors.tenantPrimary.withValues(alpha: 0.15)),
         ),
         child: TabBar(
           controller: _tabController,
@@ -112,21 +113,21 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             fontSize: 14,
             letterSpacing: 0.1,
           ),
-          unselectedLabelColor: Color(0xFF367BF3).withValues(alpha: 0.6),
+          unselectedLabelColor: AppColors.tenantPrimary.withValues(alpha: 0.6),
           unselectedLabelStyle: const TextStyle(
             fontWeight: FontWeight.w500,
             fontSize: 14,
           ),
           indicator: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [Color(0xFF367BF3), Color(0xFF1A5FD4)],
+              colors: [AppColors.tenantPrimary, AppColors.tenantDark],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(10),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFF367BF3).withValues(alpha: 0.35),
+                color: AppColors.tenantPrimary.withValues(alpha: 0.35),
                 blurRadius: 6,
                 offset: const Offset(0, 2),
               ),
@@ -157,7 +158,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             title: 'Bill Update Schedule',
             description:
                 'Bills are posted on the 25th of each month. Payment deadline is the 5th of the following month.',
-            accentColor: const Color(0xFF367BF3),
+            accentColor: AppColors.tenantPrimary,
           ),
           const SizedBox(height: 10),
           _buildInfoCard(
@@ -165,7 +166,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             title: 'Payment Location',
             description:
                 'Management office, ground floor. Mon–Fri 8:00–17:00, Sat 9:00–12:00',
-            accentColor: const Color(0xFFFFA726),
+            accentColor: AppColors.warning,
           ),
           const SizedBox(height: 14),
           _buildReportButton(),
@@ -180,14 +181,14 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     return Container(
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF367BF3), Color(0xFF2457D9)],
+          colors: [AppColors.tenantPrimary, AppColors.tenantSecondary],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF367BF3).withValues(alpha: 0.35),
+            color: AppColors.tenantPrimary.withValues(alpha: 0.35),
             blurRadius: 16,
             offset: const Offset(0, 8),
           ),
@@ -460,7 +461,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const Spacer(),
@@ -474,7 +475,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
           const SizedBox(height: 4),
           _buildBreakdownRow(
             icon: Icons.home_rounded,
-            iconColor: const Color(0xFF367BF3),
+            iconColor: AppColors.tenantPrimary,
             label: 'Room Rent',
             subtitle: 'Monthly payment',
             amount: bill.roomRent,
@@ -500,7 +501,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
           ),
           _buildBreakdownRow(
             icon: Icons.bolt_rounded,
-            iconColor: const Color(0xFFFFA726),
+            iconColor: AppColors.warning,
             label: 'Electricity Bill',
             subtitle:
                 '${bill.electricityUnits} units × ${bill.electricityRate} THB',
@@ -513,14 +514,14 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
               gradient: const LinearGradient(
-                colors: [Color(0xFF367BF3), Color(0xFF1A5FD4)],
+                colors: [AppColors.tenantPrimary, AppColors.tenantDark],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
               borderRadius: BorderRadius.circular(14),
               boxShadow: [
                 BoxShadow(
-                  color: Color(0xFF367BF3).withValues(alpha: 0.3),
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.3),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -605,7 +606,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
@@ -623,7 +624,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0D1B2A),
+                  color: AppColors.textPrimary,
                 ),
               ),
               Text(
@@ -709,7 +710,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         },
         icon: const Icon(
           Icons.report_problem_outlined,
-          color: Color(0xFFEF5350),
+          color: AppColors.error,
           size: 18,
         ),
         label: const Text(
@@ -717,7 +718,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
           style: TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
-            color: Color(0xFFEF5350),
+            color: AppColors.error,
           ),
         ),
         style: OutlinedButton.styleFrom(
@@ -775,7 +776,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 child: const Icon(
                   Icons.filter_alt_outlined,
                   size: 20,
-                  color: Color(0xFF367BF3),
+                  color: AppColors.tenantPrimary,
                 ),
               ),
               const SizedBox(width: 8),
@@ -790,7 +791,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 child: const Icon(
                   Icons.sort,
                   size: 20,
-                  color: Color(0xFF367BF3),
+                  color: AppColors.tenantPrimary,
                 ),
               ),
             ],
@@ -837,7 +838,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
         border: Border(
-          left: const BorderSide(color: Color(0xFF367BF3), width: 4),
+          left: const BorderSide(color: AppColors.tenantPrimary, width: 4),
         ),
         boxShadow: [
           BoxShadow(
@@ -863,7 +864,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
-                        color: Color(0xFF0D1B2A),
+                        color: AppColors.textPrimary,
                         letterSpacing: -0.4,
                       ),
                     ),
@@ -922,10 +923,10 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               Expanded(
                 child: _buildHistoryChip(
                   icon: Icons.home_rounded,
-                  iconColor: const Color(0xFF367BF3),
+                  iconColor: AppColors.tenantPrimary,
                   bgColor: const Color(0xFFEBF2FF),
-                  borderColor: const Color(0xFF367BF3),
-                  valueColor: const Color(0xFF1A5FD4),
+                  borderColor: AppColors.tenantPrimary,
+                  valueColor: AppColors.tenantDark,
                   labelColor: const Color(0xFF5A8FE0),
                   label: 'Rent',
                   amount: bill.roomRent,

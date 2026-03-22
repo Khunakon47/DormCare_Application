@@ -3,6 +3,7 @@ import 'screen/owner/main_owner_screen.dart';
 import 'screen/owner/login_screen/login_owner_screen.dart';
 import 'screen/tenant/main_tenant_screen.dart';
 import 'screen/tenant/login_screen/login_tenant_screen.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 void main() {
   runApp(const DormCareApp());
@@ -15,21 +16,14 @@ class DormCareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF367BF3),
-          brightness: Brightness.light,
-        ),
-      ),
-
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF367BF3),
-          brightness: Brightness.dark,
-        ),
-      ),
+      
+      // Tenant theme เป็น default (หน้าแรกคือ login tenant)
+      // Todo: switch theme ตาม role หลัง login
+      // ตอนนี้ยังไม่มี global state สำหรับ role
+      // เมื่อทำ Firebase auth แล้วค่อยเปลี่ยนมาใช้ provider/riverpod
+      // เพื่อ switch ระหว่าง AppTheme.tenantTheme() และ AppTheme.ownerTheme()
+      theme: AppTheme.tenantTheme(),
+      darkTheme: AppTheme.tenantTheme(),
 
       themeMode: ThemeMode.system,
       

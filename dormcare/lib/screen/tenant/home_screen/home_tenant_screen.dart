@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
+import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/component/stat_card.dart';
 
 class HomeTenantScreen extends StatelessWidget {
   const HomeTenantScreen({super.key});
@@ -6,7 +9,7 @@ class HomeTenantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         child: Column(
@@ -32,14 +35,14 @@ class HomeTenantScreen extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF367BF3), Color(0xFF2457D9)],
+          colors: [AppColors.tenantPrimary, AppColors.tenantSecondary],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF367BF3).withValues(alpha: 0.35),
+            color: AppColors.tenantPrimary.withValues(alpha: 0.35),
             blurRadius: 18,
             offset: const Offset(0, 8),
           ),
@@ -87,9 +90,7 @@ class HomeTenantScreen extends StatelessWidget {
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.white.withValues(alpha: 0.3),
-              ),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -151,7 +152,7 @@ class HomeTenantScreen extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFFEF5350).withValues(alpha: 0.3),
+          color: AppColors.error.withValues(alpha: 0.3),
         ),
         boxShadow: [
           BoxShadow(
@@ -167,13 +168,13 @@ class HomeTenantScreen extends StatelessWidget {
             width: 44,
             height: 44,
             decoration: BoxDecoration(
-              color: const Color(0xFFEF5350).withValues(alpha: 0.1),
+              color: AppColors.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(
               Icons.receipt_long_outlined,
               size: 22,
-              color: Color(0xFFEF5350),
+              color: AppColors.error,
             ),
           ),
           const SizedBox(width: 14),
@@ -186,7 +187,7 @@ class HomeTenantScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
@@ -205,7 +206,7 @@ class HomeTenantScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFFEF5350),
+                  color: AppColors.error,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -226,23 +227,23 @@ class HomeTenantScreen extends StatelessWidget {
 
   Widget _buildStatRow() {
     final stats = [
-      _StatData(
+      StatCard(
         icon: Icons.build_outlined,
         label: 'Pending\nRepairs',
         value: '2',
-        color: const Color(0xFFFFA726),
+        color: AppColors.warning,
       ),
-      _StatData(
+      StatCard(
         icon: Icons.check_circle_outline,
         label: 'Completed\nRepairs',
         value: '5',
-        color: const Color(0xFF66BB6A),
+        color: AppColors.success,
       ),
-      _StatData(
+      StatCard(
         icon: Icons.notifications_outlined,
         label: 'Unread\nAlerts',
         value: '2',
-        color: const Color(0xFF367BF3),
+        color: AppColors.tenantPrimary,
       ),
     ];
 
@@ -252,70 +253,19 @@ class HomeTenantScreen extends StatelessWidget {
         return Expanded(
           child: Row(
             children: [
-              Expanded(child: _buildStatCard(e.value)),
+              Expanded(
+                child: StatCard(
+                  icon: e.value.icon,
+                  label: e.value.label,
+                  value: e.value.value,
+                  color: e.value.color,
+                ),
+              ),
               if (!isLast) const SizedBox(width: 10),
             ],
           ),
         );
       }).toList(),
-    );
-  }
-
-  Widget _buildStatCard(_StatData data) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade100),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: data.color.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(9),
-                ),
-                child: Icon(data.icon, size: 16, color: data.color),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                data.value,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w800,
-                  color: data.color,
-                  letterSpacing: -0.5,
-                  height: 1,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            data.label,
-            style: TextStyle(
-              fontSize: 10,
-              color: Colors.grey.shade400,
-              fontWeight: FontWeight.w500,
-              height: 1.3,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -325,7 +275,7 @@ class HomeTenantScreen extends StatelessWidget {
       style: const TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.w700,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
         letterSpacing: -0.2,
       ),
     );
@@ -333,18 +283,38 @@ class HomeTenantScreen extends StatelessWidget {
 
   Widget _buildRecentRepairs() {
     final repairs = [
-      _RepairItem(
-        'Air conditioner not cooling',
-        'Dec 10, 2024',
-        _RepairStatus.completed,
+      RepairModel(
+        id: '1',
+        title: 'Air conditioner not cooling',
+        description: '',
+        reportedAt: DateTime(2024, 12, 10),
+        status: RepairStatus.completed,
+        category: RepairCategory.appliance,
       ),
-      _RepairItem('Leaking faucet', 'Dec 12, 2024', _RepairStatus.inProgress),
-      _RepairItem(
-        'Light bulb replacement',
-        'Jan 5, 2025',
-        _RepairStatus.inProgress,
+      RepairModel(
+        id: '2',
+        title: 'Leaking faucet',
+        description: '',
+        reportedAt: DateTime(2024, 12, 12),
+        status: RepairStatus.inProgress,
+        category: RepairCategory.plumbing,
       ),
-      _RepairItem('Door lock jammed', 'Jan 8, 2025', _RepairStatus.pending),
+      RepairModel(
+        id: '3',
+        title: 'Light bulb replacement',
+        description: '',
+        reportedAt: DateTime(2025, 1, 5),
+        status: RepairStatus.inProgress,
+        category: RepairCategory.electrical,
+      ),
+      RepairModel(
+        id: '4',
+        title: 'Door lock jammed',
+        description: '',
+        reportedAt: DateTime(2025, 1, 8),
+        status: RepairStatus.pending,
+        category: RepairCategory.security,
+      ),
     ];
 
     return Container(
@@ -375,93 +345,45 @@ class HomeTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRepairTile(_RepairItem item) {
+  Widget _buildRepairTile(RepairModel item) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
       leading: Container(
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: item.status.color.withValues(alpha: 0.1),
+          color: item.statusColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(Icons.build_outlined, size: 17, color: item.status.color),
+        child: Icon(Icons.build_outlined, size: 17, color: item.statusColor),
       ),
       title: Text(
         item.title,
         style: const TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          color: Color(0xFF0D1B2A),
+          color: AppColors.textPrimary,
         ),
       ),
       subtitle: Text(
-        item.date,
+        item.reportedDate,
         style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
       ),
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: item.status.color.withValues(alpha: 0.1),
+          color: item.statusColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(6),
         ),
         child: Text(
-          item.status.label,
+          item.statusText,
           style: TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w700,
-            color: item.status.color,
+            color: item.statusColor,
           ),
         ),
       ),
     );
   }
-}
-
-class _StatData {
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color color;
-  const _StatData({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-  });
-}
-
-enum _RepairStatus {
-  pending,
-  inProgress,
-  completed;
-
-  String get label {
-    switch (this) {
-      case _RepairStatus.pending:
-        return 'Pending';
-      case _RepairStatus.inProgress:
-        return 'In Progress';
-      case _RepairStatus.completed:
-        return 'Done';
-    }
-  }
-
-  Color get color {
-    switch (this) {
-      case _RepairStatus.pending:
-        return const Color(0xFFFFA726);
-      case _RepairStatus.inProgress:
-        return const Color(0xFF42A5F5);
-      case _RepairStatus.completed:
-        return const Color(0xFF66BB6A);
-    }
-  }
-}
-
-class _RepairItem {
-  final String title;
-  final String date;
-  final _RepairStatus status;
-  const _RepairItem(this.title, this.date, this.status);
 }
