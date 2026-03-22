@@ -244,7 +244,13 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           color: _ink,
         ),
         onPressed: () async {
-          if (await _confirmPop() && context.mounted) Navigator.pop(context);
+          final shouldPop = await _confirmPop();
+
+          if (!mounted) return;
+
+          if (shouldPop) {
+            Navigator.pop(context);
+          }
         },
       ),
       title: Column(
