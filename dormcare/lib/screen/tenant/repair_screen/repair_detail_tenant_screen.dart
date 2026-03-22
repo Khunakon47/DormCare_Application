@@ -1,4 +1,4 @@
-import 'package:dormcare/component/tenant/timeline_tile.dart';
+import 'package:dormcare/component/timeline_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/tenant/repair_model.dart';
 

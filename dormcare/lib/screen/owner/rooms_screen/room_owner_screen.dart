@@ -1,5 +1,5 @@
 import 'package:dormcare/model/owner/room_model.dart';
-import 'package:dormcare/screen/owner/rooms_screen/room_viewdetail_owner_screen.dart';
+import 'room_detail_owner_screen.dart';
 import 'package:flutter/material.dart';
 
 class RoomOwnerScreen extends StatefulWidget {
@@ -39,20 +39,20 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
       tenantMoveinDate: null,
       tenantContractEndDate: null,
     ),
-    // RoomModel(
-    //   roomId: 'r003',
-    //   imageUrl: 'https://picsum.photos/500/300?random=21',
-    //   roomNumber: 'B201',
-    //   roomFloor: '2',
-    //   roomType: 'Single',
-    //   price: 4200,
-    //   isOccupied: true,
-    //   tenantName: 'Mika Tanaka',
-    //   tenantPhone: '088-777-6666',
-    //   tenantEmail: 'mika@gmail.com',
-    //   tenantMoveinDate: DateTime(2026, 2, 5),
-    //   tenantContractEndDate: DateTime(2026, 5, 5),
-    // ),
+    RoomModel(
+      roomId: 'r003',
+      imageUrl: 'https://picsum.photos/500/300?random=21',
+      roomNumber: 'B201',
+      roomFloor: '2',
+      roomType: 'Single',
+      price: 4200,
+      isOccupied: true,
+      tenantName: 'Mika Tanaka',
+      tenantPhone: '088-777-6666',
+      tenantEmail: 'mika@gmail.com',
+      tenantMoveinDate: DateTime(2026, 2, 5),
+      tenantContractEndDate: DateTime(2026, 5, 5),
+    ),
     RoomModel(
       roomId: 'r004',
       imageUrl: '',
@@ -74,10 +74,27 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
   int get _occupiedCount => _allRooms.where((r) => r.isOccupied).length;
   int get _vacantCount => _allRooms.where((r) => !r.isOccupied).length;
 
+  // ─── Build ───────────────────────────────────────────────────────────────
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF7F8FA),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('This feature is currently under development'),
+              behavior: SnackBarBehavior.floating,
+              duration: Duration(seconds: 2),
+            ),
+          );
+        },
+        backgroundColor: const Color(0xFFA34CF3),
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +119,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (_) =>
-                                RoomViewdetail(room: _filteredRooms[index]),
+                                RoomDetailScreen(room: _filteredRooms[index]),
                           ),
                         ),
                       ),
@@ -111,23 +128,10 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          ScaffoldMessenger.of(context).clearSnackBars();
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('This feature is currently under development'),
-              behavior: SnackBarBehavior.floating,
-              duration: Duration(seconds: 2),
-            ),
-          );
-        },
-        backgroundColor: const Color(0xFFA34CF3),
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
     );
   }
+
+  // ─── Private Helpers ─────────────────────────────────────────────────────
 
   Widget _buildSummaryRow() {
     final total = _allRooms.length;
@@ -389,7 +393,8 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
   }
 }
 
-// เดี๋ยวจะย้ายไปไว้ใน components/room_card.dart
+// ─── Room Card ────────────────────────────────────────────────────────────────
+
 class _RoomCard extends StatelessWidget {
   final RoomModel room;
   final VoidCallback onTap;
@@ -567,29 +572,24 @@ class _RoomCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
+                        if (room.tenantPhone != null) ...[
+                          const SizedBox(width: 12),
+                          Icon(
+                            Icons.phone_outlined,
+                            size: 13,
+                            color: Colors.grey.shade400,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            room.tenantPhone!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey.shade500,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
-                  ],
-
-                  if (room.tenantPhone != null) ...[
-                    const SizedBox(height: 6),
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.phone_outlined,
-                          size: 13,
-                          color: Colors.grey.shade400,
-                        ),
-                        const SizedBox(width: 4),
-                        Text(
-                          room.tenantPhone!,
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: Colors.grey.shade500,
-                          ),
-                        ),
-                      ],
-                    )
                   ],
 
                   if (!isOccupied) ...[
@@ -686,7 +686,8 @@ class _RoomCard extends StatelessWidget {
   }
 }
 
-// เดี๋ยวจะย้ายไปไว้ใน components/donut_chart.dart
+// ─── Donut Painter ────────────────────────────────────────────────────────────
+
 class _DonutPainter extends CustomPainter {
   final int total;
   final double occupiedArc;

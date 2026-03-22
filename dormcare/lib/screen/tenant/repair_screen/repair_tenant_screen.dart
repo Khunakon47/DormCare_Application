@@ -1,4 +1,4 @@
-import 'package:dormcare/component/tenant/repair_card.dart';
+import 'package:dormcare/component/repair_card.dart';
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/tenant/repair_model.dart';
 import 'repair_detail_tenant_screen.dart';

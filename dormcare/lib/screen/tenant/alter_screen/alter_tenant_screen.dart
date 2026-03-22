@@ -1,6 +1,6 @@
-import 'package:dormcare/component/tenant/alert_card.dart';
-import 'package:dormcare/component/tenant/alert_filter_sheet.dart';
-import 'package:dormcare/component/tenant/alert_sort_sheet.dart';
+import 'package:dormcare/component/alert_card.dart';
+import 'package:dormcare/component/alert_filter_sheet.dart';
+import 'package:dormcare/component/alert_sort_sheet.dart';
 import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:flutter/material.dart';
 import 'alter_detail_tenant_screen.dart';
