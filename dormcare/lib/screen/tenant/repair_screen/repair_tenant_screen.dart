@@ -30,7 +30,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       title: 'Leaking Faucet',
       description: 'The kitchen faucet is leaking and causing water to pool around the sink area.',
       reportedAt: DateTime(2024, 12, 12, 14, 45),
-      imageUrl: 'https://picsum.photos/500/300?random=2',
       status: RepairStatus.inProgress,
       category: RepairCategory.plumbing,
     ),
@@ -39,7 +38,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       title: 'Air Conditioner',
       description: 'The air conditioner in my bedroom is not cooling properly.',
       reportedAt: DateTime(2024, 12, 15, 11, 20),
-      imageUrl: 'https://picsum.photos/500/300?random=3',
       status: RepairStatus.pending,
       category: RepairCategory.appliance,
     ),
@@ -76,8 +74,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const SizedBox(height: 12),
-            // _buildStatusSummaryRow(),
             const SizedBox(height: 12),
             _buildSearchAndSort(),
             const SizedBox(height: 10),
@@ -108,7 +104,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
           final navigator = Navigator.of(context);
           final messenger = ScaffoldMessenger.of(context);
@@ -124,7 +120,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               SnackBar(
                 content: const Row(
                   children: [
-                    Icon(Icons.check_circle_outline, color: Colors.white, size: 20),
+                    Icon(
+                      Icons.check_circle_outline,
+                      color: Colors.white,
+                      size: 20,
+                    ),
                     SizedBox(width: 10),
                     Text('Report submitted successfully'),
                   ],
@@ -156,147 +156,21 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               ),
             );
           }
-          // success == null หมายถึงกด back เฉยๆ ไม่แสดงอะไร
         },
         backgroundColor: const Color(0xFF367BF3),
         elevation: 2,
-        child: const Icon(Icons.add, color: Colors.white, size: 20),
+        icon: const Icon(Icons.add, color: Colors.white, size: 20),
+        label: const Text(
+          'Report Issue',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
-
-  // Widget _buildStatusSummaryRow() {
-  //   final total = _allRepairs.length;
-  //   final pending = _allRepairs
-  //       .where((r) => r.status == RepairStatus.pending)
-  //       .length;
-  //   final inProgress = _allRepairs
-  //       .where((r) => r.status == RepairStatus.inProgress)
-  //       .length;
-  //   final completed = _allRepairs
-  //       .where((r) => r.status == RepairStatus.completed)
-  //       .length;
-  //   final cancelled = _allRepairs
-  //       .where((r) => r.status == RepairStatus.cancelled)
-  //       .length;
-
-  //   final segments = [
-  //     (count: pending, color: const Color(0xFFFFA726), label: 'Pending'),
-  //     (count: inProgress, color: const Color(0xFF42A5F5), label: 'In Progress'),
-  //     (count: completed, color: const Color(0xFF66BB6A), label: 'Completed'),
-  //     (count: cancelled, color: const Color(0xFFEF5350), label: 'Cancelled'),
-  //   ];
-
-  //   return Padding(
-  //     padding: const EdgeInsets.symmetric(horizontal: 16),
-  //     child: Container(
-  //       padding: const EdgeInsets.all(16),
-  //       decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         borderRadius: BorderRadius.circular(16),
-  //         border: Border.all(color: Colors.grey.shade100),
-  //         boxShadow: [
-  //           BoxShadow(
-  //             color: Colors.black.withValues(alpha: 0.04),
-  //             blurRadius: 12,
-  //             offset: const Offset(0, 4),
-  //           ),
-  //         ],
-  //       ),
-  //       child: Column(
-  //         crossAxisAlignment: CrossAxisAlignment.start,
-  //         children: [
-  //           // Title row
-  //           Row(
-  //             children: [
-  //               const Text(
-  //                 'Overview',
-  //                 style: TextStyle(
-  //                   fontSize: 13,
-  //                   fontWeight: FontWeight.w700,
-  //                   color: Color(0xFF0D1B2A),
-  //                 ),
-  //               ),
-  //               const Spacer(),
-  //               Text(
-  //                 '$total requests total',
-  //                 style: TextStyle(
-  //                   fontSize: 12,
-  //                   color: Colors.grey.shade400,
-  //                   fontWeight: FontWeight.w500,
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-
-  //           const SizedBox(height: 12),
-
-  //           // Segmented progress bar
-  //           ClipRRect(
-  //             borderRadius: BorderRadius.circular(6),
-  //             child: SizedBox(
-  //               height: 8,
-  //               child: Row(
-  //                 children: total == 0
-  //                     ? [
-  //                         Expanded(
-  //                           child: Container(color: Colors.grey.shade100),
-  //                         ),
-  //                       ]
-  //                     : segments
-  //                           .where((s) => s.count > 0)
-  //                           .map(
-  //                             (s) => Expanded(
-  //                               flex: s.count,
-  //                               child: Container(
-  //                                 color: s.color,
-  //                                 margin: const EdgeInsets.only(right: 2),
-  //                               ),
-  //                             ),
-  //                           )
-  //                           .toList(),
-  //               ),
-  //             ),
-  //           ),
-
-  //           const SizedBox(height: 12),
-
-  //           // Legend
-  //           Wrap(
-  //             spacing: 16,
-  //             runSpacing: 6,
-  //             children: segments
-  //                 .map(
-  //                   (s) => Row(
-  //                     mainAxisSize: MainAxisSize.min,
-  //                     children: [
-  //                       Container(
-  //                         width: 8,
-  //                         height: 8,
-  //                         decoration: BoxDecoration(
-  //                           color: s.color,
-  //                           shape: BoxShape.circle,
-  //                         ),
-  //                       ),
-  //                       const SizedBox(width: 5),
-  //                       Text(
-  //                         '${s.count}  ${s.label}',
-  //                         style: TextStyle(
-  //                           fontSize: 11,
-  //                           color: Colors.grey.shade600,
-  //                           fontWeight: FontWeight.w500,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 )
-  //                 .toList(),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   // Search and sort method
   Widget _buildSearchAndSort() {

@@ -17,8 +17,6 @@ class RepairDetailOwnerScreen extends StatefulWidget {
 }
 
 class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,19 +75,17 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildImage() {
     return widget.data.imageUrl != null
-        ? AspectRatio(
-            aspectRatio: 16 / 9,
-            child: Image.network(
-              widget.data.imageUrl!,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
-            ),
-          )
-        : _buildImagePlaceholder();
+      ? AspectRatio(
+          aspectRatio: 16 / 9,
+          child: Image.network(
+            widget.data.imageUrl!,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
+          ),
+        )
+      : _buildImagePlaceholder();
   }
 
   Widget _buildImagePlaceholder() {

@@ -25,8 +25,6 @@ class RepairOwnerModel {
     required this.status,
   });
 
-  // ─── Status helpers ───────────────────────────────────────────────────────
-
   Color get statusColor {
     switch (status) {
       case RepairOwnerStatus.pending:
@@ -79,23 +77,8 @@ class RepairOwnerModel {
     }
   }
 
-  // ─── Date/Time helpers ────────────────────────────────────────────────────
-
   String get reportedDate {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     return '${reportedAt.day} ${months[reportedAt.month - 1]} ${reportedAt.year}';
   }
 

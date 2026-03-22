@@ -6,6 +6,7 @@ import 'rooms_screen/room_owner_screen.dart';
 import 'bills_screen/bills_owner_screen.dart';
 import 'repairs_screen/repairs_owner_screen.dart';
 import 'profile_screen/profile_owner_screen.dart';
+import 'alter_screen/alter_owner_screen.dart';
 
 class MainOwnerScreen extends StatefulWidget {
   const MainOwnerScreen({super.key});
@@ -39,33 +40,49 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
       appBar: AppBar(
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
         ),
+        centerTitle: false,
         actions: [
-          IconButton(
-            padding: const EdgeInsets.only(right: 16),
-            onPressed: () {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  behavior: SnackBarBehavior.floating,
-                  duration: Duration(seconds: 2),
-                  content: Text(
-                    "This feature is currently under development.",
+          Padding(
+            padding: const EdgeInsets.only(right: 8),
+            child: IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => const AlertOwnerScreen()),
+                );
+              },
+              icon: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(
+                    Icons.notifications_outlined,
+                    size: 26,
+                    color: Color(0xFFA34CF3),
                   ),
-                ),
-              );
-            },
-            icon: const Icon(
-              Icons.notifications,
-              size: 32,
-              color: Colors.purple,
+
+                  // Notification badge (UI only)
+                  Positioned(
+                    right: -1,
+                    top: -1,
+                    child: Container(
+                      width: 8,
+                      height: 8,
+                      decoration: const BoxDecoration(
+                        color: Colors.red,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: Colors.grey.shade300, height: 1),
         ),
       ),
 
@@ -94,47 +111,50 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
             type: BottomNavigationBarType.fixed,
 
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            selectedItemColor: Color(0xFFA34CF3),
+
+            selectedItemColor: const Color(0xFFA34CF3),
+            unselectedItemColor: Colors.grey,
+
             selectedFontSize: 13,
-            selectedIconTheme: IconThemeData(size: 26),
+            unselectedFontSize: 12,
+
+            selectedIconTheme: const IconThemeData(size: 26),
+            unselectedIconTheme: const IconThemeData(size: 24),
 
             showUnselectedLabels: true,
-            unselectedItemColor: Color(0xFF9436F3),
-            unselectedFontSize: 12,
-            unselectedIconTheme: IconThemeData(size: 25),
 
             items: [
               // Home
               _buildBottomNavBarItem(
-                lebel: 'Home',
+                label: 'Home',
                 icon: const Icon(Icons.home_outlined),
                 activeIcon: const Icon(Icons.home),
               ),
 
-              // Room Management
+              // Rooms
               _buildBottomNavBarItem(
-                lebel: 'Rooms',
+                label: 'Rooms',
                 icon: const Icon(Icons.meeting_room_outlined),
                 activeIcon: const Icon(Icons.meeting_room),
               ),
 
               // Bills
               _buildBottomNavBarItem(
-                lebel: 'Bills',
+                label: 'Bills',
                 icon: const Icon(Icons.receipt_long_outlined),
                 activeIcon: const Icon(Icons.receipt_long),
               ),
 
               // Repairs
               _buildBottomNavBarItem(
-                lebel: 'Repairs',
+                label: 'Repairs',
                 icon: const Icon(Icons.build_outlined),
                 activeIcon: const Icon(Icons.build),
               ),
 
               // Profile
               _buildBottomNavBarItem(
-                lebel: 'Profile',
+                label: 'Profile',
                 icon: const Icon(Icons.person_outline),
                 activeIcon: const Icon(Icons.person),
               ),
@@ -147,14 +167,14 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
   // Private method to build BottomNavigationBarItem
   BottomNavigationBarItem _buildBottomNavBarItem({
-    required String lebel,
+    required String label,
     required Icon icon,
     required Icon activeIcon,
   }) {
     return BottomNavigationBarItem(
       icon: Padding(padding: EdgeInsets.only(top: 8), child: icon),
       activeIcon: Padding(padding: EdgeInsets.only(top: 8), child: activeIcon),
-      label: lebel,
+      label: label,
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/owner/repair_owner_model.dart';
 import 'repair_detail_owner_screen.dart';
+import 'repair_filter_owner_sheet.dart';
 
 class RepairsOwnerScreen extends StatefulWidget {
   const RepairsOwnerScreen({super.key});
@@ -10,8 +11,9 @@ class RepairsOwnerScreen extends StatefulWidget {
 }
 
 class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
-  int _selectedStatusIndex = 0;
-  int _selectedFloorIndex = 0; // 0 = All, 1–5 = Floor 1–5
+
+  RepairOwnerStatus? _selectedStatus;
+  int _selectedFloor = 0; // 0 = All floors
 
   // Mock data
   final List<RepairOwnerModel> _allRepairs = [
@@ -34,7 +36,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       roomNumber: '203',
       tenantName: 'Nattaya P.',
       phoneNumber: '082-345-6789',
-      imageUrl: 'https://picsum.photos/500/300?random=11',
       reportedAt: DateTime(2024, 12, 12, 14, 45),
       status: RepairOwnerStatus.inProgress,
     ),
@@ -45,7 +46,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       roomNumber: '305',
       tenantName: 'Wichai T.',
       phoneNumber: '083-456-7890',
-      imageUrl: 'https://picsum.photos/500/300?random=13',
       reportedAt: DateTime(2024, 12, 15, 11, 20),
       status: RepairOwnerStatus.completed,
     ),
@@ -56,7 +56,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       roomNumber: '102',
       tenantName: 'Malee S.',
       phoneNumber: '084-567-8901',
-      imageUrl: 'https://picsum.photos/500/300?random=12',
       reportedAt: DateTime(2024, 12, 18, 16, 10),
       status: RepairOwnerStatus.cancelled,
     ),
@@ -67,7 +66,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       roomNumber: '401',
       tenantName: 'Prayut C.',
       phoneNumber: '085-678-9012',
-      imageUrl: 'https://picsum.photos/500/300?random=14',
       reportedAt: DateTime(2024, 12, 20, 10, 0),
       status: RepairOwnerStatus.pending,
     ),
@@ -75,29 +73,22 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
 
   List<RepairOwnerModel> get _filteredRepairs {
     var result = _allRepairs;
-
-    // Filter by floor — ดูจากตัวแรกของ roomNumber เช่น "203" → floor 2
-    if (_selectedFloorIndex != 0) {
+    if (_selectedFloor != 0) {
       result = result
-          .where((r) => r.roomNumber.startsWith('$_selectedFloorIndex'))
+          .where((r) => r.roomNumber.startsWith('$_selectedFloor'))
           .toList();
     }
-
-    // Filter by status
-    if (_selectedStatusIndex != 0) {
-      final statuses = [
-        null,
-        RepairOwnerStatus.pending,
-        RepairOwnerStatus.inProgress,
-        RepairOwnerStatus.completed,
-        RepairOwnerStatus.cancelled,
-      ];
-      result = result
-          .where((r) => r.status == statuses[_selectedStatusIndex])
-          .toList();
+    if (_selectedStatus != null) {
+      result = result.where((r) => r.status == _selectedStatus).toList();
     }
-
     return result;
+  }
+
+  int get _activeFilterCount {
+    int count = 0;
+    if (_selectedStatus != null) count++;
+    if (_selectedFloor != 0) count++;
+    return count;
   }
 
   @override
@@ -111,44 +102,38 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             const SizedBox(height: 12),
             _buildStatusSummaryBar(),
             const SizedBox(height: 12),
-            _buildSearchAndSort(),
+            _buildSearchAndActions(),
             const SizedBox(height: 10),
-            _buildFilterTabs(),
-            const SizedBox(height: 8),
-            _buildFloorTabs(),
-            const SizedBox(height: 8),
             _buildListHeader(),
             const SizedBox(height: 6),
             Expanded(
               child: _filteredRepairs.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                      itemCount: _filteredRepairs.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) => _RepairOwnerCard(
-                        data: _filteredRepairs[index],
-                        onTap: () async {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => RepairDetailOwnerScreen(
-                                data: _filteredRepairs[index],
-                                onStatusUpdated: () => setState(() {}),
-                              ),
+                ? _buildEmptyState()
+                : ListView.separated(
+                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                    itemCount: _filteredRepairs.length,
+                    separatorBuilder: (context, index) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) => _RepairOwnerCard(
+                      data: _filteredRepairs[index],
+                      onTap: () async {
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => RepairDetailOwnerScreen(
+                              data: _filteredRepairs[index],
+                              onStatusUpdated: () => setState(() {}),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
+                  ),
             ),
           ],
         ),
       ),
     );
   }
-
-  // ─── Private Helpers ─────────────────────────────────────────────────────
 
   Widget _buildStatusSummaryBar() {
     final total = _allRepairs.length;
@@ -290,11 +275,12 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
     );
   }
 
-  Widget _buildSearchAndSort() {
+  Widget _buildSearchAndActions() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
+          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -316,149 +302,99 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               ),
             ),
           ),
+          
           const SizedBox(width: 8),
+
+          // Filter button
+          GestureDetector(
+            onTap: () => showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              useSafeArea: true,
+              showDragHandle: true,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              ),
+              builder: (context) => RepairFilterOwnerSheet(
+                initialStatus: _selectedStatus,
+                initialFloor: _selectedFloor,
+                onApply: (status, floor) {
+                  setState(() {
+                    _selectedStatus = status;
+                    _selectedFloor = floor;
+                  });
+                },
+              ),
+            ),
+            child: Container(
+              height: 42,
+              width: 42,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Center(
+                    child: Icon(
+                      Icons.filter_alt_outlined,
+                      size: 20,
+                      color: Color(0xFFA34CF3),
+                    ),
+                  ),
+
+                  if (_activeFilterCount > 0)
+                    Positioned(
+                      right: 0,
+                      top: 6,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        height: 16,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFA34CF3),
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.15),
+                              blurRadius: 4,
+                              offset: const Offset(0, 1),
+                            ),
+                          ],
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          '$_activeFilterCount',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(width: 8),
+
+          // Sort button
           Container(
             height: 42,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            width: 42,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade200),
             ),
-            child: Row(
-              children: [
-                const Icon(Icons.sort, size: 18, color: Color(0xFFA34CF3)),
-                const SizedBox(width: 6),
-                const Text(
-                  'Sort',
-                  style: TextStyle(
-                    color: Color(0xFFA34CF3),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            child: const Center(
+              child: Icon(Icons.sort, size: 20, color: Color(0xFFA34CF3)),
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildFilterTabs() {
-    final labels = ['All', 'Pending', 'In Progress', 'Completed', 'Cancelled'];
-    final colors = [
-      const Color(0xFFA34CF3),
-      const Color(0xFFFFA726),
-      const Color(0xFF42A5F5),
-      const Color(0xFF66BB6A),
-      const Color(0xFFEF5350),
-    ];
-
-    return SizedBox(
-      height: 36,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: labels.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final isSelected = _selectedStatusIndex == index;
-          return GestureDetector(
-            onTap: () => setState(() => _selectedStatusIndex = index),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-              decoration: BoxDecoration(
-                color: isSelected ? colors[index] : Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: isSelected ? colors[index] : Colors.grey.shade200,
-                ),
-                boxShadow: isSelected
-                    ? [
-                        BoxShadow(
-                          color: colors[index].withValues(alpha: 0.3),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ]
-                    : [],
-              ),
-              child: Text(
-                labels[index],
-                style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.grey.shade500,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  fontSize: 12,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget _buildFloorTabs() {
-    final labels = [
-      'All Floors',
-      'Floor 1',
-      'Floor 2',
-      'Floor 3',
-      'Floor 4',
-      'Floor 5',
-    ];
-
-    return SizedBox(
-      height: 32,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: labels.length,
-        separatorBuilder: (context, index) => const SizedBox(width: 8),
-        itemBuilder: (context, index) {
-          final isSelected = _selectedFloorIndex == index;
-          return GestureDetector(
-            onTap: () => setState(() => _selectedFloorIndex = index),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: isSelected ? const Color(0xFFA34CF3) : Colors.white,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                  color: isSelected
-                      ? const Color(0xFFA34CF3)
-                      : Colors.grey.shade200,
-                ),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (index != 0) ...[
-                    Icon(
-                      Icons.layers_outlined,
-                      size: 11,
-                      color: isSelected ? Colors.white : Colors.grey.shade400,
-                    ),
-                    const SizedBox(width: 4),
-                  ],
-                  Text(
-                    labels[index],
-                    style: TextStyle(
-                      color: isSelected ? Colors.white : Colors.grey.shade500,
-                      fontWeight: isSelected
-                          ? FontWeight.w700
-                          : FontWeight.w500,
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
       ),
     );
   }
@@ -478,7 +414,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             ),
           ),
           Text(
-            '${_filteredRepairs.length} ${_selectedStatusIndex == 0 ? 'requests' : 'results'}',
+            '${_filteredRepairs.length} ${_activeFilterCount == 0 ? 'requests' : 'results'}',
             style: TextStyle(
               color: Colors.grey.shade500,
               fontSize: 12,
@@ -528,8 +464,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
   }
 }
 
-// ─── Repair Owner Card ────────────────────────────────────────────────────────
-
+// เดี๋ยวจะย้ายไป component folder เพื่อความสะอาดของโค้ด
 class _RepairOwnerCard extends StatelessWidget {
   final RepairOwnerModel data;
   final VoidCallback onTap;
@@ -579,8 +514,6 @@ class _RepairOwnerCard extends StatelessWidget {
       ),
     );
   }
-
-  // ─── Card Helpers ─────────────────────────────────────────────────────────
 
   Widget _buildImage() {
     return ClipRRect(
@@ -744,33 +677,6 @@ class _RepairOwnerCard extends StatelessWidget {
         ),
         const SizedBox(width: 2),
         const Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFFA34CF3)),
-
-        // ปุ่ม "View details" แบบกล่องที่มี background และ border
-        // Container(
-        //   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        //   decoration: BoxDecoration(
-        //     color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
-        //     borderRadius: BorderRadius.circular(8),
-        //     border: Border.all(
-        //       color: const Color(0xFFA34CF3).withValues(alpha: 0.3),
-        //     ),
-        //   ),
-        //   child: Row(
-        //     mainAxisSize: MainAxisSize.min,
-        //     children: const [
-        //       Text(
-        //         'View details',
-        //         style: TextStyle(
-        //           fontSize: 12,
-        //           color: Color(0xFFA34CF3),
-        //           fontWeight: FontWeight.w600,
-        //         ),
-        //       ),
-        //       SizedBox(width: 4),
-        //       Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFFA34CF3)),
-        //     ],
-        //   ),
-        // )
       ],
     );
   }
