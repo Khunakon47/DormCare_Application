@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import '../model/tenant/alert_model.dart';
 
-class AlertCard extends StatelessWidget {
+class AlertTenantCard extends StatelessWidget {
   final AlertModel data;
   final VoidCallback onTap;
 
-  const AlertCard({super.key, required this.data, required this.onTap});
+  const AlertTenantCard({super.key, required this.data, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class AlertCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: data.isRead ? const Color(0xFFF5F5F5) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.1),
@@ -50,7 +50,7 @@ class AlertCard extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
-                // 2. Content
+                // Content
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,7 +72,6 @@ class AlertCard extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          // วันที่
                           Text(
                             data.displayDate,
                             style: TextStyle(
@@ -85,15 +84,14 @@ class AlertCard extends StatelessWidget {
 
                       const SizedBox(height: 6),
 
-                      // [เพิ่มส่วนนี้] Category Tag
+                      // Category Tag
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: data
-                              .categoryBgColor, // ใช้สีพื้นหลังเดียวกับไอคอนแต่จางๆ
+                          color: data.categoryBgColor,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
                             color: data.categoryColor.withValues(alpha: 0.2),
@@ -125,7 +123,7 @@ class AlertCard extends StatelessWidget {
                   ),
                 ),
 
-                // 3. Unread Indicator
+                // Unread Indicator
                 if (!data.isRead)
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 5),

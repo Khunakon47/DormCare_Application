@@ -1,4 +1,4 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class BillDetailScreen extends StatefulWidget {
-  final MonthlyBillingModel bill;
+  final BillModel bill;
   final RoomModel? room;
 
   const BillDetailScreen({super.key, required this.bill, required this.room});
@@ -89,7 +89,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     FocusScope.of(context).unfocus();
     setState(() => _saving = true);
     await Future.delayed(const Duration(milliseconds: 300));
-    final updated = MonthlyBillingModel(
+    final updated = BillModel(
       billId: widget.bill.billId,
       roomNumber: widget.bill.roomNumber,
       postedDate: widget.bill.postedDate,
@@ -149,7 +149,11 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           const Text(
             'You have unsaved changes.\nLeave without saving?',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.45),
+            style: TextStyle(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+              height: 1.45,
+            ),
           ),
           const SizedBox(height: 4),
         ],
@@ -159,7 +163,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text(
             'Stay',
-            style: TextStyle(color: AppColors.textSecondary, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         ElevatedButton(
@@ -292,7 +299,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 decoration: BoxDecoration(
                   color: AppColors.warningSoft,
                   borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: AppColors.warning.withValues(alpha: 0.4)),
+                  border: Border.all(
+                    color: AppColors.warning.withValues(alpha: 0.4),
+                  ),
                 ),
                 child: const Text(
                   'Unsaved',
@@ -322,7 +331,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     final gradColors = _isPaid
         ? [AppColors.successDark, const Color(0xFF2E7D32)]
         : [AppColors.ownerPrimary, AppColors.ownerDark];
-    final shadowColor = (_isPaid ? AppColors.successDark : AppColors.ownerPrimary).withValues(alpha: 0.3);
+    final shadowColor =
+        (_isPaid ? AppColors.successDark : AppColors.ownerPrimary).withValues(
+          alpha: 0.3,
+        );
 
     return Container(
       decoration: BoxDecoration(
@@ -637,13 +649,19 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           color: isActive ? activeBg : const Color(0xFFF9FAFB),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isActive ? activeColor.withValues(alpha: 0.4) : AppColors.border,
+            color: isActive
+                ? activeColor.withValues(alpha: 0.4)
+                : AppColors.border,
             width: isActive ? 1.5 : 1,
           ),
         ),
         child: Column(
           children: [
-            Icon(icon, size: 22, color: isActive ? activeColor : AppColors.textHint),
+            Icon(
+              icon,
+              size: 22,
+              color: isActive ? activeColor : AppColors.textHint,
+            ),
             const SizedBox(height: 5),
             Text(
               label,
@@ -759,7 +777,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 ),
                 Text(
                   sub,
-                  style: const TextStyle(fontSize: 10, color: AppColors.textHint),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.textHint,
+                  ),
                 ),
               ],
             ),
@@ -841,7 +862,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     ),
                     Text(
                       rateLabel,
-                      style: const TextStyle(fontSize: 10, color: AppColors.textHint),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.textHint,
+                      ),
                     ),
                   ],
                 ),
@@ -949,7 +973,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
 
   Widget _buildTotalPreview() {
     final isComplete = _isFormValid;
-    final accentColor = _isPaid ? AppColors.successDark : AppColors.ownerPrimary;
+    final accentColor = _isPaid
+        ? AppColors.successDark
+        : AppColors.ownerPrimary;
     final bgStart = _isPaid ? const Color(0xFFECFDF5) : AppColors.ownerSoft;
     final bgEnd = _isPaid ? AppColors.successSoft : const Color(0xFFDDD6FE);
 
@@ -1041,7 +1067,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
 
   Widget _buildSaveButton() {
     final canSave = _isFormValid && _hasChanges && !_saving;
-    final accentColor = _isPaid ? AppColors.successDark : AppColors.ownerPrimary;
+    final accentColor = _isPaid
+        ? AppColors.successDark
+        : AppColors.ownerPrimary;
 
     return SizedBox(
       width: double.infinity,

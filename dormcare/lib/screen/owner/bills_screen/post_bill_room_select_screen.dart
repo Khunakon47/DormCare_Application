@@ -1,4 +1,4 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,7 +10,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
   final int year;
   final int month;
   final List<RoomModel> roomList;
-  final List<MonthlyBillingModel> existingBills;
+  final List<BillModel> existingBills;
 
   const PostBillRoomSelectScreen({
     super.key,
@@ -110,7 +110,8 @@ class PostBillRoomSelectScreen extends StatelessWidget {
                 : ListView.separated(
                     padding: const EdgeInsets.fromLTRB(16, 4, 16, 32),
                     itemCount: occupied.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 10),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 10),
                     itemBuilder: (context, index) {
                       final room = occupied[index];
                       final isPosted = postedRooms.contains(room.roomNumber);

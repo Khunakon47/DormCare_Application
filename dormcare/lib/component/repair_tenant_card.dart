@@ -1,11 +1,11 @@
 import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 
-class RepairCard extends StatelessWidget {
+class RepairTenantCard extends StatelessWidget {
   final RepairModel data;
   final VoidCallback onTap;
 
-  const RepairCard({super.key, required this.data, required this.onTap});
+  const RepairTenantCard({super.key, required this.data, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +36,14 @@ class RepairCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _buildTitle(),
-                      _buildStatusBadge(),
+                      _buildTitle(), 
+                      _buildStatusBadge()
                     ],
                   ),
                   const SizedBox(height: 8),
                   _buildDescription(),
                   const SizedBox(height: 8),
-                  _buildCategory(),
-                  const SizedBox(height: 4),
-                  _buildTime(),
-                  const SizedBox(height: 4),
-                  _buildDate(),
+                  _buildInfoRow(),
                   const SizedBox(height: 12),
                   Divider(color: Colors.grey.shade100, height: 1),
                   const SizedBox(height: 10),
@@ -61,7 +57,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The image section
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -78,7 +73,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The image placeholder section
   Widget _buildImagePlaceholder() {
     return AspectRatio(
       aspectRatio: 16 / 7,
@@ -99,7 +93,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The status section
   Widget _buildStatusBadge() {
     return Row(
       children: [
@@ -130,7 +123,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The title section
   Widget _buildTitle() {
     return Text(
       data.title,
@@ -143,7 +135,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The description section
   Widget _buildDescription() {
     return Text(
       data.description,
@@ -153,65 +144,73 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The date section
-  Widget _buildDate() {
-    return Row(
+  Widget _buildInfoRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          Icons.calendar_today_outlined,
-          size: 12,
-          color: Colors.grey.shade400,
+        // Category row
+        Row(
+          children: [
+            Icon(
+              Icons.category_outlined,
+              size: 16,
+              color: Colors.grey.shade500,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              data.categoryText,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 5),
-        Text(
-          data.reportedDate,
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
+        const SizedBox(height: 6),
+        // Time row
+        Row(
+          children: [
+            Icon(
+              Icons.access_time_outlined,
+              size: 16,
+              color: Colors.grey.shade500,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              data.reportedTime,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
-      ],
+        const SizedBox(height: 6),
+        // Date row
+        Row(
+          children: [
+            Icon(
+              Icons.calendar_today_outlined,
+              size: 16,
+              color: Colors.grey.shade500,
+            ),
+            const SizedBox(width: 5),
+            Text(
+              data.reportedDate,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ]  
     );
   }
 
-  // The time section
-  Widget _buildTime() {
-    return Row(
-      children: [
-        Icon(Icons.access_time_outlined, size: 12, color: Colors.grey.shade400),
-        const SizedBox(width: 5),
-        Text(
-          data.reportedTime,
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // The category section
-  Widget _buildCategory() {
-    return Row(
-      children: [
-        Icon(Icons.category_outlined, size: 12, color: Colors.grey.shade400),
-        const SizedBox(width: 5),
-        Text(
-          data.categoryText,
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // The footer section
   Widget _buildFooter() {
     return Align(
       alignment: Alignment.center,
@@ -221,7 +220,7 @@ class RepairCard extends StatelessWidget {
           Text(
             'View details',
             style: const TextStyle(
-              fontSize: 13,
+              fontSize: 14,
               color: Color(0xFF367BF3),
               fontWeight: FontWeight.w600,
             ),
@@ -229,7 +228,7 @@ class RepairCard extends StatelessWidget {
           const SizedBox(width: 2),
           const Icon(
             Icons.arrow_forward_ios,
-            size: 10,
+            size: 14,
             color: Color(0xFF367BF3),
           ),
         ],

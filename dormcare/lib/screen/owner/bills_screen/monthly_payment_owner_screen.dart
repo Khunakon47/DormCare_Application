@@ -1,13 +1,13 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/bills_screen/bill_detail_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:dormcare/theme/app_theme.dart';
-import 'package:dormcare/component/monthly_payment_room_card.dart';
+import 'package:dormcare/component/bill_room_card.dart';
 
 class MonthlyPaymentScreen extends StatefulWidget {
-  final List<MonthlyBillingModel> bills;
+  final List<BillModel> bills;
   final List<RoomModel> roomList;
 
   const MonthlyPaymentScreen({
@@ -21,7 +21,7 @@ class MonthlyPaymentScreen extends StatefulWidget {
 }
 
 class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
-  late List<MonthlyBillingModel> _bills;
+  late List<BillModel> _bills;
 
   @override
   void initState() {
@@ -38,7 +38,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
   double get _pending =>
       _bills.where((b) => !b.isPaid).fold(0, (s, b) => s + b.total);
 
-  RoomModel? _roomFor(MonthlyBillingModel bill) {
+  RoomModel? _roomFor(BillModel bill) {
     try {
       return widget.roomList.firstWhere((r) => r.roomNumber == bill.roomNumber);
     } catch (_) {
@@ -46,9 +46,9 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
     }
   }
 
-  Future<void> _openDetail(MonthlyBillingModel bill) async {
+  Future<void> _openDetail(BillModel bill) async {
     final idx = _bills.indexOf(bill);
-    final result = await Navigator.push<MonthlyBillingModel>(
+    final result = await Navigator.push<BillModel>(
       context,
       MaterialPageRoute(
         builder: (_) => BillDetailScreen(bill: bill, room: _roomFor(bill)),
@@ -138,7 +138,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
               padding: const EdgeInsets.fromLTRB(16, 4, 16, 48),
               itemCount: _bills.length,
               separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemBuilder: (context, index) => MonthlyPaymentRoomCard(
+              itemBuilder: (context, index) => BillRoomCard(
                 bill: _bills[index],
                 room: _roomFor(_bills[index]),
                 onManage: () => _openDetail(_bills[index]),

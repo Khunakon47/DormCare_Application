@@ -1,4 +1,4 @@
-import 'package:dormcare/component/alert_card.dart';
+import 'package:dormcare/component/alert_tenant_card.dart';
 import 'package:dormcare/model/tenant/alert_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/utils/constants.dart';
@@ -114,10 +114,11 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                         16,
                       ),
                       itemCount: _displayedAlerts.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 4),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 4),
                       itemBuilder: (context, index) {
                         final alert = _displayedAlerts[index];
-                        return AlertCard(
+                        return AlertTenantCard(
                           data: alert,
                           onTap: () {
                             _markAsRead(alert.id);
@@ -180,10 +181,10 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
           // Filter button
           _buildIconButton(
             child: const Icon(
-                    Icons.filter_alt_outlined,
-                    size: AppConstants.iconMd,
-                    color: AppColors.tenantPrimary,
-                  ),
+              Icons.filter_alt_outlined,
+              size: AppConstants.iconMd,
+              color: AppColors.tenantPrimary,
+            ),
           ),
           const SizedBox(width: AppConstants.paddingSm),
 

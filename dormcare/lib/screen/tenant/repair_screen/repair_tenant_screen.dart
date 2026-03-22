@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/component/repair_card.dart';
+import 'package:dormcare/component/repair_tenant_card.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/model/repair_model.dart';
 import 'repair_detail_tenant_screen.dart';
@@ -103,8 +103,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                       itemCount: _filteredRepairs.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) => RepairCard(
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                      itemBuilder: (context, index) => RepairTenantCard(
                         data: _filteredRepairs[index],
                         onTap: () => Navigator.push(
                           context,

@@ -1,14 +1,14 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class MonthlyPaymentRoomCard extends StatelessWidget {
-  final MonthlyBillingModel bill;
+class BillRoomCard extends StatelessWidget {
+  final BillModel bill;
   final RoomModel? room;
   final VoidCallback onManage;
 
-  const MonthlyPaymentRoomCard({
+  const BillRoomCard({
     super.key,
     required this.bill,
     required this.room,

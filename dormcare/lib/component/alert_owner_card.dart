@@ -33,6 +33,7 @@ class AlertOwnerCard extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Icon
               Container(
                 width: 40,
                 height: 40,
@@ -47,6 +48,7 @@ class AlertOwnerCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
+              // Content
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

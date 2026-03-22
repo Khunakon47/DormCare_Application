@@ -1,7 +1,7 @@
 import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 
 import 'package:dormcare/theme/app_theme.dart';
@@ -49,8 +49,8 @@ class RoomDetailScreen extends StatelessWidget {
     ),
   ];
 
-  static final List<MonthlyBillingModel> _allBills = [
-    MonthlyBillingModel(
+  static final List<BillModel> _allBills = [
+    BillModel(
       billId: 'bill001',
       roomNumber: 'A101',
       postedDate: DateTime(2026, 1, 28),
@@ -63,7 +63,7 @@ class RoomDetailScreen extends StatelessWidget {
       other: 0,
       isPaid: true,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill002',
       roomNumber: 'A102',
       postedDate: DateTime(2026, 2, 28),
@@ -76,7 +76,7 @@ class RoomDetailScreen extends StatelessWidget {
       other: 0,
       isPaid: false,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill003',
       roomNumber: 'B201',
       postedDate: DateTime(2026, 1, 28),
@@ -304,7 +304,7 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChips(MonthlyBillingModel? latestBill) {
+  Widget _buildStatusChips(BillModel? latestBill) {
     return Wrap(
       spacing: 8,
       children: [
@@ -458,7 +458,7 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBillContent(MonthlyBillingModel bill) {
+  Widget _buildBillContent(BillModel bill) {
     final isPaid = bill.isPaid;
     final statusColor = isPaid ? AppColors.success : AppColors.warning;
     final statusBg = isPaid ? AppColors.successSoft : AppColors.warningSoft;

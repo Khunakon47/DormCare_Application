@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'monthly_payment_owner_screen.dart';
 import 'post_bill_room_select_screen.dart';
@@ -16,8 +16,8 @@ class BillsOwnerScreen extends StatefulWidget {
 class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
   int? _selectedYear; // null = All
 
-  final List<MonthlyBillingModel> _allBills = [
-    MonthlyBillingModel(
+  final List<BillModel> _allBills = [
+    BillModel(
       billId: 'bill001',
       roomNumber: 'A101',
       postedDate: DateTime(2026, 1, 28),
@@ -30,7 +30,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
       other: 0,
       isPaid: true,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill002',
       roomNumber: 'A102',
       postedDate: DateTime(2026, 1, 28),
@@ -43,7 +43,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
       other: 0,
       isPaid: false,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill003',
       roomNumber: 'B201',
       postedDate: DateTime(2026, 1, 28),
@@ -56,7 +56,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
       other: 100,
       isPaid: true,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill004',
       roomNumber: 'A101',
       postedDate: DateTime(2025, 12, 28),
@@ -69,7 +69,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
       other: 0,
       isPaid: true,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill005',
       roomNumber: 'B201',
       postedDate: DateTime(2025, 12, 28),
@@ -132,11 +132,11 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
   // Fixed year options — add more as needed
   static const List<int> _yearOptions = [2026, 2025, 2024, 2023, 2022];
 
-  Map<String, List<MonthlyBillingModel>> get _grouped {
+  Map<String, List<BillModel>> get _grouped {
     final filtered = _selectedYear == null
         ? _allBills
         : _allBills.where((b) => b.postedDate.year == _selectedYear).toList();
-    final map = <String, List<MonthlyBillingModel>>{};
+    final map = <String, List<BillModel>>{};
     for (final b in filtered) {
       final key =
           '${b.postedDate.year}-${b.postedDate.month.toString().padLeft(2, '0')}';
@@ -211,7 +211,8 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 100),
                       itemCount: _sortedKeys.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
                       itemBuilder: (context, index) => _MonthBillCard(
                         bills: _grouped[_sortedKeys[index]]!,
                         roomList: _roomList,
@@ -345,7 +346,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
 }
 
 class _MonthBillCard extends StatelessWidget {
-  final List<MonthlyBillingModel> bills;
+  final List<BillModel> bills;
   final List<RoomModel> roomList;
 
   const _MonthBillCard({required this.bills, required this.roomList});

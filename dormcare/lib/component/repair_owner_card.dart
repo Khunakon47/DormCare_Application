@@ -1,5 +1,5 @@
-import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/model/repair_model.dart';
 
 class RepairOwnerCard extends StatelessWidget {
   final RepairModel data;
@@ -35,10 +35,12 @@ class RepairOwnerCard extends StatelessWidget {
                 children: [
                   _buildTopRow(),
                   const SizedBox(height: 8),
-                  _buildTenantInfo(),
-                  const SizedBox(height: 6),
+                  _buildTitle(),
+                  const SizedBox(height: 8),
                   _buildDescription(),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
+                  _buildInfoRow(),
+                  const SizedBox(height: 12),
                   Divider(color: Colors.grey.shade100, height: 1),
                   const SizedBox(height: 10),
                   _buildFooter(),
@@ -119,18 +121,6 @@ class RepairOwnerCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Expanded(
-          child: Text(
-            data.title,
-            style: const TextStyle(
-              fontSize: 15,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF0D1B2A),
-              letterSpacing: -0.2,
-            ),
-          ),
-        ),
-        const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
           decoration: BoxDecoration(
@@ -157,27 +147,15 @@ class RepairOwnerCard extends StatelessWidget {
     );
   }
 
-  Widget _buildTenantInfo() {
-    return Row(
-      children: [
-        Icon(Icons.person_outline, size: 13, color: Colors.grey.shade400),
-        const SizedBox(width: 4),
-        Text(
-          data.tenantName,
-          style: TextStyle(
-            fontSize: 12,
-            color: Colors.grey.shade600,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Icon(Icons.phone_outlined, size: 13, color: Colors.grey.shade400),
-        const SizedBox(width: 4),
-        Text(
-          data.phoneNumber,
-          style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
-        ),
-      ],
+  Widget _buildTitle() {
+    return Text(
+      data.title,
+      style: const TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+        color: Color(0xFF0D1B2A),
+        letterSpacing: -0.2,
+      ),
     );
   }
 
@@ -190,30 +168,84 @@ class RepairOwnerCard extends StatelessWidget {
     );
   }
 
+  Widget _buildInfoRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.person_outline,
+              size: 16,
+              color: Colors.grey.shade500
+            ),
+            const SizedBox(width: 4),
+            Text(
+              data.tenantName,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            Icon(
+              Icons.phone_outlined, 
+              size: 16, 
+              color: Colors.grey.shade500
+            ),
+            const SizedBox(width: 4),
+            Text(
+              data.phoneNumber,
+              style: TextStyle(
+                fontSize: 12, 
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        Row(
+          children: [
+            Icon(
+              Icons.access_time_outlined,
+              size: 16,
+              color: Colors.grey.shade500,
+            ),
+            const SizedBox(width: 4),
+            Text(
+              '${data.reportedTime} · ${data.reportedDate}',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.grey.shade500,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        )
+      ],
+    );
+  }
+
   Widget _buildFooter() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(Icons.access_time_outlined, size: 12, color: Colors.grey.shade400),
-        const SizedBox(width: 4),
-        Text(
-          '${data.reportedTime}  ·  ${data.reportedDate}',
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        const Spacer(),
         const Text(
           'View details',
           style: TextStyle(
-            fontSize: 13,
+            fontSize: 14,
             color: Color(0xFFA34CF3),
             fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(width: 2),
-        const Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFFA34CF3)),
+        const Icon(Icons.arrow_forward_ios, size: 14, color: Color(0xFFA34CF3)),
       ],
     );
   }
