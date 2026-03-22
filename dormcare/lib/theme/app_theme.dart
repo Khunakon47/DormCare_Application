@@ -74,8 +74,11 @@ class AppColors {
   static const Color alertBillSoft = Color(0xFFFFF8E1);
   static const Color alertParcel = Color(0xFF42A5F5);
   static const Color alertParcelSoft = Color(0xFFE3F2FD);
+  static const Color alertParcelSoft2 = Color(0xFFFFF3E0);
   static const Color alertGeneral = Color(0xFF9AA5B4);
   static const Color alertGeneralSoft = Color(0xFFF3F4F6);
+  static const Color alertBillPurple = Color(0xFF7E57C2);
+  static const Color alertBillPurpleSoft = Color(0xFFEDE7F6);
 }
 
 // App Text Styles

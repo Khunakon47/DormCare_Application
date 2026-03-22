@@ -1,5 +1,5 @@
 import 'package:dormcare/component/alert_tenant_card.dart';
-import 'package:dormcare/model/tenant/alert_model.dart';
+import 'package:dormcare/model/tenant/alert_tenant_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/utils/constants.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +15,8 @@ class AlertTenantScreen extends StatefulWidget {
 class _AlertTenantScreenState extends State<AlertTenantScreen> {
   final _now = DateTime.now();
 
-  late final List<AlertModel> _allAlerts;
-  List<AlertModel> _displayedAlerts = [];
+  late final List<AlertTenantModel> _allAlerts;
+  List<AlertTenantModel> _displayedAlerts = [];
 
   AlertCategory? _selectedCategory; // null = All
 
@@ -24,7 +24,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
   void initState() {
     super.initState();
     _allAlerts = [
-      AlertModel(
+      AlertTenantModel(
         id: '1',
         title: 'Water Cut Announcement',
         description:
@@ -33,7 +33,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         category: AlertCategory.emergency,
         isRead: false,
       ),
-      AlertModel(
+      AlertTenantModel(
         id: '2',
         title: 'Parcel Arrived',
         description: 'You have a package waiting at the front desk. (Box #A12)',
@@ -41,7 +41,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         category: AlertCategory.parcel,
         isRead: false,
       ),
-      AlertModel(
+      AlertTenantModel(
         id: '3',
         title: 'Electricity Bill Due',
         description:
@@ -50,7 +50,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
         category: AlertCategory.bill,
         isRead: true,
       ),
-      AlertModel(
+      AlertTenantModel(
         id: '4',
         title: 'Gym Cleaning Schedule',
         description:
@@ -197,7 +197,9 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.tenantPrimary.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
             ),
             child: const Icon(
               Icons.sort,

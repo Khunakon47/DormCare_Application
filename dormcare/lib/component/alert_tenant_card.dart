@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../model/tenant/alert_model.dart';
+import '../model/tenant/alert_tenant_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class AlertTenantCard extends StatelessWidget {
-  final AlertModel data;
+  final AlertTenantModel data;
   final VoidCallback onTap;
 
   const AlertTenantCard({super.key, required this.data, required this.onTap});

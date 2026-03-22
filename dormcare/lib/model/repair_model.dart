@@ -1,5 +1,6 @@
-import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/utils/format.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 enum RepairStatus { pending, inProgress, completed, cancelled }
 
@@ -16,9 +17,9 @@ class RepairModel {
   final String id;
   final String title;
   final String description;
-  final String roomNumber; // เพิ่มใหม่ (owner ต้องการ)
-  final String tenantName; // เพิ่มใหม่ (owner ต้องการ)
-  final String phoneNumber; // เพิ่มใหม่ (owner ต้องการ)
+  final String roomNumber;
+  final String tenantName;
+  final String phoneNumber;
   final DateTime reportedAt;
   final String? imageUrl;
   RepairStatus status; // ไม่ final เพราะ owner ต้อง update ได้
@@ -37,36 +38,32 @@ class RepairModel {
     required this.category,
   });
 
-  // ─── Format helpers ───────────────────────────────────────────────────────
-
   String get reportedTime => AppFormat.time(reportedAt);
   String get reportedDate => AppFormat.date(reportedAt);
-
-  // ─── Status helpers ───────────────────────────────────────────────────────
 
   Color get statusColor {
     switch (status) {
       case RepairStatus.pending:
-        return const Color(0xFFFFA726);
+        return AppColors.statusPending;
       case RepairStatus.inProgress:
-        return const Color(0xFF42A5F5);
+        return AppColors.statusInProgress;
       case RepairStatus.completed:
-        return const Color(0xFF66BB6A);
+        return AppColors.statusCompleted;
       case RepairStatus.cancelled:
-        return const Color(0xFFEF5350);
+        return AppColors.statusCancelled;
     }
   }
 
   Color get statusBgColor {
     switch (status) {
       case RepairStatus.pending:
-        return const Color(0xFFFFE0B2);
+        return AppColors.statusPendingSoft;
       case RepairStatus.inProgress:
-        return const Color(0xFFBBDEFB);
+        return AppColors.statusInProgressSoft;
       case RepairStatus.completed:
-        return const Color(0xFFC8E6C9);
+        return AppColors.statusCompletedSoft;
       case RepairStatus.cancelled:
-        return const Color(0xFFFFCDD2);
+        return AppColors.statusCancelledSoft;
     }
   }
 
@@ -95,8 +92,6 @@ class RepairModel {
         return Icons.cancel_outlined;
     }
   }
-
-  // ─── Category helpers ─────────────────────────────────────────────────────
 
   String get categoryText {
     switch (category) {
@@ -131,8 +126,6 @@ class RepairModel {
         return Icons.build_outlined;
     }
   }
-
-  // ─── Firestore serialization ──────────────────────────────────────────────
 
   factory RepairModel.fromJson(Map<String, dynamic> json) {
     return RepairModel(
@@ -169,8 +162,6 @@ class RepairModel {
       'category': category.name,
     };
   }
-
-  // ─── copyWith (ใช้ตอน update status) ─────────────────────────────────────
 
   RepairModel copyWith({RepairStatus? status}) {
     return RepairModel(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/alert_model.dart';
+import 'package:dormcare/model/tenant/alert_tenant_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class AlertDetailTenantScreen extends StatelessWidget {
-  final AlertModel data;
+  final AlertTenantModel data;
 
   const AlertDetailTenantScreen({super.key, required this.data});
 

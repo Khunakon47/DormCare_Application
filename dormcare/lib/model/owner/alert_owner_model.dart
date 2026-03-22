@@ -1,5 +1,6 @@
-import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/utils/format.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 enum AlertOwnerCategory { repairRequest, billReminder, general }
 
@@ -54,22 +55,22 @@ class AlertOwnerModel {
   Color get categoryColor {
     switch (category) {
       case AlertOwnerCategory.repairRequest:
-        return const Color(0xFFA34CF3);
+        return AppColors.ownerPrimary;
       case AlertOwnerCategory.billReminder:
-        return const Color(0xFF42A5F5);
+        return AppColors.info;
       case AlertOwnerCategory.general:
-        return const Color(0xFF66BB6A);
+        return AppColors.success;
     }
   }
 
   Color get categoryBgColor {
     switch (category) {
       case AlertOwnerCategory.repairRequest:
-        return const Color(0xFFF3E8FF);
+        return AppColors.ownerSoft;
       case AlertOwnerCategory.billReminder:
-        return const Color(0xFFE3F2FD);
+        return AppColors.infoSoft;
       case AlertOwnerCategory.general:
-        return const Color(0xFFE8F5E9);
+        return AppColors.successSoft;
     }
   }
 }

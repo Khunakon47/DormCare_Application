@@ -43,9 +43,7 @@ class RoomSelectCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: const Color(
-                    0xFFA34CF3,
-                  ).withValues(alpha: isPosted ? 0.05 : 0.08),
+                  color: AppColors.ownerPrimary.withValues(alpha: isPosted ? 0.05 : 0.08),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(

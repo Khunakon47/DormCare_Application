@@ -1,9 +1,10 @@
-import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/utils/format.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 enum AlertCategory { general, parcel, bill, emergency }
 
-class AlertModel {
+class AlertTenantModel {
   final String id;
   final String title;
   final String description;
@@ -11,7 +12,7 @@ class AlertModel {
   final AlertCategory category;
   bool isRead;
 
-  AlertModel({
+  AlertTenantModel({
     required this.id,
     required this.title,
     required this.description,
@@ -41,26 +42,26 @@ class AlertModel {
   Color get categoryColor {
     switch (category) {
       case AlertCategory.parcel:
-        return const Color(0xFFFFA726);
+        return AppColors.alertBill;
       case AlertCategory.bill:
-        return const Color(0xFF7E57C2);
+        return AppColors.alertBillPurple;
       case AlertCategory.emergency:
-        return const Color(0xFFEF5350);
+        return AppColors.error;
       case AlertCategory.general:
-        return const Color(0xFF42A5F5);
+        return AppColors.info;
     }
   }
 
   Color get categoryBgColor {
     switch (category) {
       case AlertCategory.parcel:
-        return const Color(0xFFFFF3E0);
+        return AppColors.alertParcelSoft2;
       case AlertCategory.bill:
-        return const Color(0xFFEDE7F6);
+        return AppColors.alertBillPurpleSoft;
       case AlertCategory.emergency:
-        return const Color(0xFFFFEBEE);
+        return AppColors.errorSoft;
       case AlertCategory.general:
-        return const Color(0xFFE3F2FD);
+        return AppColors.infoSoft;
     }
   }
 

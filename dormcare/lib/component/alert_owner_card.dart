@@ -87,9 +87,7 @@ class AlertOwnerCard extends StatelessWidget {
                           vertical: 3,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(
-                            0xFFA34CF3,
-                          ).withValues(alpha: 0.08),
+                          color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(6),
                         ),
                         child: Row(
