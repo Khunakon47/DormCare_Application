@@ -67,8 +67,8 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
-            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
+            splashColor: AppColors.tenantPrimary.withValues(alpha: 0.1),
+            highlightColor: AppColors.tenantPrimary.withValues(alpha: 0.1),
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -77,7 +77,7 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-            selectedItemColor: const Color(0xFF367BF3),
+            selectedItemColor: AppColors.tenantPrimary,
             unselectedItemColor: Colors.grey,
 
             selectedFontSize: 13,

@@ -22,6 +22,7 @@ class AppColors {
   static const Color success = Color(0xFF66BB6A);
   static const Color successDark = Color(0xFF43A047);
   static const Color successSoft = Color(0xFFE8F5E9);
+  static const Color successDeep = Color(0xFF2E7D32);
 
   // Semantic — Warning
   static const Color warning = Color(0xFFFFA726);
@@ -66,6 +67,10 @@ class AppColors {
   static const Color billWaterSoft = Color(0xFFECFEFF);
   static const Color billElec = Color(0xFFFFA726);
   static const Color billElecSoft = Color(0xFFFFFBEB);
+  static const Color billElecDark = Color(0xFFC47A00);
+  static const Color billElecLabel = Color(0xFFD4970A);
+  static const Color billWaterDark = Color(0xFF007B8A);
+  static const Color billWaterLabel = Color(0xFF3AABB8);
 
   // Alert category
   static const Color alertEmergency = Color(0xFFEF5350);
@@ -79,6 +84,22 @@ class AppColors {
   static const Color alertGeneralSoft = Color(0xFFF3F4F6);
   static const Color alertBillPurple = Color(0xFF7E57C2);
   static const Color alertBillPurpleSoft = Color(0xFFEDE7F6);
+
+  // On-gradient accent — ใช้บน hero card gradient
+  static const Color onGradientRent = Color(0xFF90CAF9); // ฟ้าอ่อนบน gradient
+  static const Color onGradientWater = Color(0xFF80DEEA,); // ฟ้าเขียวอ่อนบน gradient
+  static const Color onGradientElec = Color(0xFFFFCC80); // ส้มอ่อนบน gradient
+
+  // Grey shades (แทน Colors.grey.shadeX00)
+  static const Color grey50 = Color(0xFFFAFAFA);
+  static const Color grey100 = Color(0xFFF5F5F5);
+  static const Color grey200 = Color(0xFFEEEEEE);
+  static const Color grey300 = Color(0xFFE0E0E0);
+  static const Color grey400 = Color(0xFFBDBDBD);
+  static const Color grey500 = Color(0xFF9E9E9E);
+  static const Color grey600 = Color(0xFF757575);
+  static const Color grey700 = Color(0xFF616161);
+  static const Color grey800 = Color(0xFF424242);
 }
 
 // App Text Styles
