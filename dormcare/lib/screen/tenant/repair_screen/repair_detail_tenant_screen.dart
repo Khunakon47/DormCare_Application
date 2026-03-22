@@ -1,6 +1,6 @@
 import 'package:dormcare/component/timeline_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 
 class RepairDetailTenantScreen extends StatelessWidget {
   final RepairModel data;

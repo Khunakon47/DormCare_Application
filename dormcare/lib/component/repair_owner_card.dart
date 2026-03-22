@@ -1,11 +1,11 @@
-import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/model/owner/repair_owner_model.dart';
 import 'package:flutter/material.dart';
 
-class RepairCard extends StatelessWidget {
-  final RepairModel data;
+class RepairOwnerCard extends StatelessWidget {
+  final RepairOwnerModel data;
   final VoidCallback onTap;
 
-  const RepairCard({super.key, required this.data, required this.onTap});
+  const RepairOwnerCard({super.key, required this.data, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,26 +29,16 @@ class RepairCard extends StatelessWidget {
           children: [
             _buildImage(),
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildTitle(),
-                      _buildStatusBadge(),
-                    ],
-                  ),
+                  _buildTopRow(),
                   const SizedBox(height: 8),
+                  _buildTenantInfo(),
+                  const SizedBox(height: 6),
                   _buildDescription(),
-                  const SizedBox(height: 8),
-                  _buildCategory(),
-                  const SizedBox(height: 4),
-                  _buildTime(),
-                  const SizedBox(height: 4),
-                  _buildDate(),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Divider(color: Colors.grey.shade100, height: 1),
                   const SizedBox(height: 10),
                   _buildFooter(),
@@ -61,7 +51,6 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The image section
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
@@ -71,14 +60,14 @@ class RepairCard extends StatelessWidget {
               child: Image.network(
                 data.imageUrl!,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _buildImagePlaceholder(),
+                errorBuilder: (context, error, stackTrace) =>
+                    _buildImagePlaceholder(),
               ),
             )
           : _buildImagePlaceholder(),
     );
   }
 
-  // The image placeholder section
   Widget _buildImagePlaceholder() {
     return AspectRatio(
       aspectRatio: 16 / 7,
@@ -99,11 +88,49 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The status section
-  Widget _buildStatusBadge() {
+  Widget _buildTopRow() {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        // Status badge
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+          decoration: BoxDecoration(
+            color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.meeting_room_outlined,
+                size: 12,
+                color: Color(0xFFA34CF3),
+              ),
+              const SizedBox(width: 4),
+              Text(
+                'Room ${data.roomNumber}',
+                style: const TextStyle(
+                  color: Color(0xFFA34CF3),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 8),
+        Expanded(
+          child: Text(
+            data.title,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF0D1B2A),
+              letterSpacing: -0.2,
+            ),
+          ),
+        ),
+        const SizedBox(width: 8),
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
           decoration: BoxDecoration(
@@ -130,20 +157,30 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The title section
-  Widget _buildTitle() {
-    return Text(
-      data.title,
-      style: const TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-        color: Color(0xFF0D1B2A),
-        letterSpacing: -0.2,
-      ),
+  Widget _buildTenantInfo() {
+    return Row(
+      children: [
+        Icon(Icons.person_outline, size: 13, color: Colors.grey.shade400),
+        const SizedBox(width: 4),
+        Text(
+          data.tenantName,
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey.shade600,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Icon(Icons.phone_outlined, size: 13, color: Colors.grey.shade400),
+        const SizedBox(width: 4),
+        Text(
+          data.phoneNumber,
+          style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+        ),
+      ],
     );
   }
 
-  // The description section
   Widget _buildDescription() {
     return Text(
       data.description,
@@ -153,87 +190,31 @@ class RepairCard extends StatelessWidget {
     );
   }
 
-  // The date section
-  Widget _buildDate() {
-    return Row(
-      children: [
-        Icon(
-          Icons.calendar_today_outlined,
-          size: 12,
-          color: Colors.grey.shade400,
-        ),
-        const SizedBox(width: 5),
-        Text(
-          data.reportedDate,
-          style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-      ],
-    );
-  }
-
-  // The time section
-  Widget _buildTime() {
+  Widget _buildFooter() {
     return Row(
       children: [
         Icon(Icons.access_time_outlined, size: 12, color: Colors.grey.shade400),
-        const SizedBox(width: 5),
+        const SizedBox(width: 4),
         Text(
-          data.reportedTime,
+          '${data.reportedTime}  ·  ${data.reportedDate}',
           style: TextStyle(
             fontSize: 11,
             color: Colors.grey.shade400,
             fontWeight: FontWeight.w500,
           ),
         ),
-      ],
-    );
-  }
-
-  // The category section
-  Widget _buildCategory() {
-    return Row(
-      children: [
-        Icon(Icons.category_outlined, size: 12, color: Colors.grey.shade400),
-        const SizedBox(width: 5),
-        Text(
-          data.categoryText,
+        const Spacer(),
+        const Text(
+          'View details',
           style: TextStyle(
-            fontSize: 11,
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
+            fontSize: 13,
+            color: Color(0xFFA34CF3),
+            fontWeight: FontWeight.w600,
           ),
         ),
+        const SizedBox(width: 2),
+        const Icon(Icons.arrow_forward_ios, size: 10, color: Color(0xFFA34CF3)),
       ],
-    );
-  }
-
-  // The footer section
-  Widget _buildFooter() {
-    return Align(
-      alignment: Alignment.center,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            'View details',
-            style: const TextStyle(
-              fontSize: 13,
-              color: Color(0xFF367BF3),
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(width: 2),
-          const Icon(
-            Icons.arrow_forward_ios,
-            size: 10,
-            color: Color(0xFF367BF3),
-          ),
-        ],
-      ),
     );
   }
 }

@@ -197,6 +197,7 @@ class HomeOwnerScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
+          // Icon pill
           Container(
             width: 38,
             height: 38,
@@ -207,6 +208,7 @@ class HomeOwnerScreen extends StatelessWidget {
             child: Icon(data.icon, size: 18, color: data.color),
           ),
           const SizedBox(width: 10),
+          // Data
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,6 +217,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    // Value + unit
                     Text(
                       data.value,
                       style: TextStyle(
@@ -242,6 +245,7 @@ class HomeOwnerScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 3),
+                // Label
                 Text(
                   data.label,
                   style: TextStyle(
@@ -350,7 +354,7 @@ class HomeOwnerScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
@@ -363,6 +367,7 @@ class HomeOwnerScreen extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
+
         itemCount: repairs.length,
         separatorBuilder: (context, index) => Divider(
           height: 1,
@@ -378,6 +383,7 @@ class HomeOwnerScreen extends StatelessWidget {
   Widget _buildRepairTile(_RepairItem item) {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      // Icon pill
       leading: Container(
         width: 36,
         height: 36,
@@ -391,6 +397,7 @@ class HomeOwnerScreen extends StatelessWidget {
           color: Color(0xFFA34CF3),
         ),
       ),
+      // Title
       title: Text(
         '${item.room} — ${item.title}',
         style: const TextStyle(
@@ -399,20 +406,23 @@ class HomeOwnerScreen extends StatelessWidget {
           color: Color(0xFF0D1B2A),
         ),
       ),
+      // Subtitle
       subtitle: Text(
         item.date,
         style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
       ),
+      // Status pill
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
           color: item.status.color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: item.status.color.withValues(alpha: 0.25)),
         ),
         child: Text(
           item.status.label,
           style: TextStyle(
-            fontSize: 10,
+            fontSize: 10.5,
             fontWeight: FontWeight.w700,
             color: item.status.color,
           ),

@@ -1,3 +1,4 @@
+import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
 
 enum AlertOwnerCategory { repairRequest, billReminder, general }
@@ -8,7 +9,7 @@ class AlertOwnerModel {
   final String description;
   final DateTime createdAt;
   final AlertOwnerCategory category;
-  final String? roomNumber; // มีเมื่อ category == repairRequest
+  final String? roomNumber;
   final String? tenantName;
   bool isRead;
 
@@ -23,61 +24,11 @@ class AlertOwnerModel {
     this.isRead = false,
   });
 
-  // ─── Display helpers ──────────────────────────────────────────────────────
+  // Format helpers
+  String get displayDate => AppFormat.smart(createdAt);
+  String get fullDateTime => AppFormat.dateTime(createdAt);
 
-  String get displayDate {
-    final now = DateTime.now();
-    final diff = now.difference(createdAt);
-
-    if (diff.inHours < 24) {
-      final h = createdAt.hour.toString().padLeft(2, '0');
-      final m = createdAt.minute.toString().padLeft(2, '0');
-      return '$h:$m';
-    }
-
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final createdDay = DateTime(createdAt.year, createdAt.month, createdAt.day);
-    if (createdDay == yesterday) return 'Yesterday';
-
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${createdAt.day} ${months[createdAt.month - 1]}';
-  }
-
-  String get fullDateTime {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final h = createdAt.hour.toString().padLeft(2, '0');
-    final m = createdAt.minute.toString().padLeft(2, '0');
-    return '${createdAt.day} ${months[createdAt.month - 1]} ${createdAt.year}  ·  $h:$m';
-  }
-
-  // ─── Category helpers ─────────────────────────────────────────────────────
-
+  // Category helpers
   String get categoryText {
     switch (category) {
       case AlertOwnerCategory.repairRequest:

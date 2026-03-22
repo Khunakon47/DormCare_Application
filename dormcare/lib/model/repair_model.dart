@@ -1,3 +1,4 @@
+import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
 
 enum RepairStatus { pending, inProgress, completed, cancelled }
@@ -23,21 +24,11 @@ class RepairModel {
     required this.category,
   });
 
-  // format helper
-  String get reportedTime {
-    return '${reportedAt.hour.toString().padLeft(2, '0')}:${reportedAt.minute.toString().padLeft(2, '0')}';
-  }
+  // Format helpers
+  String get reportedTime => AppFormat.time(reportedAt);
+  String get reportedDate => AppFormat.date(reportedAt);
 
-  String get reportedDate {
-    return '${reportedAt.day} ${_month(reportedAt.month)} ${reportedAt.year}';
-  }
-
-  String _month(int m) {
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',];
-    return months[m - 1];
-  }
-
-  // --- Status helpers ---
+  // Status helpers
   Color get statusColor {
     switch (status) {
       case RepairStatus.pending:
@@ -90,7 +81,7 @@ class RepairModel {
     }
   }
 
-  // --- Category helpers ---
+  // Category helpers
   String get categoryText {
     switch (category) {
       case RepairCategory.electrical:

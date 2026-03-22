@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 
 class ReportTenantScreen extends StatefulWidget {
   const ReportTenantScreen({super.key});

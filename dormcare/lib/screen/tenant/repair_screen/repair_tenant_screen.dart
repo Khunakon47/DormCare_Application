@@ -1,6 +1,6 @@
 import 'package:dormcare/component/repair_card.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'repair_detail_tenant_screen.dart';
 import 'report_tenant_screen.dart';
 

@@ -1,3 +1,4 @@
+import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
 
 enum AlertCategory { general, parcel, bill, emergency }
@@ -6,7 +7,7 @@ class AlertModel {
   final String id;
   final String title;
   final String description;
-  final DateTime createdAt; // เปลี่ยนจาก String date
+  final DateTime createdAt;
   final AlertCategory category;
   bool isRead;
 
@@ -19,42 +20,11 @@ class AlertModel {
     this.isRead = false,
   });
 
-  // Helper: แสดงเวลา/วันที่ตาม context
-  // ถ้าภายใน 24 ชั่วโมง → "09:45"
-  // ถ้าเมื่อวาน → "Yesterday"
-  // อื่นๆ → "10 Jan"
-  String get displayDate {
-    final now = DateTime.now();
-    final diff = now.difference(createdAt);
+  // Format helpers
+  String get displayDate => AppFormat.smart(createdAt);
+  String get fullDateTime => AppFormat.dateTime(createdAt);
 
-    if (diff.inHours < 24) {
-      final h = createdAt.hour.toString().padLeft(2, '0');
-      final m = createdAt.minute.toString().padLeft(2, '0');
-      return '$h:$m';
-    }
-
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final createdDay = DateTime(createdAt.year, createdAt.month, createdAt.day);
-    if (createdDay == yesterday) return 'Yesterday';
-
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${createdAt.day} ${months[createdAt.month - 1]}';
-  }
-
-  // Helper: Icon ตามประเภท
+  // Category helpers
   IconData get categoryIcon {
     switch (category) {
       case AlertCategory.parcel:
@@ -68,7 +38,6 @@ class AlertModel {
     }
   }
 
-  // Helper: สีหลัก (Icon & Text)
   Color get categoryColor {
     switch (category) {
       case AlertCategory.parcel:
@@ -82,7 +51,6 @@ class AlertModel {
     }
   }
 
-  // Helper: สีพื้นหลัง Icon
   Color get categoryBgColor {
     switch (category) {
       case AlertCategory.parcel:

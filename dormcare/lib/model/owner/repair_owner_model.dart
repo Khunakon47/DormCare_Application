@@ -1,3 +1,4 @@
+import 'package:dormcare/utils/format.dart';
 import 'package:flutter/material.dart';
 
 enum RepairOwnerStatus { pending, inProgress, completed, cancelled }
@@ -25,6 +26,11 @@ class RepairOwnerModel {
     required this.status,
   });
 
+  // Format helpers
+  String get reportedDate => AppFormat.date(reportedAt);
+  String get reportedTime => AppFormat.time(reportedAt);
+
+  // Status helpers
   Color get statusColor {
     switch (status) {
       case RepairOwnerStatus.pending:
@@ -75,16 +81,5 @@ class RepairOwnerModel {
       case RepairOwnerStatus.cancelled:
         return Icons.cancel_outlined;
     }
-  }
-
-  String get reportedDate {
-    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    return '${reportedAt.day} ${months[reportedAt.month - 1]} ${reportedAt.year}';
-  }
-
-  String get reportedTime {
-    final h = reportedAt.hour.toString().padLeft(2, '0');
-    final m = reportedAt.minute.toString().padLeft(2, '0');
-    return '$h:$m';
   }
 }
