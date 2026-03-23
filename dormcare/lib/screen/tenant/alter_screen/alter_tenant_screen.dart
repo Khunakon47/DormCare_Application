@@ -276,7 +276,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Icon(
                     tab.icon,
                     size: 13,
-                    color: isSelected ? Colors.white : AppColors.textHint,
+                    color: isSelected ? Colors.white : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 5),
                   Text(
@@ -286,7 +286,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,
-                      color: isSelected ? Colors.white : AppColors.textHint,
+                      color: isSelected ? Colors.white : AppColors.textTertiary,
                     ),
                   ),
                 ],
@@ -307,7 +307,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
           Text(
             '${_displayedAlerts.length} notifications',
             style: const TextStyle(
-              color: AppColors.textHint,
+              color: AppColors.textTertiary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -355,7 +355,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             child: Icon(
               Icons.notifications_off_outlined,
               size: 32,
-              color: AppColors.textHint,
+              color: AppColors.textTertiary,
             ),
           ),
           const SizedBox(height: 16),
@@ -370,7 +370,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
           const SizedBox(height: 6),
           const Text(
             "You're all caught up!",
-            style: TextStyle(color: AppColors.textHint, fontSize: 12),
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),

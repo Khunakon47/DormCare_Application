@@ -36,10 +36,7 @@ class RepairTenantCard extends StatelessWidget {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildTitle(), 
-                      _buildStatusBadge()
-                    ],
+                    children: [_buildTitle(), _buildStatusBadge()],
                   ),
                   const SizedBox(height: 8),
                   _buildDescription(),
@@ -82,11 +79,11 @@ class RepairTenantCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.image_outlined, color: AppColors.textHint, size: 22),
+            Icon(Icons.image_outlined, color: AppColors.textTertiary, size: 22),
             const SizedBox(width: 8),
             Text(
               'No image attached',
-              style: TextStyle(color: AppColors.textHint, fontSize: 12),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
             ),
           ],
         ),
@@ -141,7 +138,11 @@ class RepairTenantCard extends StatelessWidget {
       data.description,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5),
+      style: TextStyle(
+        fontSize: 13,
+        color: AppColors.textSecondary,
+        height: 1.5,
+      ),
     );
   }
 
@@ -208,7 +209,7 @@ class RepairTenantCard extends StatelessWidget {
             ),
           ],
         ),
-      ]  
+      ],
     );
   }
 

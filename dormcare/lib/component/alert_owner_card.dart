@@ -74,7 +74,7 @@ class AlertOwnerCard extends StatelessWidget {
                           data.displayDate,
                           style: TextStyle(
                             fontSize: 11,
-                            color: AppColors.textHint,
+                            color: AppColors.textTertiary,
                           ),
                         ),
                       ],

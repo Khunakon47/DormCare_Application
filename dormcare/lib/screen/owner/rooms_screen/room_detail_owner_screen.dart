@@ -596,7 +596,7 @@ class RoomDetailScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textHint,
+                      color: AppColors.textTertiary,
                     ),
                   ),
                 ),

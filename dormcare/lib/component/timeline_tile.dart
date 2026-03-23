@@ -72,13 +72,13 @@ class TimelineTile extends StatelessWidget {
                   fontSize: 14,
                   color: isDone
                       ? AppColors.textPrimary
-                      : AppColors.textHint,
+                      : AppColors.textTertiary,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: TextStyle(fontSize: 12, color: AppColors.textHint),
+                style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
               ),
               const SizedBox(height: 10),
             ],

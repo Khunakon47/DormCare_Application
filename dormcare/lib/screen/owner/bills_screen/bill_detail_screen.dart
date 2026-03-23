@@ -283,7 +283,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             DateFormat('MMMM yyyy').format(widget.bill.postedDate),
             style: const TextStyle(
               fontSize: 11,
-              color: AppColors.textHint,
+              color: AppColors.textTertiary,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -660,7 +660,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             Icon(
               icon,
               size: 22,
-              color: isActive ? activeColor : AppColors.textHint,
+              color: isActive ? activeColor : AppColors.textTertiary,
             ),
             const SizedBox(height: 5),
             Text(
@@ -668,7 +668,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: isActive ? activeColor : AppColors.textHint,
+                color: isActive ? activeColor : AppColors.textTertiary,
               ),
             ),
           ],
@@ -779,7 +779,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   sub,
                   style: const TextStyle(
                     fontSize: 10,
-                    color: AppColors.textHint,
+                    color: AppColors.textTertiary,
                   ),
                 ),
               ],
@@ -853,7 +853,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                             'Optional',
                             style: TextStyle(
                               fontSize: 9,
-                              color: AppColors.textHint,
+                              color: AppColors.textTertiary,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -864,7 +864,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                       rateLabel,
                       style: const TextStyle(
                         fontSize: 10,
-                        color: AppColors.textHint,
+                        color: AppColors.textTertiary,
                       ),
                     ),
                   ],
@@ -1019,7 +1019,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     'Fill in meter readings above',
                     style: TextStyle(
                       fontSize: 11,
-                      color: AppColors.textHint,
+                      color: AppColors.textTertiary,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -1100,7 +1100,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   Icon(
                     Icons.save_outlined,
                     size: 18,
-                    color: canSave ? Colors.white : AppColors.textHint,
+                    color: canSave ? Colors.white : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -1108,7 +1108,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: canSave ? Colors.white : AppColors.textHint,
+                      color: canSave ? Colors.white : AppColors.textTertiary,
                       letterSpacing: -0.2,
                     ),
                   ),

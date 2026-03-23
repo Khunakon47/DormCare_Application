@@ -19,9 +19,7 @@ class BillRoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isPaid = bill.isPaid;
-    final statusColor = isPaid
-        ? AppColors.success
-        : AppColors.warning;
+    final statusColor = isPaid ? AppColors.success : AppColors.warning;
     final statusBg = isPaid ? AppColors.successSoft : AppColors.warningSoft;
     final statusLabel = isPaid ? 'Paid' : 'Unpaid';
     final statusIcon = isPaid
@@ -100,7 +98,7 @@ class BillRoomCard extends StatelessWidget {
                           room!.roomType,
                           style: TextStyle(
                             fontSize: 11,
-                            color: AppColors.textHint,
+                            color: AppColors.textTertiary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -177,7 +175,7 @@ class BillRoomCard extends StatelessWidget {
                   Expanded(
                     child: _buildChip(
                       Icons.add_circle_outline,
-                      AppColors.textHint,
+                      AppColors.textTertiary,
                       AppColors.divider,
                       'Other',
                       bill.other.toInt(),
@@ -207,7 +205,7 @@ class BillRoomCard extends StatelessWidget {
                       'Total',
                       style: TextStyle(
                         fontSize: 10,
-                        color: AppColors.textHint,
+                        color: AppColors.textTertiary,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -231,7 +229,7 @@ class BillRoomCard extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 10,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.textHint,
+                              color: AppColors.textTertiary,
                             ),
                           ),
                         ),

@@ -59,7 +59,7 @@ class StatTenantCard extends StatelessWidget {
             label,
             style: TextStyle(
               fontSize: 10,
-              color: AppColors.textHint,
+              color: AppColors.textTertiary,
               fontWeight: FontWeight.w500,
               height: 1.3,
             ),

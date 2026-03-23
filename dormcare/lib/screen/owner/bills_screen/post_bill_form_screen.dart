@@ -283,7 +283,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
               const SizedBox(width: 8),
               const Text(
                 '×',
-                style: TextStyle(fontSize: 16, color: AppColors.textHint),
+                style: TextStyle(fontSize: 16, color: AppColors.textTertiary),
               ),
               const SizedBox(width: 8),
               SizedBox(
@@ -488,7 +488,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.textHint,
+                      color: AppColors.textTertiary,
                     ),
                   ),
                 ),

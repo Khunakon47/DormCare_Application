@@ -103,7 +103,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         decoration: BoxDecoration(
           color: AppColors.tenantSoft,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.tenantPrimary.withValues(alpha: 0.15)),
+          border: Border.all(
+            color: AppColors.tenantPrimary.withValues(alpha: 0.15),
+          ),
         ),
         child: TabBar(
           controller: _tabController,
@@ -254,7 +256,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                               Text(
                                 'Due: ${bill.dueDate}',
                                 style: TextStyle(
-                                  color: AppColors.surface.withValues(alpha: 0.65),
+                                  color: AppColors.surface.withValues(
+                                    alpha: 0.65,
+                                  ),
                                   fontSize: 12,
                                 ),
                               ),
@@ -286,7 +290,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                             size: 12,
                             color: isPaid
                                 ? AppColors.success
-                                : AppColors.statusCancelled.withValues(alpha: 0.9),
+                                : AppColors.statusCancelled.withValues(
+                                    alpha: 0.9,
+                                  ),
                           ),
                           const SizedBox(width: 5),
                           Text(
@@ -320,12 +326,12 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       ),
                     ),
                     const SizedBox(width: 7),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(bottom: 5),
                       child: Text(
                         'THB',
                         style: TextStyle(
-                          color: Colors.white60,
+                          color: AppColors.surface.withValues(alpha: 0.9),
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           letterSpacing: 1,
@@ -876,7 +882,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       bill.paidDate,
                       style: const TextStyle(
                         fontSize: 11,
-                        color: AppColors.textHint,
+                        color: AppColors.textTertiary,
                       ),
                     ),
                   ],
@@ -981,7 +987,11 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               children: [
                 const Text(
                   'Total paid',
-                  style: TextStyle(fontSize: 12, color: AppColors.surface, fontWeight: FontWeight.w600),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.surface,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const Spacer(),
                 Text(

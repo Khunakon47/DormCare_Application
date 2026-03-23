@@ -79,11 +79,11 @@ class RepairOwnerCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.image_outlined, color: AppColors.textHint, size: 22),
+            Icon(Icons.image_outlined, color: AppColors.textTertiary, size: 22),
             const SizedBox(width: 8),
             Text(
               'No image attached',
-              style: TextStyle(color: AppColors.textHint, fontSize: 12),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
             ),
           ],
         ),
@@ -165,7 +165,11 @@ class RepairOwnerCard extends StatelessWidget {
       data.description,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5),
+      style: TextStyle(
+        fontSize: 13,
+        color: AppColors.textSecondary,
+        height: 1.5,
+      ),
     );
   }
 
@@ -178,7 +182,7 @@ class RepairOwnerCard extends StatelessWidget {
             Icon(
               Icons.person_outline,
               size: 16,
-              color: AppColors.textSecondary
+              color: AppColors.textSecondary,
             ),
             const SizedBox(width: 4),
             Text(
@@ -195,15 +199,15 @@ class RepairOwnerCard extends StatelessWidget {
         Row(
           children: [
             Icon(
-              Icons.phone_outlined, 
-              size: 16, 
-              color: AppColors.textSecondary
+              Icons.phone_outlined,
+              size: 16,
+              color: AppColors.textSecondary,
             ),
             const SizedBox(width: 4),
             Text(
               data.phoneNumber,
               style: TextStyle(
-                fontSize: 12, 
+                fontSize: 12,
                 color: AppColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
@@ -228,7 +232,7 @@ class RepairOwnerCard extends StatelessWidget {
               ),
             ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -246,7 +250,11 @@ class RepairOwnerCard extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 2),
-        const Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.ownerPrimary),
+        const Icon(
+          Icons.arrow_forward_ios,
+          size: 14,
+          color: AppColors.ownerPrimary,
+        ),
       ],
     );
   }

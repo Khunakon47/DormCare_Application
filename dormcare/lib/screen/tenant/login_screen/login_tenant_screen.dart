@@ -41,7 +41,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
               height: 220,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.06),
+                color: AppColors.surface.withValues(alpha: 0.06),
               ),
             ),
           ),
@@ -53,7 +53,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.04),
+                color: AppColors.surface.withValues(alpha: 0.04),
               ),
             ),
           ),
@@ -88,8 +88,6 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
     );
   }
 
-  // ─── Sections ─────────────────────────────────────────────────────────────
-
   Widget _buildLogoSection() {
     return Column(
       children: [
@@ -97,20 +95,24 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           width: 72,
           height: 72,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColors.surface.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.3),
+              color: AppColors.surface.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
-          child: const Icon(Icons.home_outlined, color: Colors.white, size: 36),
+          child: const Icon(
+            Icons.home_outlined,
+            color: AppColors.surface,
+            size: 36,
+          ),
         ),
         const SizedBox(height: 14),
         const Text(
           'DormCare',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.surface,
             fontSize: 28,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.5,
@@ -120,7 +122,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
         Text(
           'Manage your room with ease',
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.75),
+            color: AppColors.surface.withValues(alpha: 0.75),
             fontSize: 13,
             fontWeight: FontWeight.w400,
           ),
@@ -133,7 +135,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
@@ -177,7 +179,10 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                   ),
                   Text(
                     'Sign in to your account',
-                    style: TextStyle(fontSize: 12, color: AppColors.textHint),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textTertiary,
+                    ),
                   ),
                 ],
               ),
@@ -232,7 +237,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                       decoration: BoxDecoration(
                         color: _rememberMe
                             ? AppColors.tenantPrimary
-                            : Colors.white,
+                            : AppColors.surface,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           color: _rememberMe
@@ -244,7 +249,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                           ? const Icon(
                               Icons.check,
                               size: 13,
-                              color: Colors.white,
+                              color: AppColors.surface,
                             )
                           : null,
                     ),
@@ -308,7 +313,10 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [AppColors.tenantPrimary, AppColors.tenantSecondary],
+                    colors: [
+                      AppColors.tenantPrimary,
+                      AppColors.tenantSecondary,
+                    ],
                   ),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
@@ -325,7 +333,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.surface,
                       letterSpacing: 0.2,
                     ),
                   ),
@@ -385,8 +393,6 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
     );
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
   Widget _buildLabel(String text) {
     return Text(
       text,
@@ -424,7 +430,10 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.tenantPrimary, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.tenantPrimary,
+            width: 1.5,
+          ),
         ),
       ),
     );

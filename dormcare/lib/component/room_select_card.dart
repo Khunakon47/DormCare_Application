@@ -43,7 +43,9 @@ class RoomSelectCard extends StatelessWidget {
                 width: 44,
                 height: 44,
                 decoration: BoxDecoration(
-                  color: AppColors.ownerPrimary.withValues(alpha: isPosted ? 0.05 : 0.08),
+                  color: AppColors.ownerPrimary.withValues(
+                    alpha: isPosted ? 0.05 : 0.08,
+                  ),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: const Icon(
@@ -71,7 +73,7 @@ class RoomSelectCard extends StatelessWidget {
                         Icon(
                           Icons.person_outline,
                           size: 12,
-                          color: AppColors.textHint,
+                          color: AppColors.textTertiary,
                         ),
                         const SizedBox(width: 4),
                         Text(
@@ -85,7 +87,7 @@ class RoomSelectCard extends StatelessWidget {
                         Icon(
                           Icons.layers_outlined,
                           size: 12,
-                          color: AppColors.textHint,
+                          color: AppColors.textTertiary,
                         ),
                         const SizedBox(width: 4),
                         Text(

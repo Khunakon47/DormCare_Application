@@ -202,7 +202,10 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                   ),
                   Text(
                     'Sign in to your account',
-                    style: TextStyle(fontSize: 12, color: AppColors.textHint),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textTertiary,
+                    ),
                   ),
                 ],
               ),
@@ -444,7 +447,10 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.ownerPrimary, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.ownerPrimary,
+            width: 1.5,
+          ),
         ),
       ),
     );

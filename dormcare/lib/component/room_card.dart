@@ -75,11 +75,11 @@ class RoomCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.image_outlined, color: AppColors.textHint, size: 22),
+            Icon(Icons.image_outlined, color: AppColors.textTertiary, size: 22),
             const SizedBox(width: 8),
             Text(
               'No image',
-              style: TextStyle(color: AppColors.textHint, fontSize: 12),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
             ),
           ],
         ),
@@ -89,12 +89,8 @@ class RoomCard extends StatelessWidget {
 
   Widget _buildTopRow() {
     final isOccupied = room.isOccupied;
-    final statusColor = isOccupied
-        ? AppColors.ownerPrimary
-        : AppColors.success;
-    final statusBg = isOccupied
-        ? AppColors.ownerSoft
-        : AppColors.successSoft;
+    final statusColor = isOccupied ? AppColors.ownerPrimary : AppColors.success;
+    final statusBg = isOccupied ? AppColors.ownerSoft : AppColors.successSoft;
     final statusLabel = isOccupied ? 'Occupied' : 'Vacant';
 
     return Row(
@@ -200,7 +196,11 @@ class RoomCard extends StatelessWidget {
         if (hasTenant) ...[
           Row(
             children: [
-              Icon(Icons.person_outline, size: 16, color: AppColors.textSecondary),
+              Icon(
+                Icons.person_outline,
+                size: 16,
+                color: AppColors.textSecondary,
+              ),
               const SizedBox(width: 4),
               Text(
                 room.tenantName!,
