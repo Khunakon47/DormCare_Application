@@ -13,7 +13,7 @@ class AlertTenantCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: data.isRead ? AppColors.divider : AppColors.surface,
+        color: data.isRead ? AppColors.divider : AppColors.white,
         borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(

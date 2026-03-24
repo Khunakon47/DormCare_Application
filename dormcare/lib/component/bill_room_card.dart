@@ -28,7 +28,7 @@ class BillRoomCard extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: isPaid
@@ -164,7 +164,7 @@ class BillRoomCard extends StatelessWidget {
                 Expanded(
                   child: _buildChip(
                     Icons.bolt_outlined,
-                    AppColors.warning,
+                    AppColors.billElec,
                     AppColors.billElecSoft,
                     'Elec.',
                     (bill.electric * bill.electricUnit).toInt(),
