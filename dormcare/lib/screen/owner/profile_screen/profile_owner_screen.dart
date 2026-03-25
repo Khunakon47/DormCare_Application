@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class ProfileOwnerScreen extends StatelessWidget {
   const ProfileOwnerScreen({super.key});
@@ -6,7 +7,7 @@ class ProfileOwnerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         child: Column(
@@ -49,16 +50,16 @@ class ProfileOwnerScreen extends StatelessWidget {
             height: 88,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: const Color(0xFFA34CF3).withValues(alpha: 0.1),
+              color: AppColors.ownerPrimary.withValues(alpha: 0.1),
               border: Border.all(
-                color: const Color(0xFFA34CF3).withValues(alpha: 0.2),
+                color: AppColors.ownerPrimary.withValues(alpha: 0.2),
                 width: 2,
               ),
             ),
             child: const Icon(
               Icons.person_outline,
               size: 44,
-              color: Color(0xFFA34CF3),
+              color: AppColors.ownerPrimary,
             ),
           ),
 
@@ -69,7 +70,7 @@ class ProfileOwnerScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF0D1B2A),
+              color: AppColors.textPrimary,
               letterSpacing: -0.3,
             ),
           ),
@@ -122,14 +123,14 @@ class ProfileOwnerScreen extends StatelessWidget {
                 Expanded(
                   child: Column(
                     children: [
-                      Icon(item.icon, size: 18, color: const Color(0xFFA34CF3)),
+                      Icon(item.icon, size: 18, color: AppColors.ownerPrimary),
                       const SizedBox(height: 6),
                       Text(
                         item.value,
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
-                          color: Color(0xFF0D1B2A),
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: 2),
@@ -198,13 +199,13 @@ class ProfileOwnerScreen extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                  color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
                   item.icon,
                   size: 18,
-                  color: const Color(0xFFA34CF3),
+                  color: AppColors.ownerPrimary,
                 ),
               ),
               title: Text(
@@ -212,7 +213,7 @@ class ProfileOwnerScreen extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF0D1B2A),
+                  color: AppColors.textPrimary,
                 ),
               ),
               trailing: Icon(
@@ -249,19 +250,19 @@ class ProfileOwnerScreen extends StatelessWidget {
         icon: const Icon(
           Icons.logout_rounded,
           size: 18,
-          color: Color(0xFFEF5350),
+          color: AppColors.error,
         ),
         label: const Text(
           'Logout',
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: Color(0xFFEF5350),
+            color: AppColors.error,
           ),
         ),
         style: OutlinedButton.styleFrom(
-          backgroundColor: const Color(0xFFFFEBEE),
-          side: const BorderSide(color: Color(0xFFEF9A9A)),
+          backgroundColor: AppColors.errorSoft,
+          side: const BorderSide(color: AppColors.errorBorder),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),

@@ -7,7 +7,7 @@ A new Flutter project.
 - to commit and push your code to github
   git add .
   git commit -m "your commit message"
-  git push (for the first time, you need to use git push -u origin <your-branch-name>, then you can just use git push for the next time)
+  git push (for the first time, you need to use 'git push -u origin <your-branch-name>', then you can just use 'git push' for the next time)
 
 - to merge your branch to main ------or------ do it on github website(like I taught you guys)
   git checkout main
@@ -15,7 +15,7 @@ A new Flutter project.
   git merge <your-branch-name>
   git push origin main
 
-- to merge branch main to your branch
+- to merge main to your branch
   git checkout <your-branch-name>
   git pull origin main
 

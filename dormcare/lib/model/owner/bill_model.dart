@@ -1,4 +1,4 @@
-class MonthlyBillingModel {
+class BillModel {
   final String billId;
   final String roomNumber;
   final DateTime postedDate;
@@ -11,7 +11,7 @@ class MonthlyBillingModel {
   final double waterUnit;
   final double electricUnit;
 
-  MonthlyBillingModel({
+  BillModel({
     required this.billId,
     required this.roomNumber,
     required this.postedDate,
@@ -27,8 +27,8 @@ class MonthlyBillingModel {
 
   double get total => rent + water + electric + other;
 
-  factory MonthlyBillingModel.fromJson(Map<String, dynamic> json) {
-    return MonthlyBillingModel(
+  factory BillModel.fromJson(Map<String, dynamic> json) {
+    return BillModel(
       billId: json['billId'],
       roomNumber: json['roomNumber'],
       postedDate: DateTime.parse(json['postedDate']),
@@ -59,5 +59,3 @@ class MonthlyBillingModel {
     };
   }
 }
-
-

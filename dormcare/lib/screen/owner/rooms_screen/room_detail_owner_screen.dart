@@ -1,45 +1,56 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
-import 'package:dormcare/model/owner/repair_report_model.dart';
-import 'package:dormcare/model/owner/room_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
+import 'package:dormcare/model/owner/room_model.dart';
+
+import 'package:dormcare/theme/app_theme.dart';
+import 'package:dormcare/utils/format.dart';
 
 class RoomDetailScreen extends StatelessWidget {
   final RoomModel room;
 
   const RoomDetailScreen({super.key, required this.room});
 
-  // ─── Mock data ────────────────────────────────────────────────────────────
-
-  static final List<RepairReportModel> _allRepairs = [
-    RepairReportModel(
-      reportId: 'rep001',
+  // enum RepairStatus { pending, inProgress, completed, cancelled }
+  static final List<RepairModel> _allRepairs = [
+    RepairModel(
+      id: 'rep001',
       roomNumber: 'A101',
       title: 'Air conditioner broken',
       description: 'AC not cooling properly',
-      status: 'pending',
-      date: DateTime(2026, 2, 5),
+      tenantName: 'Somchai Prasert',
+      phoneNumber: '089-123-8574',
+      reportedAt: DateTime(2026, 2, 5),
+      status: RepairStatus.pending,
+      category: RepairCategory.appliance,
     ),
-    RepairReportModel(
-      reportId: 'rep002',
+    RepairModel(
+      id: 'rep002',
       roomNumber: 'B201',
       title: 'Water leak',
       description: 'Leak under sink',
-      status: 'fixing',
-      date: DateTime(2026, 2, 6),
+      tenantName: 'Natcha Wong',
+      phoneNumber: '081-456-7890',
+      reportedAt: DateTime(2026, 2, 6),
+      status: RepairStatus.inProgress,
+      category: RepairCategory.plumbing,
     ),
-    RepairReportModel(
-      reportId: 'rep003',
+    RepairModel(
+      id: 'rep003',
       roomNumber: 'A102',
       title: 'Light bulb out',
       description: 'Bathroom light not working',
-      status: 'done',
-      date: DateTime(2026, 1, 28),
+      tenantName: 'Somchai Prasert',
+      phoneNumber: '089-123-8574',
+      reportedAt: DateTime(2026, 1, 28),
+      status: RepairStatus.completed,
+      category: RepairCategory.electrical,
     ),
   ];
 
-  static final List<MonthlyBillingModel> _allBills = [
-    MonthlyBillingModel(
+  static final List<BillModel> _allBills = [
+    BillModel(
       billId: 'bill001',
       roomNumber: 'A101',
       postedDate: DateTime(2026, 1, 28),
@@ -52,7 +63,7 @@ class RoomDetailScreen extends StatelessWidget {
       other: 0,
       isPaid: true,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill002',
       roomNumber: 'A102',
       postedDate: DateTime(2026, 2, 28),
@@ -65,7 +76,7 @@ class RoomDetailScreen extends StatelessWidget {
       other: 0,
       isPaid: false,
     ),
-    MonthlyBillingModel(
+    BillModel(
       billId: 'bill003',
       roomNumber: 'B201',
       postedDate: DateTime(2026, 1, 28),
@@ -80,14 +91,6 @@ class RoomDetailScreen extends StatelessWidget {
     ),
   ];
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
-  String _fmt(DateTime? d) =>
-      d == null ? '—' : DateFormat('d MMM yyyy').format(d);
-  String _safe(String? v) => (v == null || v.isEmpty) ? '—' : v;
-
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     final roomBills = _allBills
@@ -99,7 +102,7 @@ class RoomDetailScreen extends StatelessWidget {
     final latestBill = roomBills.isNotEmpty ? roomBills.last : null;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
@@ -108,7 +111,7 @@ class RoomDetailScreen extends StatelessWidget {
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
             size: 18,
-            color: Color(0xFF0D1B2A),
+            color: AppColors.textPrimary,
           ),
           onPressed: () => Navigator.pop(context),
         ),
@@ -120,7 +123,7 @@ class RoomDetailScreen extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0D1B2A),
+                color: AppColors.textPrimary,
               ),
             ),
             Text(
@@ -152,14 +155,14 @@ class RoomDetailScreen extends StatelessWidget {
               icon: const Icon(
                 Icons.edit_outlined,
                 size: 15,
-                color: Color(0xFFA34CF3),
+                color: AppColors.ownerPrimary,
               ),
               label: const Text(
                 'Edit',
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFFA34CF3),
+                  color: AppColors.ownerPrimary,
                 ),
               ),
             ),
@@ -203,11 +206,17 @@ class RoomDetailScreen extends StatelessWidget {
               title: 'Tenant Information',
               child: room.isOccupied
                   ? _buildInfoRows([
-                      ('Name', _safe(room.tenantName)),
-                      ('Phone', _safe(room.tenantPhone)),
-                      ('Email', _safe(room.tenantEmail)),
-                      ('Move-in Date', _fmt(room.tenantMoveinDate)),
-                      ('Contract Ends', _fmt(room.tenantContractEndDate)),
+                      ('Name', AppFormat.strOrDash(room.tenantName)),
+                      ('Phone', AppFormat.strOrDash(room.tenantPhone)),
+                      ('Email', AppFormat.strOrDash(room.tenantEmail)),
+                      (
+                        'Move-in Date',
+                        AppFormat.dateOrDash(room.tenantMoveinDate),
+                      ),
+                      (
+                        'Contract Ends',
+                        AppFormat.dateOrDash(room.tenantContractEndDate),
+                      ),
                     ])
                   : _buildEmptyHint(
                       Icons.person_off_outlined,
@@ -255,8 +264,6 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildImage() {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
@@ -266,7 +273,8 @@ class RoomDetailScreen extends StatelessWidget {
               child: Image.network(
                 room.imageUrl,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) => _imagePlaceholder(),
+                errorBuilder: (context, error, stackTrace) =>
+                    _imagePlaceholder(),
               ),
             )
           : _imagePlaceholder(),
@@ -296,35 +304,29 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChips(MonthlyBillingModel? latestBill) {
+  Widget _buildStatusChips(BillModel? latestBill) {
     return Wrap(
       spacing: 8,
       children: [
         _statusChip(
           label: room.isOccupied ? 'Occupied' : 'Vacant',
-          color: room.isOccupied
-              ? const Color(0xFFA34CF3)
-              : const Color(0xFF66BB6A),
-          bg: room.isOccupied
-              ? const Color(0xFFF3E8FF)
-              : const Color(0xFFE8F5E9),
+          color: room.isOccupied ? AppColors.ownerPrimary : AppColors.success,
+          bg: room.isOccupied ? const Color(0xFFF3E8FF) : AppColors.successSoft,
           icon: room.isOccupied ? Icons.person : Icons.person_off_outlined,
         ),
         _statusChip(
           label: room.roomType,
-          color: const Color(0xFF367BF3),
+          color: AppColors.billRent,
           bg: const Color(0xFFEFF6FF),
           icon: Icons.category_outlined,
         ),
         if (latestBill != null)
           _statusChip(
             label: latestBill.isPaid ? 'Paid' : 'Unpaid',
-            color: latestBill.isPaid
-                ? const Color(0xFF66BB6A)
-                : const Color(0xFFFFA726),
+            color: latestBill.isPaid ? AppColors.success : AppColors.warning,
             bg: latestBill.isPaid
-                ? const Color(0xFFE8F5E9)
-                : const Color(0xFFFFF8E1),
+                ? AppColors.successSoft
+                : AppColors.warningSoft,
             icon: latestBill.isPaid
                 ? Icons.check_circle_outline
                 : Icons.pending_outlined,
@@ -393,10 +395,10 @@ class RoomDetailScreen extends StatelessWidget {
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                    color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(icon, size: 15, color: const Color(0xFFA34CF3)),
+                  child: Icon(icon, size: 15, color: AppColors.ownerPrimary),
                 ),
                 const SizedBox(width: 9),
                 Text(
@@ -404,7 +406,7 @@ class RoomDetailScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ],
@@ -440,7 +442,7 @@ class RoomDetailScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ],
@@ -456,12 +458,10 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBillContent(MonthlyBillingModel bill) {
+  Widget _buildBillContent(BillModel bill) {
     final isPaid = bill.isPaid;
-    final statusColor = isPaid
-        ? const Color(0xFF66BB6A)
-        : const Color(0xFFFFA726);
-    final statusBg = isPaid ? const Color(0xFFE8F5E9) : const Color(0xFFFFF8E1);
+    final statusColor = isPaid ? AppColors.success : AppColors.warning;
+    final statusBg = isPaid ? AppColors.successSoft : AppColors.warningSoft;
     final monthLabel = DateFormat('MMMM yyyy').format(bill.postedDate);
     final dueLabel = DateFormat('d MMM yyyy').format(bill.dueDate);
 
@@ -477,7 +477,7 @@ class RoomDetailScreen extends StatelessWidget {
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0D1B2A),
+                color: AppColors.textPrimary,
               ),
             ),
             Container(
@@ -522,7 +522,7 @@ class RoomDetailScreen extends StatelessWidget {
             Expanded(
               child: _buildBillChip(
                 Icons.home_outlined,
-                const Color(0xFF367BF3),
+                AppColors.billRent,
                 const Color(0xFFEFF6FF),
                 'Rent',
                 bill.rent.toInt(),
@@ -542,7 +542,7 @@ class RoomDetailScreen extends StatelessWidget {
             Expanded(
               child: _buildBillChip(
                 Icons.bolt_outlined,
-                const Color(0xFFFFA726),
+                AppColors.warning,
                 const Color(0xFFFFFBEB),
                 'Elec.',
                 (bill.electric * bill.electricUnit).toInt(),
@@ -584,7 +584,7 @@ class RoomDetailScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                     letterSpacing: -0.5,
                     height: 1,
                   ),
@@ -596,7 +596,7 @@ class RoomDetailScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF9AA5B4),
+                      color: AppColors.textTertiary,
                     ),
                   ),
                 ),
@@ -651,30 +651,7 @@ class RoomDetailScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRepairRow(RepairReportModel repair) {
-    final Color color;
-    final Color bg;
-    final IconData icon;
-    final String label;
-
-    switch (repair.status.toLowerCase()) {
-      case 'done':
-        color = const Color(0xFF66BB6A);
-        bg = const Color(0xFFE8F5E9);
-        icon = Icons.check_circle_outline;
-        label = 'Done';
-      case 'fixing':
-        color = const Color(0xFF42A5F5);
-        bg = const Color(0xFFE3F2FD);
-        icon = Icons.build_outlined;
-        label = 'In Progress';
-      default:
-        color = const Color(0xFFFFA726);
-        bg = const Color(0xFFFFF8E1);
-        icon = Icons.pending_outlined;
-        label = 'Pending';
-    }
-
+  Widget _buildRepairRow(RepairModel repair) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
@@ -693,12 +670,12 @@ class RoomDetailScreen extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  DateFormat('d MMM yyyy').format(repair.date),
+                  repair.reportedDate,
                   style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
                 ),
               ],
@@ -707,20 +684,20 @@ class RoomDetailScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
             decoration: BoxDecoration(
-              color: bg,
+              color: repair.statusBgColor, // ใช้ helper จาก model โดยตรง
               borderRadius: BorderRadius.circular(6),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(icon, size: 11, color: color),
+                Icon(repair.statusIcon, size: 11, color: repair.statusColor),
                 const SizedBox(width: 4),
                 Text(
-                  label,
+                  repair.statusText,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: color,
+                    color: repair.statusColor,
                   ),
                 ),
               ],

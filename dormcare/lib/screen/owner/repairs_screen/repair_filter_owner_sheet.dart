@@ -1,10 +1,11 @@
-import 'package:dormcare/model/owner/repair_owner_model.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RepairFilterOwnerSheet extends StatefulWidget {
-  final RepairOwnerStatus? initialStatus;
+  final RepairStatus? initialStatus;
   final int initialFloor; // 0 = All floors
-  final void Function(RepairOwnerStatus? status, int floor) onApply;
+  final void Function(RepairStatus? status, int floor) onApply;
 
   const RepairFilterOwnerSheet({
     super.key,
@@ -19,7 +20,7 @@ class RepairFilterOwnerSheet extends StatefulWidget {
 
 class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
   
-  RepairOwnerStatus? _selectedStatus;
+  RepairStatus? _selectedStatus;
   int _selectedFloor = 0;
 
   @override
@@ -49,7 +50,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF0D1B2A),
+                  color: AppColors.textPrimary,
                 ),
               ),
               const Spacer(),
@@ -63,7 +64,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
                     'Clear all',
                     style: TextStyle(
                       fontSize: 13,
-                      color: Color(0xFFA34CF3),
+                      color: AppColors.ownerPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -79,7 +80,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF0D1B2A),
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 10),
@@ -93,7 +94,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w600,
-              color: Color(0xFF0D1B2A),
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 10),
@@ -107,7 +108,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             height: 50,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFA34CF3),
+                backgroundColor: AppColors.ownerPrimary,
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
@@ -135,10 +136,10 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
   Widget _buildStatusOptions() {
     final status = [
       (status: null, label: 'All Statuses'),
-      (status: RepairOwnerStatus.pending, label: 'Pending'),
-      (status: RepairOwnerStatus.inProgress, label: 'In Progress'),
-      (status: RepairOwnerStatus.completed, label: 'Completed'),
-      (status: RepairOwnerStatus.cancelled, label: 'Cancelled'),
+      (status: RepairStatus.pending, label: 'Pending'),
+      (status: RepairStatus.inProgress, label: 'In Progress'),
+      (status: RepairStatus.completed, label: 'Completed'),
+      (status: RepairStatus.cancelled, label: 'Cancelled'),
     ];
 
     return Wrap(
@@ -152,11 +153,11 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFFA34CF3) : Colors.white,
+              color: isSelected ? AppColors.ownerPrimary : Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFFA34CF3)
+                    ? AppColors.ownerPrimary
                     : Colors.grey.shade200,
               ),
             ),
@@ -195,11 +196,11 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFFA34CF3) : Colors.white,
+              color: isSelected ? AppColors.ownerPrimary : Colors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFFA34CF3)
+                    ? AppColors.ownerPrimary
                     : Colors.grey.shade200,
               ),
             ),

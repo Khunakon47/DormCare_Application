@@ -1,11 +1,12 @@
-import 'package:dormcare/model/owner/monthly_billing_model.dart';
+import 'package:dormcare/model/owner/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class BillDetailScreen extends StatefulWidget {
-  final MonthlyBillingModel bill;
+  final BillModel bill;
   final RoomModel? room;
 
   const BillDetailScreen({super.key, required this.bill, required this.room});
@@ -27,24 +28,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
   // ─── Pulse animation for total preview ────────────────────────────────────
   late AnimationController _pulseCtrl;
   late Animation<double> _pulseAnim;
-
-  // ─── Color constants (owner theme) ────────────────────────────────────────
-  static const _purple = Color(0xFFA34CF3);
-  static const _purpleDark = Color(0xFF7B2FD4);
-  static const _purpleSoft = Color(0xFFF3E8FF);
-  static const _green = Color(0xFF66BB6A);
-  static const _greenDark = Color(0xFF43A047);
-  static const _greenSoft = Color(0xFFE8F5E9);
-  static const _amber = Color(0xFFFFA726);
-  static const _amberSoft = Color(0xFFFFF8E1);
-  static const _red = Color(0xFFEF5350);
-  static const _ink = Color(0xFF0D1B2A);
-  static const _inkMid = Color(0xFF4A5568);
-  static const _inkLight = Color(0xFF9AA5B4);
-  static const _surface = Color(0xFFF7F8FA);
-  static const _border = Color(0xFFE5E7EB);
-
-  // ─── Init / Dispose ───────────────────────────────────────────────────────
 
   @override
   void initState() {
@@ -106,7 +89,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     FocusScope.of(context).unfocus();
     setState(() => _saving = true);
     await Future.delayed(const Duration(milliseconds: 300));
-    final updated = MonthlyBillingModel(
+    final updated = BillModel(
       billId: widget.bill.billId,
       roomNumber: widget.bill.roomNumber,
       postedDate: widget.bill.postedDate,
@@ -144,13 +127,13 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             width: 48,
             height: 48,
             decoration: const BoxDecoration(
-              color: _amberSoft,
+              color: AppColors.warningSoft,
               shape: BoxShape.circle,
             ),
             child: const Icon(
               Icons.warning_amber_rounded,
               size: 24,
-              color: _amber,
+              color: AppColors.warning,
             ),
           ),
           const SizedBox(height: 14),
@@ -159,14 +142,18 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: _ink,
+              color: AppColors.textPrimary,
             ),
           ),
           const SizedBox(height: 8),
           const Text(
             'You have unsaved changes.\nLeave without saving?',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: _inkMid, height: 1.45),
+            style: TextStyle(
+              fontSize: 13,
+              color: AppColors.textSecondary,
+              height: 1.45,
+            ),
           ),
           const SizedBox(height: 4),
         ],
@@ -176,13 +163,16 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           onPressed: () => Navigator.pop(ctx, false),
           child: const Text(
             'Stay',
-            style: TextStyle(color: _inkMid, fontWeight: FontWeight.w600),
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         ElevatedButton(
           onPressed: () => Navigator.pop(ctx, true),
           style: ElevatedButton.styleFrom(
-            backgroundColor: _amber,
+            backgroundColor: AppColors.warning,
             elevation: 0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
@@ -208,7 +198,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
         if (await _confirmPop() && context.mounted) Navigator.pop(context);
       },
       child: Scaffold(
-        backgroundColor: _surface,
+        backgroundColor: AppColors.background,
         appBar: _buildAppBar(),
         body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 48),
@@ -241,7 +231,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
         icon: const Icon(
           Icons.arrow_back_ios_new_rounded,
           size: 18,
-          color: _ink,
+          color: AppColors.textPrimary,
         ),
         onPressed: () async {
           final shouldPop = await _confirmPop();
@@ -263,7 +253,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  color: _ink,
+                  color: AppColors.textPrimary,
                 ),
               ),
               if (widget.room?.tenantName != null) ...[
@@ -274,7 +264,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     vertical: 2,
                   ),
                   decoration: BoxDecoration(
-                    color: _purpleSoft,
+                    color: AppColors.ownerSoft,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Text(
@@ -282,7 +272,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     style: const TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w600,
-                      color: _purple,
+                      color: AppColors.ownerPrimary,
                     ),
                   ),
                 ),
@@ -293,7 +283,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             DateFormat('MMMM yyyy').format(widget.bill.postedDate),
             style: const TextStyle(
               fontSize: 11,
-              color: _inkLight,
+              color: AppColors.textTertiary,
               fontWeight: FontWeight.w400,
             ),
           ),
@@ -307,16 +297,18 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                 decoration: BoxDecoration(
-                  color: _amberSoft,
+                  color: AppColors.warningSoft,
                   borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: _amber.withValues(alpha: 0.4)),
+                  border: Border.all(
+                    color: AppColors.warning.withValues(alpha: 0.4),
+                  ),
                 ),
                 child: const Text(
                   'Unsaved',
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: _amber,
+                    color: AppColors.warning,
                   ),
                 ),
               ),
@@ -337,9 +329,12 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     final dueLabel = DateFormat('d MMM yyyy').format(widget.bill.dueDate);
     final isComplete = _isFormValid;
     final gradColors = _isPaid
-        ? [_greenDark, const Color(0xFF2E7D32)]
-        : [_purple, _purpleDark];
-    final shadowColor = (_isPaid ? _greenDark : _purple).withValues(alpha: 0.3);
+        ? [AppColors.successDark, const Color(0xFF2E7D32)]
+        : [AppColors.ownerPrimary, AppColors.ownerDark];
+    final shadowColor =
+        (_isPaid ? AppColors.successDark : AppColors.ownerPrimary).withValues(
+          alpha: 0.3,
+        );
 
     return Container(
       decoration: BoxDecoration(
@@ -616,8 +611,8 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               icon: Icons.check_circle_outline,
               label: 'Paid',
               isActive: _isPaid,
-              activeColor: _green,
-              activeBg: _greenSoft,
+              activeColor: AppColors.success,
+              activeBg: AppColors.successSoft,
               onTap: _isPaid ? null : _toggleStatus,
             ),
           ),
@@ -627,7 +622,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               icon: Icons.undo_rounded,
               label: 'Mark Unpaid',
               isActive: !_isPaid,
-              activeColor: _red,
+              activeColor: AppColors.error,
               activeBg: const Color(0xFFFFEBEE),
               onTap: !_isPaid ? null : _toggleStatus,
             ),
@@ -654,20 +649,26 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           color: isActive ? activeBg : const Color(0xFFF9FAFB),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isActive ? activeColor.withValues(alpha: 0.4) : _border,
+            color: isActive
+                ? activeColor.withValues(alpha: 0.4)
+                : AppColors.border,
             width: isActive ? 1.5 : 1,
           ),
         ),
         child: Column(
           children: [
-            Icon(icon, size: 22, color: isActive ? activeColor : _inkLight),
+            Icon(
+              icon,
+              size: 22,
+              color: isActive ? activeColor : AppColors.textTertiary,
+            ),
             const SizedBox(height: 5),
             Text(
               label,
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: isActive ? activeColor : _inkLight,
+                color: isActive ? activeColor : AppColors.textTertiary,
               ),
             ),
           ],
@@ -686,7 +687,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       title: needsMeter ? 'Enter Meter Readings' : 'Edit Meter Readings',
       icon: needsMeter ? Icons.edit_note_rounded : Icons.tune_rounded,
       badge: needsMeter ? 'Required' : null,
-      badgeColor: _amber,
+      badgeColor: AppColors.warning,
       child: Column(
         children: [
           // Rent — read only
@@ -776,7 +777,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 ),
                 Text(
                   sub,
-                  style: const TextStyle(fontSize: 10, color: _inkLight),
+                  style: const TextStyle(
+                    fontSize: 10,
+                    color: AppColors.textTertiary,
+                  ),
                 ),
               ],
             ),
@@ -786,7 +790,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w800,
-              color: _ink,
+              color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -811,7 +815,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: hasValue ? iconColor.withValues(alpha: 0.3) : _border,
+          color: hasValue ? iconColor.withValues(alpha: 0.3) : AppColors.border,
           width: hasValue ? 1.3 : 1,
         ),
       ),
@@ -849,7 +853,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                             'Optional',
                             style: TextStyle(
                               fontSize: 9,
-                              color: _inkLight,
+                              color: AppColors.textTertiary,
                               fontStyle: FontStyle.italic,
                             ),
                           ),
@@ -858,7 +862,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     ),
                     Text(
                       rateLabel,
-                      style: const TextStyle(fontSize: 10, color: _inkLight),
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: AppColors.textTertiary,
+                      ),
                     ),
                   ],
                 ),
@@ -883,7 +890,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     style: const TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: _ink,
+                      color: AppColors.textPrimary,
                     ),
                     decoration: InputDecoration(
                       hintText: hint,
@@ -900,11 +907,11 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                       ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: _border),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(color: _border),
+                        borderSide: const BorderSide(color: AppColors.border),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -966,9 +973,11 @@ class _BillDetailScreenState extends State<BillDetailScreen>
 
   Widget _buildTotalPreview() {
     final isComplete = _isFormValid;
-    final accentColor = _isPaid ? _greenDark : _purple;
-    final bgStart = _isPaid ? const Color(0xFFECFDF5) : _purpleSoft;
-    final bgEnd = _isPaid ? _greenSoft : const Color(0xFFDDD6FE);
+    final accentColor = _isPaid
+        ? AppColors.successDark
+        : AppColors.ownerPrimary;
+    final bgStart = _isPaid ? const Color(0xFFECFDF5) : AppColors.ownerSoft;
+    final bgEnd = _isPaid ? AppColors.successSoft : const Color(0xFFDDD6FE);
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -1010,7 +1019,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     'Fill in meter readings above',
                     style: TextStyle(
                       fontSize: 11,
-                      color: _inkLight,
+                      color: AppColors.textTertiary,
                       fontStyle: FontStyle.italic,
                     ),
                   ),
@@ -1058,7 +1067,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
 
   Widget _buildSaveButton() {
     final canSave = _isFormValid && _hasChanges && !_saving;
-    final accentColor = _isPaid ? _greenDark : _purple;
+    final accentColor = _isPaid
+        ? AppColors.successDark
+        : AppColors.ownerPrimary;
 
     return SizedBox(
       width: double.infinity,
@@ -1066,8 +1077,8 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       child: ElevatedButton(
         onPressed: canSave ? _save : null,
         style: ElevatedButton.styleFrom(
-          backgroundColor: canSave ? accentColor : _border,
-          disabledBackgroundColor: _border,
+          backgroundColor: canSave ? accentColor : AppColors.border,
+          disabledBackgroundColor: AppColors.border,
           elevation: 0,
           shadowColor: Colors.transparent,
           shape: RoundedRectangleBorder(
@@ -1089,7 +1100,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   Icon(
                     Icons.save_outlined,
                     size: 18,
-                    color: canSave ? Colors.white : _inkLight,
+                    color: canSave ? Colors.white : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -1097,7 +1108,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: canSave ? Colors.white : _inkLight,
+                      color: canSave ? Colors.white : AppColors.textTertiary,
                       letterSpacing: -0.2,
                     ),
                   ),

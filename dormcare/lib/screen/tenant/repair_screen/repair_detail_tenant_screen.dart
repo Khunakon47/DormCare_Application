@@ -1,6 +1,7 @@
-import 'package:dormcare/component/timeline_tile.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/component/timeline_tile.dart';
+import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class RepairDetailTenantScreen extends StatelessWidget {
   final RepairModel data;
@@ -10,7 +11,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Repair Detail',
@@ -113,7 +114,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
             style: const TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.w800,
-              color: Color(0xFF0D1B2A),
+              color: AppColors.textPrimary,
               letterSpacing: -0.5,
             ),
           ),
@@ -222,7 +223,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 12,
-            color: Color(0xFF0D1B2A),
+            color: AppColors.textPrimary,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -240,7 +241,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
           style: const TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.w700,
-            color: Color(0xFF0D1B2A),
+            color: AppColors.textPrimary,
           ),
         ),
         const SizedBox(height: 12),

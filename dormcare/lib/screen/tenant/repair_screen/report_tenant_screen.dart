@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class ReportTenantScreen extends StatefulWidget {
   const ReportTenantScreen({super.key});
@@ -23,7 +24,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Report Issue',
@@ -81,7 +82,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: const Color(0xFF367BF3).withValues(alpha: 0.35),
+            color: AppColors.tenantPrimary.withValues(alpha: 0.35),
             width: 1.5,
           ),
           boxShadow: [
@@ -99,20 +100,20 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
               width: 52,
               height: 52,
               decoration: BoxDecoration(
-                color: const Color(0xFF367BF3).withValues(alpha: 0.08),
+                color: AppColors.tenantPrimary.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
               child: Icon(
                 Icons.add_photo_alternate_outlined,
                 size: 26,
-                color: const Color(0xFF367BF3).withValues(alpha: 0.8),
+                color: AppColors.tenantPrimary.withValues(alpha: 0.8),
               ),
             ),
             const SizedBox(height: 10),
             const Text(
               'Tap to attach a photo',
               style: TextStyle(
-                color: Color(0xFF367BF3),
+                color: AppColors.tenantPrimary,
                 fontWeight: FontWeight.w600,
                 fontSize: 14,
               ),
@@ -168,17 +169,17 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             duration: const Duration(milliseconds: 180),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
             decoration: BoxDecoration(
-              color: isSelected ? const Color(0xFF367BF3) : Colors.white,
+              color: isSelected ? AppColors.tenantPrimary : Colors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelected
-                    ? const Color(0xFF367BF3)
+                    ? AppColors.tenantPrimary
                     : Colors.grey.shade200,
               ),
               boxShadow: isSelected
                   ? [
                       BoxShadow(
-                        color: const Color(0xFF367BF3).withValues(alpha: 0.25),
+                        color: AppColors.tenantPrimary.withValues(alpha: 0.25),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -216,7 +217,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF367BF3),
+          backgroundColor: AppColors.tenantPrimary,
           foregroundColor: Colors.white,
           disabledBackgroundColor: Colors.grey.shade300,
           shape: RoundedRectangleBorder(
@@ -241,7 +242,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 14,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -254,7 +255,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
     return TextField(
       controller: controller,
       maxLines: maxLines,
-      style: const TextStyle(fontSize: 14, color: Color(0xFF0D1B2A)),
+      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
@@ -270,7 +271,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFF367BF3), width: 1.5),
+          borderSide: const BorderSide(color: AppColors.tenantPrimary, width: 1.5),
         ),
       ),
     );

@@ -8,6 +8,8 @@ import 'repairs_screen/repairs_owner_screen.dart';
 import 'profile_screen/profile_owner_screen.dart';
 import 'alter_screen/alter_owner_screen.dart';
 
+import 'package:dormcare/theme/app_theme.dart';
+
 class MainOwnerScreen extends StatefulWidget {
   const MainOwnerScreen({super.key});
 
@@ -27,10 +29,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
   @override
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
-      const PageDataModel(title: "Dashboard", screen: HomeOwnerScreen()),
-      const PageDataModel(title: "Rooms", screen: RoomOwnerScreen()),
-      const PageDataModel(title: "Bills", screen: BillsOwnerScreen()),
-      const PageDataModel(title: "Repairs", screen: RepairsOwnerScreen()),
+      const PageDataModel(title: "Home", screen: HomeOwnerScreen()),
+      const PageDataModel(title: "Rooms Management", screen: RoomOwnerScreen()),
+      const PageDataModel(title: "Bills Management", screen: BillsOwnerScreen()),
+      const PageDataModel(title: "Repairs Management", screen: RepairsOwnerScreen()),
       const PageDataModel(title: "Profile", screen: ProfileOwnerScreen()),
     ];
 
@@ -38,51 +40,70 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: AppColors.ownerPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.ownerPrimary),
         ),
         centerTitle: false,
         actions: [
           Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const AlertOwnerScreen()),
-                );
-              },
-              icon: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  const Icon(
-                    Icons.notifications_outlined,
-                    size: 26,
-                    color: Color(0xFFA34CF3),
-                  ),
-
-                  // Notification badge (UI only)
-                  Positioned(
-                    right: -1,
-                    top: -1,
-                    child: Container(
-                      width: 8,
-                      height: 8,
-                      decoration: const BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
+            padding: const EdgeInsets.only(right: 16),
+            child: Material(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+              child: InkWell(
+                borderRadius: BorderRadius.circular(10),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const AlertOwnerScreen(),
+                    ),
+                  );
+                },
+                child: Container(
+                  // padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.3),
+                      width: 1.2,
                     ),
                   ),
-                ],
+                  child: Stack(
+                    children: [
+                      // notification icon
+                      const Icon(
+                        Icons.notifications_outlined,
+                        size: 26,
+                        color: AppColors.ownerPrimary,
+                      ),
+
+                      // badge(Ui only)
+                      Positioned(
+                        right: 1,
+                        top: 1,
+                        child: Container(
+                          width: 8,
+                          height: 8,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade300, height: 1),
+          child: Container(color: Colors.grey.shade300, height: 0.5),
         ),
       ),
 
@@ -90,7 +111,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withValues(alpha: 0.2),
@@ -102,8 +123,8 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: Color(0xFFA34CF3).withValues(alpha: 0.1), // สำหรับสีตอนกระจายตัว (ใช้ Colors.transparent สำหรับปิด)
-            highlightColor: Color(0xFF9436F3).withValues(alpha: 0.1), // สำหรับสีตอนกดค้าง
+            splashColor: Color(0xFFA34CF3).withValues(alpha: 0.1),
+            highlightColor: Color(0xFF9436F3).withValues(alpha: 0.1),
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -124,35 +145,26 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
             showUnselectedLabels: true,
 
             items: [
-              // Home
               _buildBottomNavBarItem(
                 label: 'Home',
                 icon: const Icon(Icons.home_outlined),
                 activeIcon: const Icon(Icons.home),
               ),
-
-              // Rooms
               _buildBottomNavBarItem(
                 label: 'Rooms',
                 icon: const Icon(Icons.meeting_room_outlined),
                 activeIcon: const Icon(Icons.meeting_room),
               ),
-
-              // Bills
               _buildBottomNavBarItem(
                 label: 'Bills',
                 icon: const Icon(Icons.receipt_long_outlined),
                 activeIcon: const Icon(Icons.receipt_long),
               ),
-
-              // Repairs
               _buildBottomNavBarItem(
                 label: 'Repairs',
                 icon: const Icon(Icons.build_outlined),
                 activeIcon: const Icon(Icons.build),
               ),
-
-              // Profile
               _buildBottomNavBarItem(
                 label: 'Profile',
                 icon: const Icon(Icons.person_outline),
@@ -165,7 +177,6 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
     );
   }
 
-  // Private method to build BottomNavigationBarItem
   BottomNavigationBarItem _buildBottomNavBarItem({
     required String label,
     required Icon icon,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class LoginOwnerScreen extends StatefulWidget {
   const LoginOwnerScreen({super.key});
@@ -16,7 +17,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
       body: Stack(
         children: [
           // Top gradient background
@@ -24,7 +24,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             height: screenHeight * 0.42,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFA34CF3), Color(0xFF5B3FBF)],
+                colors: [AppColors.ownerPrimary, AppColors.ownerSecondary],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -32,31 +32,24 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           ),
 
           // Decorative circles
-          Positioned(
-            top: -60,
-            right: -40,
-            child: Container(
-              width: 220,
-              height: 220,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.06),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 60,
-            right: 30,
-            child: Container(
-              width: 100,
-              height: 100,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.04),
-              ),
-            ),
-          ),
+          _buildDecorativeCircles(),
 
+          // Positioned(
+          //   top: screenHeight * 0.4,
+          //   left: 0,
+          //   right: 0,
+          //   bottom: 0,
+          //   child: Container(
+          //     decoration: const BoxDecoration(
+          //       color: Color(0xFFF8F9FB),
+          //       borderRadius: BorderRadius.vertical(
+          //         top: Radius.circular(26),
+          //       ),
+          //     ),
+          //   ),
+          // ),
+
+          // Content(Header, Card, Footer)
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -78,7 +71,50 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     );
   }
 
-  // ─── Sections ─────────────────────────────────────────────────────────────
+  Widget _buildDecorativeCircles() {
+    return Stack(
+      children: [
+        Positioned(
+          top: -60,
+          right: -40,
+          child: Container(
+            width: 220,
+            height: 220,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.06),
+            ),
+          ),
+        ),
+
+        Positioned(
+          top: 250,
+          left: 10,
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.04),
+            ),
+          ),
+        ),
+
+        Positioned(
+          top: 240,
+          right: 60,
+          child: Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white.withValues(alpha: 0.05),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
 
   Widget _buildLogoSection() {
     return Column(
@@ -136,20 +172,19 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Card header
           Row(
             children: [
               Container(
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFA34CF3).withValues(alpha: 0.1),
+                  color: AppColors.ownerPrimary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: const Icon(
                   Icons.manage_accounts_outlined,
                   size: 18,
-                  color: Color(0xFFA34CF3),
+                  color: AppColors.ownerPrimary,
                 ),
               ),
               const SizedBox(width: 12),
@@ -161,13 +196,16 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF0D1B2A),
+                      color: AppColors.textPrimary,
                       letterSpacing: -0.3,
                     ),
                   ),
                   Text(
                     'Sign in to your account',
-                    style: TextStyle(fontSize: 12, color: Color(0xFF9AA5B4)),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: AppColors.textTertiary,
+                    ),
                   ),
                 ],
               ),
@@ -221,12 +259,12 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                       height: 20,
                       decoration: BoxDecoration(
                         color: _rememberMe
-                            ? const Color(0xFFA34CF3)
+                            ? AppColors.ownerPrimary
                             : Colors.white,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           color: _rememberMe
-                              ? const Color(0xFFA34CF3)
+                              ? AppColors.ownerPrimary
                               : Colors.grey.shade300,
                         ),
                       ),
@@ -268,7 +306,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFFA34CF3),
+                    color: AppColors.ownerPrimary,
                   ),
                 ),
               ),
@@ -298,12 +336,12 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFFA34CF3), Color(0xFF5B3FBF)],
+                    colors: [AppColors.ownerPrimary, AppColors.ownerSecondary],
                   ),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: const Color(0xFFA34CF3).withValues(alpha: 0.35),
+                      color: AppColors.ownerPrimary.withValues(alpha: 0.35),
                       blurRadius: 12,
                       offset: const Offset(0, 4),
                     ),
@@ -356,13 +394,13 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
               Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
           icon: const Icon(
             Icons.person_outline,
-            color: Color(0xFFA34CF3),
+            color: AppColors.ownerPrimary,
             size: 18,
           ),
           label: const Text(
             'Login as Tenant',
             style: TextStyle(
-              color: Color(0xFFA34CF3),
+              color: AppColors.ownerPrimary,
               fontWeight: FontWeight.w600,
               fontSize: 14,
             ),
@@ -372,15 +410,13 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     );
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
-
   Widget _buildLabel(String text) {
     return Text(
       text,
       style: const TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: 13,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -393,14 +429,14 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
   }) {
     return TextField(
       obscureText: obscure,
-      style: const TextStyle(fontSize: 14, color: Color(0xFF0D1B2A)),
+      style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
         prefixIcon: Icon(prefixIcon, size: 18, color: Colors.grey.shade400),
         suffixIcon: suffixIcon,
         filled: true,
-        fillColor: const Color(0xFFF7F8FA),
+        fillColor: AppColors.background,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
@@ -411,7 +447,10 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Color(0xFFA34CF3), width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.ownerPrimary,
+            width: 1.5,
+          ),
         ),
       ),
     );

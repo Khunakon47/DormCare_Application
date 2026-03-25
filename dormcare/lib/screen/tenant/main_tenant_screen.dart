@@ -7,6 +7,8 @@ import 'repair_screen/repair_tenant_screen.dart';
 import 'alter_screen/alter_tenant_screen.dart';
 import 'profile_screen/profile_tenant_screen.dart';
 
+import 'package:dormcare/theme/app_theme.dart';
+
 class MainTenantScreen extends StatefulWidget {
   const MainTenantScreen({super.key});
 
@@ -27,22 +29,9 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
   Widget build(BuildContext context) {
     final List<PageDataModel> pages = [
       const PageDataModel(title: "Home", screen: HomeTenantScreen()),
-      const PageDataModel(title: "Expenses", screen: ExpensesTenantScreen()),
-      PageDataModel(
-        title: "Repairs",
-        screen: RepairTenantScreen(),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('No new repair notifications')),
-              );
-            },
-          ),
-        ],
-      ),
-      const PageDataModel(title: "Alerts", screen: AlertTenantScreen()),
+      const PageDataModel(title: "Monthly Bills", screen: ExpensesTenantScreen()),
+      const PageDataModel(title: "Repairs Report", screen: RepairTenantScreen()),
+      const PageDataModel(title: "Notifications", screen: AlertTenantScreen()),
       const PageDataModel(title: "Profile", screen: ProfileTenantScreen()),
     ];
 
@@ -50,14 +39,15 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        // backgroundColor: AppColors.tenantPrimary,
         title: Text(
           currentPage.title,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 20, color: AppColors.tenantPrimary),          
         ),
-        actions: currentPage.actions,
+        centerTitle: false,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          preferredSize: const Size.fromHeight(1),
+          child: Container(color: Colors.grey.shade300, height: 0.5),
         ),
       ),
 
@@ -77,8 +67,8 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
-            highlightColor: const Color(0xFF367BF3).withValues(alpha: 0.1),
+            splashColor: AppColors.tenantPrimary.withValues(alpha: 0.1),
+            highlightColor: AppColors.tenantPrimary.withValues(alpha: 0.1),
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -87,7 +77,7 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-            selectedItemColor: const Color(0xFF367BF3),
+            selectedItemColor: AppColors.tenantPrimary,
             unselectedItemColor: Colors.grey,
 
             selectedFontSize: 13,
@@ -99,31 +89,26 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
             showUnselectedLabels: true,
 
             items: [
-              // Home
               _buildBottomNavBarItem(
                 label: 'Home',
                 icon: const Icon(Icons.home_outlined),
                 activeIcon: const Icon(Icons.home),
               ),
-              // Expenses
               _buildBottomNavBarItem(
                 label: 'Expenses',
                 icon: const Icon(Icons.receipt_long_outlined),
                 activeIcon: const Icon(Icons.receipt_long),
               ),
-              // Repairs
               _buildBottomNavBarItem(
                 label: 'Repairs',
                 icon: const Icon(Icons.build_outlined),
                 activeIcon: const Icon(Icons.build),
               ),
-              // Alerts
               _buildBottomNavBarItem(
                 label: 'Alerts',
                 icon: const Icon(Icons.notifications_outlined),
                 activeIcon: const Icon(Icons.notifications),
               ),
-              // Profile
               _buildBottomNavBarItem(
                 label: 'Profile',
                 icon: const Icon(Icons.person_outline),
@@ -136,7 +121,6 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
     );
   }
 
-  // Private method to build BottomNavigationBarItem
   BottomNavigationBarItem _buildBottomNavBarItem({
     required String label,
     required Icon icon,

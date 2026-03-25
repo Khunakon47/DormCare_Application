@@ -1,6 +1,7 @@
-import 'package:dormcare/component/repair_card.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/repair_model.dart';
+import 'package:dormcare/component/repair_tenant_card.dart';
+import 'package:dormcare/theme/app_theme.dart';
+import 'package:dormcare/model/repair_model.dart';
 import 'repair_detail_tenant_screen.dart';
 import 'report_tenant_screen.dart';
 
@@ -14,12 +15,15 @@ class RepairTenantScreen extends StatefulWidget {
 class _RepairTenantScreenState extends State<RepairTenantScreen> {
   int _selectedStatusIndex = 0;
 
-  // Sample data for repairs list
   final List<RepairModel> _allRepairs = [
     RepairModel(
       id: '1',
       title: 'TV Broken',
-      description: 'The TV in the living room is not turning on. Please fix it as soon as possible.',
+      description:
+          'The TV in the living room is not turning on. Please fix it as soon as possible.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 10, 9, 30),
       imageUrl: 'https://picsum.photos/500/300?random=1',
       status: RepairStatus.completed,
@@ -28,7 +32,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     RepairModel(
       id: '2',
       title: 'Leaking Faucet',
-      description: 'The kitchen faucet is leaking and causing water to pool around the sink area.',
+      description:
+          'The kitchen faucet is leaking and causing water to pool around the sink area.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 12, 14, 45),
       status: RepairStatus.inProgress,
       category: RepairCategory.plumbing,
@@ -37,6 +45,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       id: '3',
       title: 'Air Conditioner',
       description: 'The air conditioner in my bedroom is not cooling properly.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 15, 11, 20),
       status: RepairStatus.pending,
       category: RepairCategory.appliance,
@@ -44,14 +55,17 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     RepairModel(
       id: '4',
       title: 'Broken Door Lock',
-      description: 'The lock on my bedroom door is broken and does not secure properly.',
+      description:
+          'The lock on my bedroom door is broken and does not secure properly.',
+      roomNumber: '301',
+      tenantName: 'JoBy Khuna',
+      phoneNumber: '081-234-5678',
       reportedAt: DateTime(2024, 12, 18, 16, 10),
       status: RepairStatus.cancelled,
       category: RepairCategory.other,
     ),
   ];
 
-  // Filter repairs based on selected status tab
   List<RepairModel> get _filteredRepairs {
     if (_selectedStatusIndex == 0) return _allRepairs;
     final statuses = [
@@ -69,7 +83,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,8 +101,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                   : ListView.separated(
                       padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
                       itemCount: _filteredRepairs.length,
-                      separatorBuilder: (context, index) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) => RepairCard(
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 12),
+                      itemBuilder: (context, index) => RepairTenantCard(
                         data: _filteredRepairs[index],
                         onTap: () => Navigator.push(
                           context,
@@ -129,7 +144,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                     Text('Report submitted successfully'),
                   ],
                 ),
-                backgroundColor: const Color(0xFF66BB6A),
+                backgroundColor: AppColors.success,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -147,7 +162,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                     Text('Failed to submit. Please try again.'),
                   ],
                 ),
-                backgroundColor: const Color(0xFFEF5350),
+                backgroundColor: AppColors.error,
                 behavior: SnackBarBehavior.floating,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -157,7 +172,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             );
           }
         },
-        backgroundColor: const Color(0xFF367BF3),
+        backgroundColor: AppColors.tenantPrimary,
         elevation: 2,
         icon: const Icon(Icons.add, color: Colors.white, size: 20),
         label: const Text(
@@ -178,6 +193,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
+          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -185,7 +201,9 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
+                border: Border.all(
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
@@ -200,27 +218,41 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             ),
           ),
           const SizedBox(width: 8),
+          // Filter button
           Container(
             height: 42,
-            padding: const EdgeInsets.symmetric(horizontal: 14),
+            width: 42,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.grey.shade200),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
             ),
-            child: Row(
-              children: [
-                Icon(Icons.sort, size: 18, color: const Color(0xFF367BF3)),
-                const SizedBox(width: 6),
-                Text(
-                  'Sort',
-                  style: TextStyle(
-                    color: const Color(0xFF367BF3),
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
+            child: const Center(
+              child: Icon(
+                Icons.filter_alt_outlined,
+                size: 20,
+                color: AppColors.tenantPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          // Sort button
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: AppColors.tenantPrimary.withValues(alpha: 0.3),
+              ),
+            ),
+            child: const Icon(
+              Icons.sort,
+              size: 20,
+              color: AppColors.tenantPrimary,
             ),
           ),
         ],
@@ -232,11 +264,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
   Widget _buildFilterTabs() {
     final labels = ['All', 'Pending', 'In Progress', 'Completed', 'Cancelled'];
     final colors = [
-      const Color(0xFF367BF3),
-      const Color(0xFFFFA726),
-      const Color(0xFF42A5F5),
-      const Color(0xFF66BB6A),
-      const Color(0xFFEF5350),
+      AppColors.tenantPrimary,
+      AppColors.warning,
+      AppColors.info,
+      AppColors.success,
+      AppColors.error,
     ];
 
     return SizedBox(

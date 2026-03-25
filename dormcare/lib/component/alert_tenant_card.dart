@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
-import '../model/tenant/alert_model.dart';
+import '../model/tenant/alert_tenant_model.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
-class AlertCard extends StatelessWidget {
-  final AlertModel data;
+class AlertTenantCard extends StatelessWidget {
+  final AlertTenantModel data;
   final VoidCallback onTap;
 
-  const AlertCard({super.key, required this.data, required this.onTap});
+  const AlertTenantCard({super.key, required this.data, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
-        color: data.isRead ? const Color(0xFFF5F5F5) : Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        color: data.isRead ? AppColors.divider : AppColors.white,
+        borderRadius: BorderRadius.circular(14),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: AppColors.textPrimary.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -50,7 +51,7 @@ class AlertCard extends StatelessWidget {
 
                 const SizedBox(width: 16),
 
-                // 2. Content
+                // Content
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,18 +67,17 @@ class AlertCard extends StatelessWidget {
                                 fontWeight: data.isRead
                                     ? FontWeight.w600
                                     : FontWeight.bold,
-                                color: Colors.black87,
+                                color: AppColors.textPrimary,
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          // วันที่
                           Text(
                             data.displayDate,
                             style: TextStyle(
                               fontSize: 12,
-                              color: Colors.grey.shade500,
+                              color: AppColors.textSecondary,
                             ),
                           ),
                         ],
@@ -85,15 +85,14 @@ class AlertCard extends StatelessWidget {
 
                       const SizedBox(height: 6),
 
-                      // [เพิ่มส่วนนี้] Category Tag
+                      // Category Tag
                       Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 8,
                           vertical: 2,
                         ),
                         decoration: BoxDecoration(
-                          color: data
-                              .categoryBgColor, // ใช้สีพื้นหลังเดียวกับไอคอนแต่จางๆ
+                          color: data.categoryBgColor,
                           borderRadius: BorderRadius.circular(6),
                           border: Border.all(
                             color: data.categoryColor.withValues(alpha: 0.2),
@@ -115,7 +114,7 @@ class AlertCard extends StatelessWidget {
                         data.description,
                         style: TextStyle(
                           fontSize: 13,
-                          color: Colors.grey.shade600,
+                          color: AppColors.textSecondary,
                           height: 1.4,
                         ),
                         maxLines: 2,
@@ -125,14 +124,14 @@ class AlertCard extends StatelessWidget {
                   ),
                 ),
 
-                // 3. Unread Indicator
+                // Unread Indicator
                 if (!data.isRead)
                   Container(
                     margin: const EdgeInsets.only(left: 8, top: 5),
                     width: 10,
                     height: 10,
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFF3D00),
+                      color: AppColors.error,
                       shape: BoxShape.circle,
                     ),
                   ),

@@ -2,6 +2,7 @@ import 'package:dormcare/model/owner/room_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 class PostBillFormScreen extends StatefulWidget {
   final int year;
@@ -55,7 +56,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
     ).format(DateTime(widget.year, widget.month));
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Post Bill',
@@ -80,7 +81,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             const SizedBox(height: 8),
             _buildReadOnlyField(
               icon: Icons.home_outlined,
-              iconColor: const Color(0xFF367BF3),
+              iconColor: AppColors.billRent,
               label: 'Monthly rent',
               value: '${widget.room.price.toInt()} THB',
             ),
@@ -91,7 +92,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             const SizedBox(height: 8),
             _buildUnitField(
               icon: Icons.water_drop_outlined,
-              iconColor: const Color(0xFF00BCD4),
+              iconColor: AppColors.billWater,
               unitsCtrl: _waterCtrl,
               unitRateCtrl: _waterUnitCtrl,
               unitsHint: 'Units used',
@@ -104,7 +105,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             const SizedBox(height: 8),
             _buildUnitField(
               icon: Icons.bolt_outlined,
-              iconColor: const Color(0xFFFFA726),
+              iconColor: AppColors.billElec,
               unitsCtrl: _elecCtrl,
               unitRateCtrl: _elecUnitCtrl,
               unitsHint: 'Units used',
@@ -154,13 +155,13 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: const Color(0xFFA34CF3).withValues(alpha: 0.12),
+              color: AppColors.ownerPrimary.withValues(alpha: 0.12),
               borderRadius: BorderRadius.circular(11),
             ),
             child: const Icon(
               Icons.meeting_room_outlined,
               size: 20,
-              color: Color(0xFFA34CF3),
+              color: AppColors.ownerPrimary,
             ),
           ),
           const SizedBox(width: 12),
@@ -173,7 +174,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                   style: const TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF6B21C8),
+                    color: AppColors.ownerDark,
                   ),
                 ),
                 const SizedBox(height: 3),
@@ -181,7 +182,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                   '${widget.room.tenantName ?? '-'}  ·  $monthLabel',
                   style: TextStyle(
                     fontSize: 12,
-                    color: const Color(0xFFA34CF3).withValues(alpha: 0.7),
+                    color: AppColors.ownerPrimary.withValues(alpha: 0.7),
                   ),
                 ),
               ],
@@ -198,7 +199,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       style: const TextStyle(
         fontSize: 13,
         fontWeight: FontWeight.w700,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -239,7 +240,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF0D1B2A),
+              color: AppColors.textPrimary,
             ),
           ),
         ],
@@ -282,7 +283,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
               const SizedBox(width: 8),
               const Text(
                 '×',
-                style: TextStyle(fontSize: 16, color: Color(0xFF9AA5B4)),
+                style: TextStyle(fontSize: 16, color: AppColors.textTertiary),
               ),
               const SizedBox(width: 8),
               SizedBox(
@@ -364,7 +365,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       style: const TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w600,
-        color: Color(0xFF0D1B2A),
+        color: AppColors.textPrimary,
       ),
       decoration: InputDecoration(
         hintText: hint,
@@ -382,9 +383,9 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
 
   Widget _buildTotalCard() {
     final rows = [
-      ('Room Rent', widget.room.price, const Color(0xFF367BF3)),
-      ('Water', _waterTotal, const Color(0xFF00BCD4)),
-      ('Electricity', _elecTotal, const Color(0xFFFFA726)),
+      ('Room Rent', widget.room.price, AppColors.billRent),
+      ('Water', _waterTotal, AppColors.billWater),
+      ('Electricity', _elecTotal, AppColors.billElec),
       if (_otherTotal > 0) ('Other', _otherTotal, Colors.grey.shade400),
     ];
 
@@ -410,7 +411,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF0D1B2A),
+                color: AppColors.textPrimary,
               ),
             ),
           ),
@@ -442,7 +443,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                     style: const TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF0D1B2A),
+                      color: AppColors.textPrimary,
                     ),
                   ),
                 ],
@@ -465,7 +466,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const Spacer(),
@@ -474,7 +475,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                     letterSpacing: -0.5,
                     height: 1,
                   ),
@@ -487,7 +488,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: Color(0xFF9AA5B4),
+                      color: AppColors.textTertiary,
                     ),
                   ),
                 ),
@@ -505,7 +506,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFA34CF3),
+          backgroundColor: AppColors.ownerPrimary,
           foregroundColor: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),

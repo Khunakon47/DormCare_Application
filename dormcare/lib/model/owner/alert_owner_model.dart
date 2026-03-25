@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:dormcare/utils/format.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 enum AlertOwnerCategory { repairRequest, billReminder, general }
 
@@ -8,7 +10,7 @@ class AlertOwnerModel {
   final String description;
   final DateTime createdAt;
   final AlertOwnerCategory category;
-  final String? roomNumber; // มีเมื่อ category == repairRequest
+  final String? roomNumber;
   final String? tenantName;
   bool isRead;
 
@@ -23,60 +25,8 @@ class AlertOwnerModel {
     this.isRead = false,
   });
 
-  // ─── Display helpers ──────────────────────────────────────────────────────
-
-  String get displayDate {
-    final now = DateTime.now();
-    final diff = now.difference(createdAt);
-
-    if (diff.inHours < 24) {
-      final h = createdAt.hour.toString().padLeft(2, '0');
-      final m = createdAt.minute.toString().padLeft(2, '0');
-      return '$h:$m';
-    }
-
-    final yesterday = DateTime(now.year, now.month, now.day - 1);
-    final createdDay = DateTime(createdAt.year, createdAt.month, createdAt.day);
-    if (createdDay == yesterday) return 'Yesterday';
-
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return '${createdAt.day} ${months[createdAt.month - 1]}';
-  }
-
-  String get fullDateTime {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    final h = createdAt.hour.toString().padLeft(2, '0');
-    final m = createdAt.minute.toString().padLeft(2, '0');
-    return '${createdAt.day} ${months[createdAt.month - 1]} ${createdAt.year}  ·  $h:$m';
-  }
-
-  // ─── Category helpers ─────────────────────────────────────────────────────
+  String get displayDate => AppFormat.smart(createdAt);
+  String get fullDateTime => AppFormat.dateTime(createdAt);
 
   String get categoryText {
     switch (category) {
@@ -103,22 +53,22 @@ class AlertOwnerModel {
   Color get categoryColor {
     switch (category) {
       case AlertOwnerCategory.repairRequest:
-        return const Color(0xFFA34CF3);
+        return AppColors.ownerPrimary;
       case AlertOwnerCategory.billReminder:
-        return const Color(0xFF42A5F5);
+        return AppColors.info;
       case AlertOwnerCategory.general:
-        return const Color(0xFF66BB6A);
+        return AppColors.success;
     }
   }
 
   Color get categoryBgColor {
     switch (category) {
       case AlertOwnerCategory.repairRequest:
-        return const Color(0xFFF3E8FF);
+        return AppColors.ownerSoft;
       case AlertOwnerCategory.billReminder:
-        return const Color(0xFFE3F2FD);
+        return AppColors.infoSoft;
       case AlertOwnerCategory.general:
-        return const Color(0xFFE8F5E9);
+        return AppColors.successSoft;
     }
   }
 }

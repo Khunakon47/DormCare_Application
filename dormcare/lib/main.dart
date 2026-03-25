@@ -3,6 +3,7 @@ import 'screen/owner/main_owner_screen.dart';
 import 'screen/owner/login_screen/login_owner_screen.dart';
 import 'screen/tenant/main_tenant_screen.dart';
 import 'screen/tenant/login_screen/login_tenant_screen.dart';
+import 'package:dormcare/theme/app_theme.dart';
 
 void main() {
   runApp(const DormCareApp());
@@ -15,21 +16,10 @@ class DormCareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF367BF3),
-          brightness: Brightness.light,
-        ),
-      ),
-
-      darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF367BF3),
-          brightness: Brightness.dark,
-        ),
-      ),
+      
+      // เมื่อทำ Firebase auth แล้วค่อยเปลี่ยนมาใช้การ switch theme ตาม role หลัง login ระหว่าง AppTheme.tenantTheme() และ AppTheme.ownerTheme()
+      theme: AppTheme.tenantTheme(),
+      darkTheme: AppTheme.tenantTheme(),
 
       themeMode: ThemeMode.system,
       
