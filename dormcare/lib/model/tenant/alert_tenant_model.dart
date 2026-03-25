@@ -53,7 +53,7 @@ class AlertTenantModel {
   Color get categoryBgColor {
     switch (category) {
       case AlertCategory.parcel:
-        return AppColors.alertParcelSoft2;
+        return AppColors.alertParcelSoft;
       case AlertCategory.bill:
         return AppColors.alertBillPurpleSoft;
       case AlertCategory.emergency:
