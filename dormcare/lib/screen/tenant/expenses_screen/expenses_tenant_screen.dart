@@ -440,10 +440,10 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -466,7 +466,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 const Spacer(),
                 Text(
                   'Bill date: ${bill.billDate}',
-                  style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+                  style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
                 ),
               ],
             ),
@@ -483,7 +483,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             height: 1,
             thickness: 0.5,
             indent: 56,
-            color: Colors.grey.shade100,
+            color: AppColors.divider,
           ),
           _buildBreakdownRow(
             icon: Icons.water_drop_rounded,
@@ -496,7 +496,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             height: 1,
             thickness: 0.5,
             indent: 56,
-            color: Colors.grey.shade100,
+            color: AppColors.divider,
           ),
           _buildBreakdownRow(
             icon: Icons.bolt_rounded,
@@ -528,18 +528,18 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             ),
             child: Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.summarize_rounded,
                   size: 16,
-                  color: Colors.white70,
+                  color: AppColors.white.withValues(alpha: 0.7),
                 ),
                 const SizedBox(width: 8),
-                const Text(
+                Text(
                   'Total Due',
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: Colors.white70,
+                    color: AppColors.white.withValues(alpha: 0.7),
                   ),
                 ),
                 const Spacer(),
@@ -554,14 +554,14 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   ),
                 ),
                 const SizedBox(width: 5),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(bottom: 1),
                   child: Text(
                     'THB',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white60,
+                      color: AppColors.white.withValues(alpha: 0.6),
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -610,7 +610,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 Text(
                   subtitle,
-                  style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+                  style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
                 ),
               ],
             ),
@@ -628,7 +628,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               ),
               Text(
                 'THB',
-                style: TextStyle(fontSize: 10, color: Colors.grey.shade400),
+                style: TextStyle(fontSize: 10, color: AppColors.textTertiary),
               ),
             ],
           ),
@@ -752,12 +752,12 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                      Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                       const SizedBox(width: 8),
                       Text(
                         'Search repairs...',
                         style: TextStyle(
-                          color: Colors.grey.shade400,
+                          color: AppColors.textTertiary,
                           fontSize: 13,
                         ),
                       ),
@@ -817,7 +817,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   '${historyBills.length} bills',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -851,7 +851,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 14,
             offset: const Offset(0, 5),
           ),
@@ -1005,14 +1005,14 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   ),
                 ),
                 const SizedBox(width: 4),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 3),
                   child: Text(
                     'THB',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,
-                      color: Colors.white70,
+                      color: AppColors.white.withValues(alpha: 0.7),
                     ),
                   ),
                 ),

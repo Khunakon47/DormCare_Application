@@ -64,7 +64,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: SingleChildScrollView(
@@ -118,7 +118,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             const SizedBox(height: 8),
             _buildSimpleField(
               icon: Icons.add_circle_outline,
-              iconColor: Colors.grey.shade400,
+              iconColor: AppColors.textTertiary,
               ctrl: _otherCtrl,
               hint: 'Amount (THB)',
             ),
@@ -143,11 +143,9 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F0FF),
+        color: AppColors.ownerSoftest,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(
-          color: const Color(0xFFD4A6F8).withValues(alpha: 0.4),
-        ),
+        border: Border.all(color: AppColors.ownerBorderLight.withValues(alpha: 0.4)),
       ),
       child: Row(
         children: [
@@ -213,9 +211,9 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
@@ -232,7 +230,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
           Expanded(
             child: Text(
               label,
-              style: TextStyle(fontSize: 13, color: Colors.grey.shade500),
+              style: TextStyle(fontSize: 13, color: AppColors.textSecondary),
             ),
           ),
           Text(
@@ -259,9 +257,9 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Column(
         children: [
@@ -327,9 +325,9 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade200),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
@@ -370,7 +368,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
-          color: Colors.grey.shade400,
+          color: AppColors.textTertiary,
           fontSize: 13,
           fontWeight: FontWeight.w400,
         ),
@@ -386,17 +384,17 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       ('Room Rent', widget.room.price, AppColors.billRent),
       ('Water', _waterTotal, AppColors.billWater),
       ('Electricity', _elecTotal, AppColors.billElec),
-      if (_otherTotal > 0) ('Other', _otherTotal, Colors.grey.shade400),
+      if (_otherTotal > 0) ('Other', _otherTotal, AppColors.textTertiary),
     ];
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -434,7 +432,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
                       r.$1,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -455,7 +453,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
             thickness: 0.5,
             indent: 16,
             endIndent: 16,
-            color: Colors.grey.shade100,
+            color: AppColors.divider,
           ),
           Padding(
             padding: const EdgeInsets.all(16),
@@ -507,7 +505,7 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.ownerPrimary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),

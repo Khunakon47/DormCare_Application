@@ -102,6 +102,13 @@ class AppColors {
   static const Color onGradientRent = Color(0xFF90CAF9);
   static const Color onGradientWater = Color(0xFF80DEEA,);
   static const Color onGradientElec = Color(0xFFFFCC80);
+
+  // Others
+  static const Color onGradientOther = Color(0xFFE9D5FF);
+  static const Color textDeep = Color(0xFF1A1A2E);
+  static const Color ownerSoftest = Color(0xFFF8F0FF);
+  static const Color ownerBorderLight = Color(0xFFD4A6F8);
+  static const Color ownerMid = Color(0xFF9436F3);
 }
 
 // App Text Styles

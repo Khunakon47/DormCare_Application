@@ -43,7 +43,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: Column(
@@ -53,7 +53,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-            color: const Color(0xFFF8F0FF),
+            color: AppColors.ownerSoftest,
             child: Row(
               children: [
                 const Icon(
@@ -83,7 +83,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
                   'Occupied Rooms',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -91,7 +91,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
                   '${occupied.length} rooms',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -104,7 +104,7 @@ class PostBillRoomSelectScreen extends StatelessWidget {
                 ? Center(
                     child: Text(
                       'No occupied rooms',
-                      style: TextStyle(color: Colors.grey.shade400),
+                      style: TextStyle(color: AppColors.textTertiary),
                     ),
                   )
                 : ListView.separated(

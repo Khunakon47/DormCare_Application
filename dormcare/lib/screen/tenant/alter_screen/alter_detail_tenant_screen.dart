@@ -12,7 +12,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F8FA),
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: const Text(
           'Notification',
@@ -20,7 +20,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: SingleChildScrollView(
@@ -86,13 +86,13 @@ class AlertDetailTenantScreen extends StatelessWidget {
   Widget _buildTimestamp() {
     return Row(
       children: [
-        Icon(Icons.access_time_outlined, size: 13, color: Colors.grey.shade400),
+        Icon(Icons.access_time_outlined, size: 13, color: AppColors.textTertiary),
         const SizedBox(width: 5),
         Text(
           data.fullDateTime,
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey.shade400,
+            color: AppColors.textTertiary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -123,7 +123,7 @@ class AlertDetailTenantScreen extends StatelessWidget {
   Widget _buildBody() {
     return Text(
       data.description,
-      style: TextStyle(fontSize: 15, color: Colors.grey.shade700, height: 1.7),
+      style: TextStyle(fontSize: 15, color: AppColors.textSecondary, height: 1.7),
     );
   }
 }

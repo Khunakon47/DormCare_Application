@@ -41,8 +41,6 @@ class AlertDetailOwnerScreen extends StatelessWidget {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildCategoryBadge() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -111,7 +109,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: const Color(0xFFF3E8FF),
+              color: AppColors.ownerSoft, // -------------
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(

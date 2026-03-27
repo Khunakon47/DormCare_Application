@@ -69,7 +69,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
@@ -95,7 +95,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
               'Payment Management',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.grey.shade400,
+                color: AppColors.textTertiary,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -103,7 +103,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade100, height: 1),
+          child: Container(color: AppColors.divider, height: 1),
         ),
       ),
       body: Column(
@@ -118,7 +118,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
                   '${_bills.length} rooms billed',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -126,7 +126,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
                   'Due $dueLabel',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade400,
+                    color: AppColors.textTertiary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -154,7 +154,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
 
   Widget _buildSummaryPanel(double pct, int total, String dueLabel) {
     return Container(
-      color: Colors.white,
+      color: AppColors.white,
       padding: const EdgeInsets.fromLTRB(16, 14, 16, 18),
       child: Column(
         children: [
@@ -193,7 +193,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
                     height: 7,
                     child: Stack(
                       children: [
-                        Container(color: Colors.grey.shade100),
+                        Container(color: AppColors.divider),
                         FractionallySizedBox(
                           widthFactor: pct.clamp(0.0, 1.0),
                           child: Container(color: AppColors.success),
@@ -219,7 +219,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
             alignment: Alignment.centerLeft,
             child: Text(
               '$_paidCount of $total rooms paid',
-              style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+              style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
             ),
           ),
         ],

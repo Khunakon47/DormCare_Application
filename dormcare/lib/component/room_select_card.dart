@@ -23,7 +23,7 @@ class RoomSelectCard extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: AppColors.surface,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(14),
             border: Border.all(
               color: isPosted ? AppColors.border : AppColors.border,

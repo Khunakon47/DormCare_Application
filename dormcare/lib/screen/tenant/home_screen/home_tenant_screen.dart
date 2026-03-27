@@ -67,7 +67,7 @@ class HomeTenantScreen extends StatelessWidget {
                 const Text(
                   'JoBy Khuna',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.4,
@@ -88,9 +88,9 @@ class HomeTenantScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
+              color: AppColors.white.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              border: Border.all(color: AppColors.white.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -99,7 +99,7 @@ class HomeTenantScreen extends StatelessWidget {
                   width: 7,
                   height: 7,
                   decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: AppColors.white,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -107,7 +107,7 @@ class HomeTenantScreen extends StatelessWidget {
                 const Text(
                   '2 unread',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
                   ),
@@ -124,18 +124,18 @@ class HomeTenantScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.18),
+        color: AppColors.white.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: Colors.white70),
+          Icon(icon, size: 12, color: AppColors.white.withValues(alpha: 0.7)),
           const SizedBox(width: 5),
           Text(
             label,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.white,
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
@@ -149,12 +149,12 @@ class HomeTenantScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -191,7 +191,7 @@ class HomeTenantScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   'January 2025 — due Jan 5',
-                  style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
                 ),
               ],
             ),
@@ -212,7 +212,7 @@ class HomeTenantScreen extends StatelessWidget {
                 'THB',
                 style: TextStyle(
                   fontSize: 10,
-                  color: Colors.grey.shade400,
+                  color: AppColors.textTertiary,
                   fontWeight: FontWeight.w500,
                 ),
               ),
@@ -329,12 +329,12 @@ class HomeTenantScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -348,7 +348,7 @@ class HomeTenantScreen extends StatelessWidget {
           height: 1,
           thickness: 0.5,
           indent: 56,
-          color: Colors.grey.shade100,
+          color: AppColors.divider,
         ),
         itemBuilder: (context, i) => _buildRepairTile(repairs[i]),
       ),
@@ -377,7 +377,7 @@ class HomeTenantScreen extends StatelessWidget {
       ),
       subtitle: Text(
         item.reportedDate,
-        style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+        style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
       ),
       trailing: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),

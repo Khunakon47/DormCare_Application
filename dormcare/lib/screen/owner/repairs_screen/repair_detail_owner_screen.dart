@@ -29,7 +29,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: SingleChildScrollView(
@@ -54,7 +54,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                       widget.data.description,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey.shade700,
+                        color: AppColors.textSecondary,
                         height: 1.7,
                       ),
                     ),
@@ -93,19 +93,19 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Container(
-        color: Colors.grey.shade100,
+        color: AppColors.divider,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.image_not_supported_outlined,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
               size: 40,
             ),
             const SizedBox(height: 8),
             Text(
               'No image attached',
-              style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
             ),
           ],
         ),
@@ -199,9 +199,9 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
       ),
       child: Row(
         children: [
@@ -212,7 +212,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
               value: widget.data.tenantName,
             ),
           ),
-          Container(width: 1, height: 40, color: Colors.grey.shade100),
+          Container(width: 1, height: 40, color: AppColors.divider),
           Expanded(
             child: _buildInfoTile(
               icon: Icons.phone_outlined,
@@ -220,7 +220,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
               value: widget.data.phoneNumber,
             ),
           ),
-          Container(width: 1, height: 40, color: Colors.grey.shade100),
+          Container(width: 1, height: 40, color: AppColors.divider),
           Expanded(
             child: _buildInfoTile(
               icon: Icons.calendar_today_outlined,
@@ -240,13 +240,13 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
   }) {
     return Column(
       children: [
-        Icon(icon, size: 16, color: Colors.grey.shade400),
+        Icon(icon, size: 16, color: AppColors.textTertiary),
         const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
             fontSize: 10,
-            color: Colors.grey.shade400,
+            color: AppColors.textTertiary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -322,10 +322,10 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: isSelected ? color.withValues(alpha: 0.06) : Colors.white,
+              color: isSelected ? color.withValues(alpha: 0.06) : AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: isSelected ? color : Colors.grey.shade200,
+                color: isSelected ? color : AppColors.border,
                 width: isSelected ? 1.5 : 1,
               ),
             ),
@@ -337,13 +337,13 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                   decoration: BoxDecoration(
                     color: isSelected
                         ? color.withValues(alpha: 0.12)
-                        : Colors.grey.shade50,
+                        : AppColors.background,
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
                     option.icon,
                     size: 18,
-                    color: isSelected ? color : Colors.grey.shade400,
+                    color: isSelected ? color : AppColors.textTertiary,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -363,7 +363,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                         option.subtitle,
                         style: TextStyle(
                           fontSize: 12,
-                          color: Colors.grey.shade400,
+                          color: AppColors.textTertiary,
                         ),
                       ),
                     ],
@@ -375,7 +375,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                   Icon(
                     Icons.radio_button_unchecked,
                     size: 20,
-                    color: Colors.grey.shade300,
+                    color: AppColors.textDisabled,
                   ),
               ],
             ),
@@ -392,7 +392,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.ownerPrimary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
@@ -407,7 +407,7 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                 children: [
                   Icon(
                     Icons.check_circle_outline,
-                    color: Colors.white,
+                    color: AppColors.white,
                     size: 20,
                   ),
                   SizedBox(width: 10),

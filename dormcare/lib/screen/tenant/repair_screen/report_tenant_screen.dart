@@ -32,7 +32,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: SingleChildScrollView(
@@ -79,7 +79,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
         height: 160,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: AppColors.tenantPrimary.withValues(alpha: 0.35),
@@ -87,7 +87,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -121,7 +121,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             const SizedBox(height: 4),
             Text(
               'JPG, PNG up to 10MB',
-              style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
             ),
           ],
         ),
@@ -169,12 +169,12 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             duration: const Duration(milliseconds: 180),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.tenantPrimary : Colors.white,
+              color: isSelected ? AppColors.tenantPrimary : AppColors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelected
                     ? AppColors.tenantPrimary
-                    : Colors.grey.shade200,
+                    : AppColors.border,
               ),
               boxShadow: isSelected
                   ? [
@@ -192,7 +192,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
                 Icon(
                   item.icon,
                   size: 15,
-                  color: isSelected ? Colors.white : Colors.grey.shade500,
+                  color: isSelected ? AppColors.white : AppColors.textSecondary,
                 ),
                 const SizedBox(width: 6),
                 Text(
@@ -200,7 +200,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : Colors.grey.shade600,
+                    color: isSelected ? AppColors.white : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -218,8 +218,8 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.tenantPrimary,
-          foregroundColor: Colors.white,
-          disabledBackgroundColor: Colors.grey.shade300,
+          foregroundColor: AppColors.white,
+          disabledBackgroundColor: AppColors.textDisabled,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
@@ -258,16 +258,16 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+        hintStyle: TextStyle(color: AppColors.textTertiary, fontSize: 14),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppColors.white,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 14,
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

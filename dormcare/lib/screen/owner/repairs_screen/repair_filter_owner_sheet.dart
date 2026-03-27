@@ -109,7 +109,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.ownerPrimary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
@@ -153,12 +153,12 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.ownerPrimary : Colors.white,
+              color: isSelected ? AppColors.ownerPrimary : AppColors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isSelected
                     ? AppColors.ownerPrimary
-                    : Colors.grey.shade200,
+                    : AppColors.border,
               ),
             ),
             child: Text(
@@ -166,7 +166,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.grey.shade600,
+                color: isSelected ? AppColors.white : AppColors.textSecondary,
               ),
             ),
           ),
@@ -196,12 +196,12 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
             duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.ownerPrimary : Colors.white,
+              color: isSelected ? AppColors.ownerPrimary : AppColors.white,
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: isSelected
                     ? AppColors.ownerPrimary
-                    : Colors.grey.shade200,
+                    : AppColors.border,
               ),
             ),
             child: Text(
@@ -209,7 +209,7 @@ class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
-                color: isSelected ? Colors.white : Colors.grey.shade600,
+                color: isSelected ? AppColors.white : AppColors.textSecondary,
               ),
             ),
           ),
