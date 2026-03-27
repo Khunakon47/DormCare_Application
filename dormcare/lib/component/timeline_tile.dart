@@ -28,7 +28,7 @@ class TimelineTile extends StatelessWidget {
               width: 28,
               height: 28,
               decoration: BoxDecoration(
-                color: isDone ? color : AppColors.surface,
+                color: isDone ? color : AppColors.white,
                 shape: BoxShape.circle,
                 border: Border.all(color: color, width: 2),
                 boxShadow: isDone
@@ -42,7 +42,7 @@ class TimelineTile extends StatelessWidget {
                     : [],
               ),
               child: isDone
-                  ? const Icon(Icons.check, size: 14, color: AppColors.surface)
+                  ? const Icon(Icons.check, size: 14, color: AppColors.white)
                   : null,
             ),
             if (!isLast)

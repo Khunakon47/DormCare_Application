@@ -115,7 +115,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
             duration: const Duration(milliseconds: 180),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
             decoration: BoxDecoration(
-              color: isSelected ? color : Colors.white,
+              color: isSelected ? color : AppColors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
                 color: isSelected ? color : Colors.grey.shade200,
@@ -136,7 +136,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                 Icon(
                   item.icon,
                   size: 15,
-                  color: isSelected ? Colors.white : Colors.grey.shade500,
+                  color: isSelected ? AppColors.white : Colors.grey.shade500,
                 ),
                 const SizedBox(width: 6),
                 Text(
@@ -144,7 +144,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : Colors.grey.shade600,
+                    color: isSelected ? AppColors.white : Colors.grey.shade600,
                   ),
                 ),
               ],
@@ -167,7 +167,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
             decoration: BoxDecoration(
               color: _selectedTarget == 'all'
                   ? AppColors.ownerPrimary.withValues(alpha: 0.06)
-                  : Colors.white,
+                  : AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: _selectedTarget == 'all'
@@ -243,7 +243,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
         Container(
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppColors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: _selectedTarget != 'all'
@@ -320,7 +320,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: isSelected
-                              ? Colors.white
+                              ? AppColors.white
                               : Colors.grey.shade600,
                         ),
                       ),
@@ -342,7 +342,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.ownerPrimary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),

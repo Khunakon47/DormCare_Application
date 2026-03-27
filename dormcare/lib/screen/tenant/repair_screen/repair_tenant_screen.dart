@@ -137,7 +137,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                   children: [
                     Icon(
                       Icons.check_circle_outline,
-                      color: Colors.white,
+                      color: AppColors.white,
                       size: 20,
                     ),
                     SizedBox(width: 10),
@@ -157,7 +157,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               SnackBar(
                 content: const Row(
                   children: [
-                    Icon(Icons.error_outline, color: Colors.white, size: 20),
+                    Icon(Icons.error_outline, color: AppColors.white, size: 20),
                     SizedBox(width: 10),
                     Text('Failed to submit. Please try again.'),
                   ],
@@ -174,11 +174,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         },
         backgroundColor: AppColors.tenantPrimary,
         elevation: 2,
-        icon: const Icon(Icons.add, color: Colors.white, size: 20),
+        icon: const Icon(Icons.add, color: AppColors.white, size: 20),
         label: const Text(
           'Report Issue',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -199,7 +199,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               height: 42,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -207,11 +207,11 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                  Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                   const SizedBox(width: 8),
                   Text(
                     'Search repairs...',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
                   ),
                 ],
               ),
@@ -223,7 +223,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -243,7 +243,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -286,10 +286,10 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               duration: const Duration(milliseconds: 200),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
               decoration: BoxDecoration(
-                color: isSelected ? colors[index] : Colors.white,
+                color: isSelected ? colors[index] : AppColors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: isSelected ? colors[index] : Colors.grey.shade200,
+                  color: isSelected ? colors[index] : AppColors.border,
                 ),
                 boxShadow: isSelected
                     ? [
@@ -304,7 +304,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
               child: Text(
                 labels[index],
                 style: TextStyle(
-                  color: isSelected ? Colors.white : Colors.grey.shade500,
+                  color: isSelected ? AppColors.white : AppColors.textSecondary,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
                   fontSize: 12,
                 ),
@@ -326,7 +326,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
           Text(
             'My Repair Requests',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -334,7 +334,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
           Text(
             '${_filteredRepairs.length} ${_selectedStatusIndex == 0 ? 'requests' : 'results'}',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -354,20 +354,20 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.border,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.build_outlined,
               size: 32,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             'No requests found',
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -375,7 +375,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
           const SizedBox(height: 6),
           Text(
             'Tap + Report Issue to submit a new request',
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),

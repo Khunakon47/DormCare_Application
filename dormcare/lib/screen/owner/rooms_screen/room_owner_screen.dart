@@ -93,7 +93,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
         },
         backgroundColor: AppColors.ownerPrimary,
         shape: const CircleBorder(),
-        child: const Icon(Icons.add, color: Colors.white),
+        child: const Icon(Icons.add, color: AppColors.white),
       ),
       body: SafeArea(
         child: Column(
@@ -146,12 +146,12 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.grey.shade100),
+          border: Border.all(color: AppColors.divider),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -180,7 +180,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
-                          color: Color(0xFF0D1B2A),
+                          color: AppColors.textPrimary,
                           height: 1,
                         ),
                       ),
@@ -188,7 +188,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
                         'rooms',
                         style: TextStyle(
                           fontSize: 9,
-                          color: Colors.grey.shade400,
+                          color: AppColors.textTertiary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -247,7 +247,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             label,
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -263,7 +263,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
         const SizedBox(width: 6),
         Text(
           '$pct%',
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+          style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
         ),
       ],
     );
@@ -279,17 +279,17 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
               height: 42,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                  Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                   const SizedBox(width: 8),
                   Text(
                     'Search by room or tenant...',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
                   ),
                 ],
               ),
@@ -300,7 +300,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
             ),
@@ -315,7 +315,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
             ),
@@ -335,7 +335,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
           Text(
             'All Rooms',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -343,7 +343,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
           Text(
             '${_filteredRooms.length} rooms',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -362,20 +362,20 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.divider,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.meeting_room_outlined,
               size: 32,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             'No rooms found',
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -383,7 +383,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
           const SizedBox(height: 6),
           Text(
             'Try adjusting your filters',
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),
@@ -416,7 +416,7 @@ class _DonutPainter extends CustomPainter {
     const fullCircle = 6.2831853; // 2π
 
     final bgPaint = Paint()
-      ..color = const Color(0xFFF3F4F6)
+      ..color =AppColors.divider
       ..style = PaintingStyle.stroke
       ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.butt;

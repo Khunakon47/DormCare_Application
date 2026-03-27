@@ -180,7 +180,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           ),
           child: const Text(
             'Leave',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+            style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w700),
           ),
         ),
       ],
@@ -224,7 +224,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       elevation: 0,
       surfaceTintColor: Colors.transparent,
       leading: IconButton(
@@ -317,7 +317,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       ],
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(1),
-        child: Container(color: Colors.grey.shade100, height: 1),
+        child: Container(color: AppColors.divider, height: 1),
       ),
     );
   }
@@ -329,7 +329,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     final dueLabel = DateFormat('d MMM yyyy').format(widget.bill.dueDate);
     final isComplete = _isFormValid;
     final gradColors = _isPaid
-        ? [AppColors.successDark, const Color(0xFF2E7D32)]
+        ? [AppColors.successDark, AppColors.successDeep]
         : [AppColors.ownerPrimary, AppColors.ownerDark];
     final shadowColor =
         (_isPaid ? AppColors.successDark : AppColors.ownerPrimary).withValues(
@@ -362,7 +362,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.06),
+                color: AppColors.white.withValues(alpha: 0.06),
               ),
             ),
           ),
@@ -374,7 +374,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               height: 90,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.04),
+                color: AppColors.white.withValues(alpha: 0.04),
               ),
             ),
           ),
@@ -394,7 +394,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                           Text(
                             monthLabel,
                             style: const TextStyle(
-                              color: Colors.white,
+                              color: AppColors.white,
                               fontSize: 17,
                               fontWeight: FontWeight.w800,
                               letterSpacing: -0.4,
@@ -406,13 +406,13 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                               Icon(
                                 Icons.schedule_outlined,
                                 size: 11,
-                                color: Colors.white.withValues(alpha: 0.65),
+                                color: AppColors.white.withValues(alpha: 0.65),
                               ),
                               const SizedBox(width: 4),
                               Text(
                                 'Due $dueLabel',
                                 style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.7),
+                                  color: AppColors.white.withValues(alpha: 0.7),
                                   fontSize: 11,
                                 ),
                               ),
@@ -427,10 +427,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                         vertical: 6,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.15),
+                        color: AppColors.white.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.25),
+                          color: AppColors.white.withValues(alpha: 0.25),
                         ),
                       ),
                       child: Row(
@@ -442,16 +442,16 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                                 : Icons.pending_outlined,
                             size: 11,
                             color: _isPaid
-                                ? const Color(0xFFA5F3FC)
-                                : const Color(0xFFFDE68A),
+                                ? AppColors.onGradientWater
+                                : AppColors.onGradientElec,
                           ),
                           const SizedBox(width: 5),
                           Text(
                             _isPaid ? 'Paid' : 'Unpaid',
                             style: TextStyle(
                               color: _isPaid
-                                  ? const Color(0xFFA5F3FC)
-                                  : const Color(0xFFFDE68A),
+                                  ? AppColors.onGradientWater
+                                  : AppColors.onGradientElec,
                               fontSize: 11,
                               fontWeight: FontWeight.w700,
                             ),
@@ -477,7 +477,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                               ).format(_previewTotal.toInt())
                             : '—',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 36,
                           fontWeight: FontWeight.w900,
                           letterSpacing: -2,
@@ -485,12 +485,12 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                         ),
                       ),
                       if (isComplete)
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.only(left: 6, bottom: 5),
                           child: Text(
                             'THB',
                             style: TextStyle(
-                              color: Colors.white60,
+                              color: AppColors.white.withValues(alpha: 0.6),
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                             ),
@@ -503,7 +503,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 const SizedBox(height: 16),
                 Container(
                   height: 1,
-                  color: Colors.white.withValues(alpha: 0.15),
+                  color: AppColors.white.withValues(alpha: 0.15),
                 ),
                 const SizedBox(height: 14),
 
@@ -512,21 +512,21 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   children: [
                     _buildHeroPill(
                       Icons.home_outlined,
-                      const Color(0xFFBFDBFE),
+                      AppColors.onGradientRent,
                       'Rent',
                       widget.bill.rent.toInt().toString(),
                     ),
                     const SizedBox(width: 8),
                     _buildHeroPill(
                       Icons.water_drop_outlined,
-                      const Color(0xFFA5F3FC),
+                      AppColors.onGradientWater,
                       'Water',
                       isComplete ? _waterAmt.toInt().toString() : '?',
                     ),
                     const SizedBox(width: 8),
                     _buildHeroPill(
                       Icons.bolt_outlined,
-                      const Color(0xFFFDE68A),
+                      AppColors.onGradientElec,
                       'Elec',
                       isComplete ? _electricAmt.toInt().toString() : '?',
                     ),
@@ -534,7 +534,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                       const SizedBox(width: 8),
                       _buildHeroPill(
                         Icons.add_circle_outline,
-                        const Color(0xFFE9D5FF),
+                        AppColors.onGradientOther,
                         'Other',
                         _otherAmt.toInt().toString(),
                       ),
@@ -559,9 +559,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.1),
+          color: AppColors.white.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(11),
-          border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
+          border: Border.all(color: AppColors.white.withValues(alpha: 0.15)),
         ),
         child: Row(
           children: [
@@ -573,8 +573,8 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 children: [
                   Text(
                     label,
-                    style: const TextStyle(
-                      color: Colors.white60,
+                    style: TextStyle(
+                      color: AppColors.white.withValues(alpha: 0.6),
                       fontSize: 9,
                       fontWeight: FontWeight.w600,
                     ),
@@ -582,7 +582,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   Text(
                     value,
                     style: const TextStyle(
-                      color: Colors.white,
+                      color: AppColors.white,
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
                       letterSpacing: -0.2,
@@ -623,7 +623,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
               label: 'Mark Unpaid',
               isActive: !_isPaid,
               activeColor: AppColors.error,
-              activeBg: const Color(0xFFFFEBEE),
+              activeBg: AppColors.errorSoft,
               onTap: !_isPaid ? null : _toggleStatus,
             ),
           ),
@@ -646,7 +646,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
         duration: const Duration(milliseconds: 200),
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
-          color: isActive ? activeBg : const Color(0xFFF9FAFB),
+          color: isActive ? activeBg : AppColors.background,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isActive
@@ -693,7 +693,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           // Rent — read only
           _buildReadonlyRow(
             icon: Icons.home_outlined,
-            iconColor: const Color(0xFF367BF3),
+            iconColor: AppColors.billRent,
             label: 'Room Rent',
             value: '${b.rent.toInt()} THB',
             sub: 'Fixed monthly charge',
@@ -702,7 +702,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           // Water
           _buildMeterRow(
             icon: Icons.water_drop_outlined,
-            iconColor: const Color(0xFF00BCD4),
+            iconColor: AppColors.billWater,
             label: 'Water Units',
             rateLabel: 'Rate: ${b.water.toInt()} THB/unit',
             ctrl: _waterCtrl,
@@ -713,7 +713,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           // Electricity
           _buildMeterRow(
             icon: Icons.bolt_outlined,
-            iconColor: const Color(0xFFFFA726),
+            iconColor: AppColors.warning,
             label: 'Electricity Units',
             rateLabel: 'Rate: ${b.electric.toInt()} THB/unit',
             ctrl: _electricCtrl,
@@ -724,7 +724,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           // Other (optional)
           _buildMeterRow(
             icon: Icons.add_circle_outline,
-            iconColor: Colors.grey.shade400,
+            iconColor: AppColors.textDisabled,
             label: 'Other Charges',
             rateLabel: 'Optional — e.g. maintenance, parking',
             ctrl: _otherCtrl,
@@ -747,9 +747,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 11, 14, 11),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFF3F4F6)),
+        border: Border.all(color: AppColors.divider),
       ),
       child: Row(
         children: [
@@ -772,7 +772,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF374151),
+                    color: AppColors.textSecondary,
                   ),
                 ),
                 Text(
@@ -812,7 +812,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     return Container(
       padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: hasValue ? iconColor.withValues(alpha: 0.3) : AppColors.border,
@@ -844,7 +844,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                           style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
-                            color: Color(0xFF374151),
+                            color: AppColors.textSecondary,
                           ),
                         ),
                         if (isOptional) ...[
@@ -896,11 +896,11 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                       hintText: hint,
                       hintStyle: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey.shade300,
+                        color: AppColors.textDisabled,
                         fontWeight: FontWeight.w500,
                       ),
                       filled: true,
-                      fillColor: const Color(0xFFF9FAFB),
+                      fillColor: AppColors.background,
                       contentPadding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 11,
@@ -976,8 +976,8 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     final accentColor = _isPaid
         ? AppColors.successDark
         : AppColors.ownerPrimary;
-    final bgStart = _isPaid ? const Color(0xFFECFDF5) : AppColors.ownerSoft;
-    final bgEnd = _isPaid ? AppColors.successSoft : const Color(0xFFDDD6FE);
+    final bgStart = _isPaid ? AppColors.successSoft : AppColors.ownerSoft;
+    final bgEnd = _isPaid ? AppColors.successSoft : AppColors.ownerBorder;
 
     return Container(
       padding: const EdgeInsets.all(18),
@@ -1091,7 +1091,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                 height: 20,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
-                  color: Colors.white,
+                  color: AppColors.white,
                 ),
               )
             : Row(
@@ -1100,7 +1100,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                   Icon(
                     Icons.save_outlined,
                     size: 18,
-                    color: canSave ? Colors.white : AppColors.textTertiary,
+                    color: canSave ? AppColors.white : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -1108,7 +1108,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: canSave ? Colors.white : AppColors.textTertiary,
+                      color: canSave ? AppColors.white : AppColors.textTertiary,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -1133,19 +1133,19 @@ class _SectionCard extends StatelessWidget {
     required this.icon,
     required this.child,
     this.badge,
-    this.badgeColor = const Color(0xFFFFA726),
+    this.badgeColor = AppColors.warning,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 3),
           ),
@@ -1162,10 +1162,10 @@ class _SectionCard extends StatelessWidget {
                   width: 30,
                   height: 30,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFA34CF3).withValues(alpha: 0.08),
+                    color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(icon, size: 15, color: const Color(0xFFA34CF3)),
+                  child: Icon(icon, size: 15, color: AppColors.ownerPrimary),
                 ),
                 const SizedBox(width: 9),
                 Text(
@@ -1173,7 +1173,7 @@ class _SectionCard extends StatelessWidget {
                   style: const TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0D1B2A),
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 if (badge != null) ...[
@@ -1200,7 +1200,7 @@ class _SectionCard extends StatelessWidget {
               ],
             ),
           ),
-          Container(height: 1, color: Colors.grey.shade100),
+          Container(height: 1, color: AppColors.divider),
           Padding(padding: const EdgeInsets.all(14), child: child),
         ],
       ),

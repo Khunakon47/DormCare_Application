@@ -47,7 +47,7 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
         centerTitle: false,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade300, height: 0.5),
+          child: Container(color: AppColors.textDisabled, height: 0.5),
         ),
       ),
 
@@ -55,10 +55,10 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
 
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.2),
+              color: AppColors.textSecondary.withValues(alpha: 0.2),
               spreadRadius: 5,
               blurRadius: 10,
               offset: const Offset(0, -3),
@@ -78,7 +78,7 @@ class _MainTenantScreenState extends State<MainTenantScreen> {
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
             selectedItemColor: AppColors.tenantPrimary,
-            unselectedItemColor: Colors.grey,
+            unselectedItemColor: AppColors.textSecondary,
 
             selectedFontSize: 13,
             unselectedFontSize: 12,

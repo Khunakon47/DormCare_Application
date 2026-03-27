@@ -151,7 +151,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
               height: 42,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -159,11 +159,11 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                  Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                   const SizedBox(width: 8),
                   Text(
                     'Search repairs...',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
                   ),
                 ],
               ),
@@ -175,7 +175,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -195,7 +195,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: AppColors.tenantPrimary.withValues(alpha: 0.3),
@@ -276,7 +276,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Icon(
                     tab.icon,
                     size: 13,
-                    color: isSelected ? Colors.white : AppColors.textTertiary,
+                    color: isSelected ? AppColors.white : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 5),
                   Text(
@@ -286,7 +286,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,
-                      color: isSelected ? Colors.white : AppColors.textTertiary,
+                      color: isSelected ? AppColors.white : AppColors.textTertiary,
                     ),
                   ),
                 ],

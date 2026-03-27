@@ -104,7 +104,7 @@ class RoomDetailScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.white,
         elevation: 0,
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
@@ -130,7 +130,7 @@ class RoomDetailScreen extends StatelessWidget {
               'Floor ${room.roomFloor} · ${room.roomType}',
               style: TextStyle(
                 fontSize: 11,
-                color: Colors.grey.shade400,
+                color: AppColors.textTertiary,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -170,7 +170,7 @@ class RoomDetailScreen extends StatelessWidget {
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade100, height: 1),
+          child: Container(color: AppColors.divider, height: 1),
         ),
       ),
 
@@ -286,17 +286,17 @@ class RoomDetailScreen extends StatelessWidget {
       aspectRatio: 16 / 7,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey.shade50,
+          color: AppColors.background,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.image_outlined, color: Colors.grey.shade300, size: 22),
+            Icon(Icons.image_outlined, color: AppColors.textDisabled, size: 22),
             const SizedBox(width: 8),
             Text(
               'No image',
-              style: TextStyle(color: Colors.grey.shade300, fontSize: 12),
+              style: TextStyle(color: AppColors.textDisabled, fontSize: 12),
             ),
           ],
         ),
@@ -311,13 +311,13 @@ class RoomDetailScreen extends StatelessWidget {
         _statusChip(
           label: room.isOccupied ? 'Occupied' : 'Vacant',
           color: room.isOccupied ? AppColors.ownerPrimary : AppColors.success,
-          bg: room.isOccupied ? const Color(0xFFF3E8FF) : AppColors.successSoft,
+          bg: room.isOccupied ? AppColors.ownerSoft : AppColors.successSoft,
           icon: room.isOccupied ? Icons.person : Icons.person_off_outlined,
         ),
         _statusChip(
           label: room.roomType,
           color: AppColors.billRent,
-          bg: const Color(0xFFEFF6FF),
+          bg: AppColors.tenantSoft,
           icon: Icons.category_outlined,
         ),
         if (latestBill != null)
@@ -373,12 +373,12 @@ class RoomDetailScreen extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -412,7 +412,7 @@ class RoomDetailScreen extends StatelessWidget {
               ],
             ),
           ),
-          Container(height: 1, color: Colors.grey.shade100),
+          Container(height: 1, color: AppColors.divider),
           Padding(padding: const EdgeInsets.all(16), child: child),
         ],
       ),
@@ -433,7 +433,7 @@ class RoomDetailScreen extends StatelessWidget {
                   label,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.grey.shade500,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -449,7 +449,7 @@ class RoomDetailScreen extends StatelessWidget {
             ),
             if (!isLast) ...[
               const SizedBox(height: 6),
-              Divider(height: 1, thickness: 0.5, color: Colors.grey.shade100),
+              Divider(height: 1, thickness: 0.5, color: AppColors.divider),
               const SizedBox(height: 6),
             ],
           ],
@@ -513,7 +513,7 @@ class RoomDetailScreen extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           'Due $dueLabel',
-          style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+          style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
         ),
         const SizedBox(height: 12),
         // Breakdown chips
@@ -523,7 +523,7 @@ class RoomDetailScreen extends StatelessWidget {
               child: _buildBillChip(
                 Icons.home_outlined,
                 AppColors.billRent,
-                const Color(0xFFEFF6FF),
+                AppColors.tenantSoft,
                 'Rent',
                 bill.rent.toInt(),
               ),
@@ -532,8 +532,8 @@ class RoomDetailScreen extends StatelessWidget {
             Expanded(
               child: _buildBillChip(
                 Icons.water_drop_outlined,
-                const Color(0xFF00BCD4),
-                const Color(0xFFECFEFF),
+                AppColors.billWater,
+                AppColors.billWaterSoft,
                 'Water',
                 (bill.water * bill.waterUnit).toInt(),
               ),
@@ -543,7 +543,7 @@ class RoomDetailScreen extends StatelessWidget {
               child: _buildBillChip(
                 Icons.bolt_outlined,
                 AppColors.warning,
-                const Color(0xFFFFFBEB),
+                AppColors.billElecSoft,
                 'Elec.',
                 (bill.electric * bill.electricUnit).toInt(),
               ),
@@ -553,8 +553,8 @@ class RoomDetailScreen extends StatelessWidget {
               Expanded(
                 child: _buildBillChip(
                   Icons.add_circle_outline,
-                  Colors.grey.shade400,
-                  Colors.grey.shade50,
+                  AppColors.textTertiary,
+                  AppColors.background,
                   'Other',
                   bill.other.toInt(),
                 ),
@@ -563,7 +563,7 @@ class RoomDetailScreen extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 10),
-        Divider(height: 1, thickness: 0.5, color: Colors.grey.shade100),
+        Divider(height: 1, thickness: 0.5, color: AppColors.divider),
         const SizedBox(height: 10),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -572,7 +572,7 @@ class RoomDetailScreen extends StatelessWidget {
               'Total',
               style: TextStyle(
                 fontSize: 13,
-                color: Colors.grey.shade500,
+                color: AppColors.textSecondary,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -655,9 +655,9 @@ class RoomDetailScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.grey.shade50,
+        color: AppColors.background,
         borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
       ),
       child: Row(
         children: [
@@ -676,7 +676,7 @@ class RoomDetailScreen extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   repair.reportedDate,
-                  style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+                  style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
                 ),
               ],
             ),
@@ -711,13 +711,13 @@ class RoomDetailScreen extends StatelessWidget {
   Widget _buildEmptyHint(IconData icon, String message) {
     return Row(
       children: [
-        Icon(icon, size: 16, color: Colors.grey.shade300),
+        Icon(icon, size: 16, color: AppColors.textDisabled),
         const SizedBox(width: 8),
         Text(
           message,
           style: TextStyle(
             fontSize: 13,
-            color: Colors.grey.shade400,
+            color: AppColors.textTertiary,
             fontStyle: FontStyle.italic,
           ),
         ),

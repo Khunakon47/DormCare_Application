@@ -82,7 +82,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             height: 220,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.06),
+              color: AppColors.white.withValues(alpha: 0.06),
             ),
           ),
         ),
@@ -95,7 +95,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             height: 100,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.04),
+              color: AppColors.white.withValues(alpha: 0.04),
             ),
           ),
         ),
@@ -108,7 +108,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             height: 60,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Colors.white.withValues(alpha: 0.05),
+              color: AppColors.white.withValues(alpha: 0.05),
             ),
           ),
         ),
@@ -123,20 +123,20 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           width: 72,
           height: 72,
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.2),
+            color: AppColors.white.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: Colors.white.withValues(alpha: 0.3),
+              color: AppColors.white.withValues(alpha: 0.3),
               width: 1.5,
             ),
           ),
-          child: const Icon(Icons.home_outlined, color: Colors.white, size: 36),
+          child: const Icon(Icons.home_outlined, color: AppColors.white, size: 36),
         ),
         const SizedBox(height: 14),
         const Text(
           'DormCare',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontSize: 28,
             fontWeight: FontWeight.w800,
             letterSpacing: -0.5,
@@ -146,7 +146,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
         Text(
           'Manage your dormitory with ease',
           style: TextStyle(
-            color: Colors.white.withValues(alpha: 0.75),
+            color: AppColors.white.withValues(alpha: 0.75),
             fontSize: 13,
             fontWeight: FontWeight.w400,
           ),
@@ -159,11 +159,11 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColors.black.withValues(alpha: 0.08),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -237,7 +237,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined,
                 size: 18,
-                color: Colors.grey.shade400,
+                color: AppColors.textTertiary,
               ),
               onPressed: () =>
                   setState(() => _obscurePassword = !_obscurePassword),
@@ -260,19 +260,19 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                       decoration: BoxDecoration(
                         color: _rememberMe
                             ? AppColors.ownerPrimary
-                            : Colors.white,
+                            : AppColors.white,
                         borderRadius: BorderRadius.circular(5),
                         border: Border.all(
                           color: _rememberMe
                               ? AppColors.ownerPrimary
-                              : Colors.grey.shade300,
+                              : AppColors.textDisabled,
                         ),
                       ),
                       child: _rememberMe
                           ? const Icon(
                               Icons.check,
                               size: 13,
-                              color: Colors.white,
+                              color: AppColors.white,
                             )
                           : null,
                     ),
@@ -281,7 +281,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                       'Remember me',
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ],
@@ -353,7 +353,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
-                      color: Colors.white,
+                      color: AppColors.white,
                       letterSpacing: 0.2,
                     ),
                   ),
@@ -373,7 +373,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           'Need an account?',
           style: TextStyle(
             fontSize: 13,
-            color: Colors.grey.withValues(alpha: 0.7),
+            color: AppColors.textTertiary,
           ),
         ),
         const SizedBox(height: 4),
@@ -381,13 +381,13 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           'Contact system support for admin registration.',
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey.withValues(alpha: 0.6),
+            color: AppColors.textTertiary,
             height: 1.4,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
-        Divider(color: Colors.grey.withValues(alpha: 0.2), thickness: 1),
+        Divider(color: AppColors.border.withValues(alpha: 0.2), thickness: 1),
         const SizedBox(height: 8),
         TextButton.icon(
           onPressed: () =>
@@ -432,8 +432,8 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-        prefixIcon: Icon(prefixIcon, size: 18, color: Colors.grey.shade400),
+        hintStyle: TextStyle(color: AppColors.textTertiary, fontSize: 14),
+        prefixIcon: Icon(prefixIcon, size: 18, color: AppColors.textTertiary),
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: AppColors.background,
@@ -443,7 +443,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

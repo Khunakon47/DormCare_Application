@@ -32,12 +32,12 @@ class ProfileOwnerScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -81,7 +81,7 @@ class ProfileOwnerScreen extends StatelessWidget {
             'Owner',
             style: TextStyle(
               fontSize: 12,
-              color: Colors.grey.shade400,
+              color: AppColors.textTertiary,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -100,12 +100,12 @@ class ProfileOwnerScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -138,7 +138,7 @@ class ProfileOwnerScreen extends StatelessWidget {
                         item.label,
                         style: TextStyle(
                           fontSize: 10,
-                          color: Colors.grey.shade400,
+                          color: AppColors.textTertiary,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -146,7 +146,7 @@ class ProfileOwnerScreen extends StatelessWidget {
                   ),
                 ),
                 if (!isLast)
-                  Container(width: 1, height: 36, color: Colors.grey.shade100),
+                  Container(width: 1, height: 36, color: AppColors.divider),
               ],
             ),
           );
@@ -165,12 +165,12 @@ class ProfileOwnerScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -186,7 +186,7 @@ class ProfileOwnerScreen extends StatelessWidget {
             height: 1,
             thickness: 0.5,
             indent: 56,
-            color: Colors.grey.shade100,
+            color: AppColors.divider,
           ),
           itemBuilder: (context, index) {
             final item = items[index];
@@ -219,7 +219,7 @@ class ProfileOwnerScreen extends StatelessWidget {
               trailing: Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 14,
-                color: Colors.grey.shade300,
+                color: AppColors.textDisabled,
               ),
               onTap: () {
                 ScaffoldMessenger.of(context).clearSnackBars();

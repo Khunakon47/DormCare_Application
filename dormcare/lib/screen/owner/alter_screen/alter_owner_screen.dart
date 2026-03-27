@@ -131,11 +131,11 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
         ),
         backgroundColor: AppColors.ownerPrimary,
         elevation: 2,
-        icon: const Icon(Icons.send_outlined, color: Colors.white, size: 18),
+        icon: const Icon(Icons.send_outlined, color: AppColors.white, size: 18),
         label: const Text(
           'Send Alert',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontWeight: FontWeight.w600,
             fontSize: 14,
           ),
@@ -154,7 +154,7 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
               height: 42,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey.shade200),
               ),
@@ -179,7 +179,7 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
               height: 42,
               width: 42,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey.shade200),
               ),
@@ -201,7 +201,7 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
               height: 42,
               width: 42,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.grey.shade200),
               ),

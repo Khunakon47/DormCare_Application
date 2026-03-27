@@ -19,7 +19,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
         ),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0),
-          child: Container(color: Colors.grey.shade300, height: 1.0),
+          child: Container(color: AppColors.textDisabled, height: 1.0),
         ),
       ),
       body: SingleChildScrollView(
@@ -42,7 +42,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
                       data.description,
                       style: TextStyle(
                         fontSize: 14,
-                        color: Colors.grey.shade700,
+                        color: AppColors.textSecondary,
                         height: 1.7,
                       ),
                     ),
@@ -83,19 +83,19 @@ class RepairDetailTenantScreen extends StatelessWidget {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: Container(
-        color: Colors.grey.shade100,
+        color: AppColors.border,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(
               Icons.image_not_supported_outlined,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
               size: 40,
             ),
             const SizedBox(height: 8),
             Text(
               'No image attached',
-              style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+              style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
             ),
           ],
         ),
@@ -151,9 +151,9 @@ class RepairDetailTenantScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.border),
       ),
       child: Row(
         children: [
@@ -166,7 +166,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          Container(width: 1, height: 40, color: Colors.grey.shade100),
+          Container(width: 1, height: 40, color: AppColors.border),
           Expanded(
             child: _buildInfoTile(
               icon: Icons.access_time_outlined,
@@ -174,7 +174,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
               value: data.reportedTime,
             ),
           ),
-          Container(width: 1, height: 40, color: Colors.grey.shade100),
+          Container(width: 1, height: 40, color: AppColors.border),
           SizedBox(width: 8),
           Expanded(
             child: _buildInfoTile(
@@ -184,7 +184,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
             ),
           ),
           SizedBox(width: 8),
-          Container(width: 1, height: 40, color: Colors.grey.shade100),
+          Container(width: 1, height: 40, color: AppColors.border),
           SizedBox(width: 8),
           Expanded(
             child: _buildInfoTile(
@@ -207,13 +207,13 @@ class RepairDetailTenantScreen extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, size: 16, color: Colors.grey.shade400),
+        Icon(icon, size: 16, color: AppColors.textTertiary),
         const SizedBox(height: 4),
         Text(
           label,
           style: TextStyle(
             fontSize: 10,
-            color: Colors.grey.shade400,
+            color: AppColors.textTertiary,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -256,7 +256,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
       return TimelineTile(
         label: 'Cancelled',
         subtitle: 'Request was cancelled',
-        color: const Color(0xFFEF5350),
+        color: AppColors.error,
         isDone: true,
         isLast: true,
       );
@@ -274,7 +274,7 @@ class RepairDetailTenantScreen extends StatelessWidget {
       children: List.generate(steps.length, (i) {
         final isDone = i <= currentIndex;
         final isLast = i == steps.length - 1;
-        final color = isDone ? data.statusColor : Colors.grey.shade300;
+        final color = isDone ? data.statusColor : AppColors.textDisabled;
 
         return TimelineTile(
           label: steps[i].$2,

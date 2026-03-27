@@ -139,7 +139,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
+            color: AppColors.black.withValues(alpha: 0.08),
             blurRadius: 24,
             offset: const Offset(0, 8),
           ),
@@ -214,7 +214,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                     ? Icons.visibility_off_outlined
                     : Icons.visibility_outlined,
                 size: 18,
-                color: Colors.grey.shade400,
+                color: AppColors.textTertiary,
               ),
               onPressed: () =>
                   setState(() => _obscurePassword = !_obscurePassword),
@@ -242,7 +242,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                         border: Border.all(
                           color: _rememberMe
                               ? AppColors.tenantPrimary
-                              : Colors.grey.shade300,
+                              : AppColors.textDisabled,
                         ),
                       ),
                       child: _rememberMe
@@ -258,7 +258,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                       'Remember me',
                       style: TextStyle(
                         fontSize: 13,
-                        color: Colors.grey.shade600,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ],
@@ -353,7 +353,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           "Don't have an account?",
           style: TextStyle(
             fontSize: 13,
-            color: Colors.grey.withValues(alpha: 0.7),
+            color: AppColors.textTertiary,
           ),
         ),
         const SizedBox(height: 4),
@@ -361,13 +361,13 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           'Contact your dormitory management.',
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey.withValues(alpha: 0.6),
+            color: AppColors.textTertiary,
             height: 1.4,
           ),
           textAlign: TextAlign.center,
         ),
         const SizedBox(height: 20),
-        Divider(color: Colors.grey.withValues(alpha: 0.2), thickness: 1),
+        Divider(color: AppColors.divider, thickness: 1),
         const SizedBox(height: 8),
         TextButton.icon(
           onPressed: () => Navigator.pushNamedAndRemoveUntil(
@@ -415,8 +415,8 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-        prefixIcon: Icon(prefixIcon, size: 18, color: Colors.grey.shade400),
+        hintStyle: TextStyle(color: AppColors.textTertiary, fontSize: 14),
+        prefixIcon: Icon(prefixIcon, size: 18, color: AppColors.textTertiary),
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: AppColors.background,
@@ -426,7 +426,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade200),
+          borderSide: BorderSide(color: AppColors.border),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),

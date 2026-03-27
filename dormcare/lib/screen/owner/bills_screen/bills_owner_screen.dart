@@ -186,11 +186,11 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
         onPressed: _showMonthPicker,
         backgroundColor: AppColors.ownerPrimary,
         elevation: 2,
-        icon: const Icon(Icons.add, color: Colors.white, size: 18),
+        icon: const Icon(Icons.add, color: AppColors.white, size: 18),
         label: const Text(
           'Post New Bills',
           style: TextStyle(
-            color: Colors.white,
+            color: AppColors.white,
             fontWeight: FontWeight.w600,
             fontSize: 14,
           ),
@@ -246,12 +246,12 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
               duration: const Duration(milliseconds: 180),
               padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
               decoration: BoxDecoration(
-                color: isSelected ? AppColors.ownerPrimary : Colors.white,
+                color: isSelected ? AppColors.ownerPrimary : AppColors.white,
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
                   color: isSelected
                       ? AppColors.ownerPrimary
-                      : Colors.grey.shade200,
+                      : AppColors.border,
                 ),
                 boxShadow: isSelected
                     ? [
@@ -268,7 +268,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? Colors.white : Colors.grey.shade500,
+                  color: isSelected ? AppColors.white : AppColors.textSecondary,
                 ),
               ),
             ),
@@ -287,7 +287,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
           Text(
             _selectedYear == null ? 'All years' : '$_selectedYear',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -295,7 +295,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
           Text(
             '${_sortedKeys.length} months',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -314,13 +314,13 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.divider,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.receipt_long_outlined,
               size: 32,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
             ),
           ),
           const SizedBox(height: 16),
@@ -329,7 +329,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
                 ? 'No bills found'
                 : 'No bills for $_selectedYear',
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -337,7 +337,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
           const SizedBox(height: 6),
           Text(
             'Tap + Post New Bills to get started',
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),
@@ -369,10 +369,10 @@ class _MonthBillCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -402,7 +402,7 @@ class _MonthBillCard extends StatelessWidget {
                         Text(
                           monthLabel,
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             letterSpacing: -0.4,
@@ -414,13 +414,13 @@ class _MonthBillCard extends StatelessWidget {
                             Icon(
                               Icons.schedule_outlined,
                               size: 11,
-                              color: Colors.white.withValues(alpha: 0.65),
+                              color: AppColors.white.withValues(alpha: 0.65),
                             ),
                             const SizedBox(width: 4),
                             Text(
                               'Due $dueLabel',
                               style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.75),
+                                color: AppColors.white.withValues(alpha: 0.75),
                                 fontSize: 11,
                               ),
                             ),
@@ -435,7 +435,7 @@ class _MonthBillCard extends StatelessWidget {
                       Text(
                         '$pct%',
                         style: const TextStyle(
-                          color: Colors.white,
+                          color: AppColors.white,
                           fontSize: 22,
                           fontWeight: FontWeight.w800,
                           letterSpacing: -0.5,
@@ -446,7 +446,7 @@ class _MonthBillCard extends StatelessWidget {
                       Text(
                         'Collection rate',
                         style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.7),
+                          color: AppColors.white.withValues(alpha: 0.7),
                           fontSize: 10,
                         ),
                       ),
@@ -458,7 +458,7 @@ class _MonthBillCard extends StatelessWidget {
 
             // ── Body ────────────────────────────────────────────────────
             Container(
-              color: Colors.white,
+              color: AppColors.white,
               padding: const EdgeInsets.all(14),
               child: Column(
                 children: [
@@ -476,7 +476,7 @@ class _MonthBillCard extends StatelessWidget {
                       const SizedBox(width: 10),
                       Expanded(
                         child: _buildAmountTile(
-                          color: const Color(0xFFF59800),
+                          color: AppColors.warning,
                           bgColor: AppColors.warningSoft,
                           amount: pending,
                           label: 'THB pending',
@@ -500,7 +500,7 @@ class _MonthBillCard extends StatelessWidget {
                       const SizedBox(width: 8),
                       _buildStatPill(
                         icon: Icons.pending_outlined,
-                        color: const Color(0xFFF59800),
+                        color: AppColors.warning,
                         bgColor: AppColors.warningSoft,
                         value: '$unpaid',
                         label: 'Unpaid rooms',
@@ -509,7 +509,7 @@ class _MonthBillCard extends StatelessWidget {
                       _buildStatPill(
                         icon: Icons.receipt_outlined,
                         color: AppColors.ownerPrimary,
-                        bgColor: const Color(0xFFF3E8FF),
+                        bgColor: AppColors.ownerSoft,
                         value: '$total',
                         label: 'Bills issued',
                       ),
@@ -546,11 +546,11 @@ class _MonthBillCard extends StatelessWidget {
                         ),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFF3E8FF),
+                        backgroundColor: AppColors.ownerSoft,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
-                          side: BorderSide(color: Color(0xFFD8B4FE)),
+                          side: BorderSide(color: AppColors.ownerBorder),
                         ),
                       ),
                     ),
@@ -698,13 +698,13 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF1A1A2E),
+              color: AppColors.textDeep,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             'Choose the billing period',
-            style: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+            style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
           ),
           const SizedBox(height: 20),
 
@@ -720,7 +720,7 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
                 style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF1A1A2E),
+                  color: AppColors.textDeep,
                   letterSpacing: -0.5,
                 ),
               ),
@@ -755,8 +755,8 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
                     color: isSelected
                         ? AppColors.ownerPrimary
                         : isFuture
-                        ? Colors.grey.shade50
-                        : Colors.grey.shade100,
+                        ? AppColors.background
+                        : AppColors.divider,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
@@ -768,10 +768,10 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
                             ? FontWeight.w700
                             : FontWeight.w500,
                         color: isSelected
-                            ? Colors.white
+                            ? AppColors.white
                             : isFuture
-                            ? Colors.grey.shade300
-                            : Colors.grey.shade600,
+                            ? AppColors.textDisabled
+                            : AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -788,7 +788,7 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.ownerPrimary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                 ),
@@ -816,10 +816,10 @@ class _MonthPickerSheetState extends State<_MonthPickerSheet> {
         width: 36,
         height: 36,
         decoration: BoxDecoration(
-          color: Colors.grey.shade100,
+          color: AppColors.divider,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Icon(icon, size: 20, color: Colors.grey.shade600),
+        child: Icon(icon, size: 20, color: AppColors.textSecondary),
       ),
     );
   }

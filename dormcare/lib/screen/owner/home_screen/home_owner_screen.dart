@@ -58,7 +58,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 Text(
                   'Good morning 👋',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.8),
+                    color: AppColors.white.withValues(alpha: 0.8),
                     fontSize: 13,
                     fontWeight: FontWeight.w500,
                   ),
@@ -67,7 +67,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 const Text(
                   'JoBy Khunakon',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.4,
@@ -82,8 +82,8 @@ class HomeOwnerScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             decoration: BoxDecoration(
-              color: Colors.white.withValues(alpha: 0.2),
-              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
+              color: AppColors.white.withValues(alpha: 0.2),
+              border: Border.all(color: AppColors.white.withValues(alpha: 0.3)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Column(
@@ -91,7 +91,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 const Text(
                   '45/50',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.white,
                     fontSize: 18,
                     fontWeight: FontWeight.w800,
                     letterSpacing: -0.5,
@@ -102,7 +102,7 @@ class HomeOwnerScreen extends StatelessWidget {
                 Text(
                   'occupied',
                   style: TextStyle(
-                    color: Colors.white.withValues(alpha: 0.75),
+                    color: AppColors.white.withValues(alpha: 0.75),
                     fontSize: 10,
                     fontWeight: FontWeight.w500,
                   ),
@@ -119,18 +119,18 @@ class HomeOwnerScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.18),
+        color: AppColors.white.withValues(alpha: 0.18),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 12, color: Colors.white70),
+          Icon(icon, size: 12, color: AppColors.white.withValues(alpha: 0.7)),
           const SizedBox(width: 5),
           Text(
             label,
             style: const TextStyle(
-              color: Colors.white,
+              color: AppColors.white,
               fontSize: 11,
               fontWeight: FontWeight.w600,
             ),
@@ -305,12 +305,12 @@ class HomeOwnerScreen extends StatelessWidget {
 
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: Colors.grey.shade100),
+        border: Border.all(color: AppColors.divider),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.04),
+            color: AppColors.black.withValues(alpha: 0.04),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -325,7 +325,7 @@ class HomeOwnerScreen extends StatelessWidget {
           height: 1,
           thickness: 0.5,
           indent: 56,
-          color: Colors.grey.shade100,
+          color: AppColors.divider,
         ),
         itemBuilder: (context, index) => _buildRepairTile(repairs[index]),
       ),
@@ -361,7 +361,7 @@ class HomeOwnerScreen extends StatelessWidget {
       // Subtitle
       subtitle: Text(
         item.reportedDate,
-        style: TextStyle(fontSize: 11, color: Colors.grey.shade400),
+        style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
       ),
       // Status pill
       trailing: Container(

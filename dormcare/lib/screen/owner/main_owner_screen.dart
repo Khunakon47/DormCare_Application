@@ -68,7 +68,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                     color: Colors.transparent,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.3),
+                      color: AppColors.white.withValues(alpha: 0.3),
                       width: 1.2,
                     ),
                   ),
@@ -90,7 +90,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
                           height: 8,
                           decoration: const BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Colors.red,
+                            color: AppColors.error,
                           ),
                         ),
                       ),
@@ -103,7 +103,7 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
-          child: Container(color: Colors.grey.shade300, height: 0.5),
+          child: Container(color: AppColors.textDisabled, height: 0.5),
         ),
       ),
 
@@ -111,10 +111,10 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withValues(alpha: 0.2),
+              color: AppColors.textTertiary.withValues(alpha: 0.2),
               spreadRadius: 5,
               blurRadius: 10,
               offset: const Offset(0, -3),
@@ -123,8 +123,8 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
         ),
         child: Theme(
           data: Theme.of(context).copyWith(
-            splashColor: Color(0xFFA34CF3).withValues(alpha: 0.1),
-            highlightColor: Color(0xFF9436F3).withValues(alpha: 0.1),
+            splashColor: AppColors.ownerPrimary.withValues(alpha: 0.1),
+            highlightColor: AppColors.ownerMid.withValues(alpha: 0.1),
           ),
           child: BottomNavigationBar(
             currentIndex: _selectedIndex,
@@ -133,8 +133,8 @@ class _MainOwnerScreenState extends State<MainOwnerScreen> {
 
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-            selectedItemColor: const Color(0xFFA34CF3),
-            unselectedItemColor: Colors.grey,
+            selectedItemColor: AppColors.ownerPrimary,
+            unselectedItemColor: AppColors.textTertiary,
 
             selectedFontSize: 13,
             unselectedFontSize: 12,

@@ -169,12 +169,12 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: AppColors.black.withValues(alpha: 0.04),
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -190,7 +190,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color: Color(0xFF0D1B2A),
+                    color:AppColors.textPrimary,
                   ),
                 ),
                 const Spacer(),
@@ -198,7 +198,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                   '$total requests total',
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade400,
+                    color: AppColors.textTertiary,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -215,7 +215,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                   children: total == 0
                       ? [
                           Expanded(
-                            child: Container(color: Colors.grey.shade100),
+                            child: Container(color: AppColors.divider),
                           ),
                         ]
                       : segments.where((s) => s.count > 0).map((s) {
@@ -231,7 +231,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                                 ? Text(
                                     '$percent%',
                                     style: const TextStyle(
-                                      color: Colors.white,
+                                      color: AppColors.white,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -267,7 +267,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                           '${s.count} ${s.label}',
                           style: TextStyle(
                             fontSize: 11,
-                            color: Colors.grey.shade600,
+                            color: AppColors.textSecondary,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -293,17 +293,17 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               height: 42,
               padding: const EdgeInsets.symmetric(horizontal: 12),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.search, size: 18, color: Colors.grey.shade400),
+                  Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                   const SizedBox(width: 8),
                   Text(
                     'Search by room or tenant...',
-                    style: TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
                   ),
                 ],
               ),
@@ -337,7 +337,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               height: 42,
               width: 42,
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
               ),
@@ -364,7 +364,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withValues(alpha: 0.15),
+                              color: AppColors.black.withValues(alpha: 0.15),
                               blurRadius: 4,
                               offset: const Offset(0, 1),
                             ),
@@ -374,7 +374,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                         child: Text(
                           '$_activeFilterCount',
                           style: const TextStyle(
-                            color: Colors.white,
+                            color: AppColors.white,
                             fontSize: 9,
                             fontWeight: FontWeight.w700,
                           ),
@@ -393,7 +393,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             height: 42,
             width: 42,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
             ),
@@ -415,7 +415,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
           Text(
             'All Repair Requests',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -423,7 +423,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
           Text(
             '${_filteredRepairs.length} ${_activeFilterCount == 0 ? 'requests' : 'results'}',
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppColors.textSecondary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -442,20 +442,20 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             width: 72,
             height: 72,
             decoration: BoxDecoration(
-              color: Colors.grey.shade100,
+              color: AppColors.divider,
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.build_outlined,
               size: 32,
-              color: Colors.grey.shade300,
+              color: AppColors.textDisabled,
             ),
           ),
           const SizedBox(height: 16),
           Text(
             'No requests found',
             style: TextStyle(
-              color: Colors.grey.shade600,
+              color: AppColors.textSecondary,
               fontSize: 15,
               fontWeight: FontWeight.w600,
             ),
@@ -463,7 +463,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
           const SizedBox(height: 6),
           Text(
             'All repair requests will appear here',
-            style: TextStyle(color: Colors.grey.shade400, fontSize: 12),
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),
