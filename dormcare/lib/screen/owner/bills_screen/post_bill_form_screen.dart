@@ -42,13 +42,11 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
   double get _waterTotal => (_parse(_waterCtrl) * _parse(_waterUnitCtrl));
   double get _elecTotal => (_parse(_elecCtrl) * _parse(_elecUnitCtrl));
   double get _otherTotal => _parse(_otherCtrl);
-  double get _grandTotal =>
-      widget.room.price + _waterTotal + _elecTotal + _otherTotal;
+  double get _grandTotal => widget.room.price + _waterTotal + _elecTotal + _otherTotal;
 
   double _parse(TextEditingController c) => double.tryParse(c.text) ?? 0;
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
+  // Build
   @override
   Widget build(BuildContext context) {
     final monthLabel = DateFormat(
@@ -136,8 +134,6 @@ class _PostBillFormScreenState extends State<PostBillFormScreen> {
       ),
     );
   }
-
-  // ─── Private Helpers ─────────────────────────────────────────────────────
 
   Widget _buildInfoCard(String monthLabel) {
     return Container(

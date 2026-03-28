@@ -135,7 +135,7 @@ class _RoomOwnerScreenState extends State<RoomOwnerScreen> {
     final total = _allRooms.length;
     final occupied = _occupiedCount;
     final vacant = _vacantCount;
-    // circumference = 2 * pi * 28 ≈ 175.9
+    // circumference = 2 * pi * 28 ≈ 175.9 // เส้นรอบวง
     final occupiedArc = total == 0 ? 0.0 : (occupied / total) * 175.9;
     final vacantArc = total == 0 ? 0.0 : (vacant / total) * 175.9;
     final occupiedOffset = 0.0;

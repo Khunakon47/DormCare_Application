@@ -109,7 +109,7 @@ class AlertDetailOwnerScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: AppColors.ownerSoft, // -------------
+              color: AppColors.ownerSoft,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(

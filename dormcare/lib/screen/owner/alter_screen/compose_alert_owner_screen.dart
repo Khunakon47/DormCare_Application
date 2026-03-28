@@ -15,7 +15,7 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
   final _messageController = TextEditingController();
 
   AlertOwnerCategory _selectedCategory = AlertOwnerCategory.general;
-  String _selectedTarget = 'all'; // 'all' หรือ room number
+  String _selectedTarget = 'all';
 
   // Mock room list
   final List<String> _rooms = ['101', '102', '203', '204', '305', '401'];
@@ -26,8 +26,6 @@ class _ComposeAlertOwnerScreenState extends State<ComposeAlertOwnerScreen> {
     _messageController.dispose();
     super.dispose();
   }
-
-  // ─── Build ───────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {

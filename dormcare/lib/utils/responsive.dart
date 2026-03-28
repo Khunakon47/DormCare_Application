@@ -9,11 +9,7 @@ class AppResponsive {
 
   // Device type checks
   static bool isPhone(BuildContext context) => MediaQuery.of(context).size.width < _tabletBreakpoint;
-
-  static bool isTablet(BuildContext context) =>
-    MediaQuery.of(context).size.width >= _tabletBreakpoint &&
-    MediaQuery.of(context).size.width < _desktopBreakpoint;
-    
+  static bool isTablet(BuildContext context) => MediaQuery.of(context).size.width >= _tabletBreakpoint && MediaQuery.of(context).size.width < _desktopBreakpoint;
   static bool isDesktop(BuildContext context) => MediaQuery.of(context).size.width >= _desktopBreakpoint;
 
   // Screen size helpers

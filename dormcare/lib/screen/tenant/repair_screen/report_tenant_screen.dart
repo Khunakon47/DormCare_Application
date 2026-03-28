@@ -70,8 +70,6 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
     );
   }
 
-  // ─── Private Helpers ─────────────────────────────────────────────────────
-
   Widget _buildImagePicker() {
     return GestureDetector(
       onTap: () {},

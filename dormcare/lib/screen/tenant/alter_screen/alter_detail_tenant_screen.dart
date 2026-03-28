@@ -7,8 +7,6 @@ class AlertDetailTenantScreen extends StatelessWidget {
 
   const AlertDetailTenantScreen({super.key, required this.data});
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +40,6 @@ class AlertDetailTenantScreen extends StatelessWidget {
       ),
     );
   }
-
-  // ─── Private Helpers ─────────────────────────────────────────────────────
 
   Widget _buildCategoryBadge() {
     return Container(

@@ -210,7 +210,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
-                height: 30, // 🔥 เพิ่มความสูง
+                height: 30, // เพิ่มความสูง
                 child: Row(
                   children: total == 0
                       ? [
@@ -227,7 +227,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                               alignment: Alignment.center,
                               margin: const EdgeInsets.only(right: 2),
                               color: s.color,
-                              child: percent >= 10 // 🔥 กัน text ล้น
+                              child: percent >= 10 // กัน text ล้น
                                 ? Text(
                                     '$percent%',
                                     style: const TextStyle(

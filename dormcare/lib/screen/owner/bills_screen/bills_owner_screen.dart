@@ -129,7 +129,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     ),
   ];
 
-  // Fixed year options — add more as needed
+  // Fixed year options
   static const List<int> _yearOptions = [2026, 2025, 2024, 2023, 2022];
 
   Map<String, List<BillModel>> get _grouped {
@@ -382,7 +382,7 @@ class _MonthBillCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         child: Column(
           children: [
-            // ── Header ──────────────────────────────────────────────────
+            // Header
             Container(
               padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
               decoration: const BoxDecoration(
@@ -456,7 +456,7 @@ class _MonthBillCard extends StatelessWidget {
               ),
             ),
 
-            // ── Body ────────────────────────────────────────────────────
+            // Body
             Container(
               color: AppColors.white,
               padding: const EdgeInsets.all(14),

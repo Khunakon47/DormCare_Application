@@ -187,7 +187,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     );
   }
 
-  // Search and sort method
   Widget _buildSearchAndSort() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -260,7 +259,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     );
   }
 
-  // Filter tabs method
   Widget _buildFilterTabs() {
     final labels = ['All', 'Pending', 'In Progress', 'Completed', 'Cancelled'];
     final colors = [
@@ -316,7 +314,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     );
   }
 
-  // List header method
   Widget _buildListHeader() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
@@ -344,7 +341,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
     );
   }
 
-  // Empty state method
   Widget _buildEmptyState() {
     return Center(
       child: Column(

@@ -29,8 +29,7 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
     _bills = List.from(widget.bills);
   }
 
-  // ─── Computed ────────────────────────────────────────────────────────────
-
+  // Computed
   int get _paidCount => _bills.where((b) => b.isPaid).length;
   int get _unpaidCount => _bills.length - _paidCount;
   double get _collected =>
@@ -56,8 +55,6 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
     );
     if (result != null && mounted) setState(() => _bills[idx] = result);
   }
-
-  // ─── Build ───────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -149,8 +146,6 @@ class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
       ),
     );
   }
-
-  // ─── Summary panel ────────────────────────────────────────────────────────
 
   Widget _buildSummaryPanel(double pct, int total, String dueLabel) {
     return Container(

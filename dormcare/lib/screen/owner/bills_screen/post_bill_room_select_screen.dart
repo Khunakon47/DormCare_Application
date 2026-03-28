@@ -20,8 +20,6 @@ class PostBillRoomSelectScreen extends StatelessWidget {
     required this.existingBills,
   });
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     final monthLabel = DateFormat('MMMM yyyy').format(DateTime(year, month));

@@ -25,8 +25,6 @@ class ProfileOwnerScreen extends StatelessWidget {
     );
   }
 
-  // ─── Sections ─────────────────────────────────────────────────────────────
-
   Widget _buildProfileCard() {
     return Container(
       width: double.infinity,

@@ -17,7 +17,7 @@ class BillDetailScreen extends StatefulWidget {
 
 class _BillDetailScreenState extends State<BillDetailScreen>
     with SingleTickerProviderStateMixin {
-  // ─── Form state ───────────────────────────────────────────────────────────
+  // Form state 
   late TextEditingController _waterCtrl;
   late TextEditingController _electricCtrl;
   late TextEditingController _otherCtrl;
@@ -25,7 +25,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
   bool _hasChanges = false;
   bool _saving = false;
 
-  // ─── Pulse animation for total preview ────────────────────────────────────
+  // Pulse animation for total preview 
   late AnimationController _pulseCtrl;
   late Animation<double> _pulseAnim;
 
@@ -72,19 +72,16 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     _pulseCtrl.forward(from: 0);
   }
 
-  // ─── Computed ────────────────────────────────────────────────────────────
-
+  // Computed 
   double get _waterUnits => double.tryParse(_waterCtrl.text) ?? 0;
   double get _electricUnits => double.tryParse(_electricCtrl.text) ?? 0;
   double get _otherAmt => double.tryParse(_otherCtrl.text) ?? 0;
   double get _waterAmt => _waterUnits * widget.bill.water;
   double get _electricAmt => _electricUnits * widget.bill.electric;
-  double get _previewTotal =>
-      widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
+  double get _previewTotal => widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
   bool get _isFormValid => _waterUnits > 0 && _electricUnits > 0;
 
-  // ─── Actions ──────────────────────────────────────────────────────────────
-
+  // Actions 
   Future<void> _save() async {
     FocusScope.of(context).unfocus();
     setState(() => _saving = true);
@@ -187,8 +184,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     ),
   );
 
-  // ─── Build ───────────────────────────────────────────────────────────────
-
   @override
   Widget build(BuildContext context) {
     return PopScope(
@@ -219,8 +214,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       ),
     );
   }
-
-  // ─── AppBar ───────────────────────────────────────────────────────────────
 
   AppBar _buildAppBar() {
     return AppBar(
@@ -321,8 +314,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       ),
     );
   }
-
-  // ─── Hero card ────────────────────────────────────────────────────────────
 
   Widget _buildHeroCard() {
     final monthLabel = DateFormat('MMMM yyyy').format(widget.bill.postedDate);
@@ -598,8 +589,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     );
   }
 
-  // ─── Status section ───────────────────────────────────────────────────────
-
   Widget _buildStatusSection() {
     return _SectionCard(
       title: 'Payment Status',
@@ -676,8 +665,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       ),
     );
   }
-
-  // ─── Meter section ────────────────────────────────────────────────────────
 
   Widget _buildMeterSection() {
     final b = widget.bill;
@@ -969,8 +956,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     );
   }
 
-  // ─── Total preview ────────────────────────────────────────────────────────
-
   Widget _buildTotalPreview() {
     final isComplete = _isFormValid;
     final accentColor = _isPaid
@@ -1063,8 +1048,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     );
   }
 
-  // ─── Save button ──────────────────────────────────────────────────────────
-
   Widget _buildSaveButton() {
     final canSave = _isFormValid && _hasChanges && !_saving;
     final accentColor = _isPaid
@@ -1118,8 +1101,6 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     );
   }
 }
-
-// ─── Section card ─────────────────────────────────────────────────────────────
 
 class _SectionCard extends StatelessWidget {
   final String title;

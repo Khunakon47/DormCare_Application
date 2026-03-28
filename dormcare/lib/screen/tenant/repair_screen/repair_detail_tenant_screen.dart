@@ -64,7 +64,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Image section builder
   Widget _buildImage() {
     return data.imageUrl != null
         ? AspectRatio(
@@ -78,7 +77,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
         : _buildImagePlaceholder();
   }
 
-  // Placeholder for when no image is available
   Widget _buildImagePlaceholder() {
     return AspectRatio(
       aspectRatio: 16 / 9,
@@ -103,7 +101,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Header section builder
   Widget _buildHeader() {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +143,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Info row builder
   Widget _buildInfoRow() {
     return Container(
       padding: const EdgeInsets.all(14),
@@ -199,7 +195,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Individual info tile builder
   Widget _buildInfoTile({
     required IconData icon,
     required String label,
@@ -231,7 +226,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Section builder with title and content
   Widget _buildSection({required String title, required Widget child}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +244,6 @@ class RepairDetailTenantScreen extends StatelessWidget {
     );
   }
 
-  // Timeline builder based on repair status
   Widget _buildTimeline() {
     if (data.status == RepairStatus.cancelled) {
       return TimelineTile(
