@@ -1,4 +1,4 @@
-import 'package:dormcare/model/owner/bill_model.dart';
+import 'package:dormcare/model/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 import 'package:dormcare/screen/owner/bills_screen/bill_detail_screen.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +6,21 @@ import 'package:intl/intl.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/component/bill_room_card.dart';
 
-class MonthlyPaymentScreen extends StatefulWidget {
+class ManageBillOwnerScreen extends StatefulWidget {
   final List<BillModel> bills;
   final List<RoomModel> roomList;
 
-  const MonthlyPaymentScreen({
+  const ManageBillOwnerScreen({
     super.key,
     required this.bills,
     required this.roomList,
   });
 
   @override
-  State<MonthlyPaymentScreen> createState() => _MonthlyPaymentScreenState();
+  State<ManageBillOwnerScreen> createState() => _ManageBillOwnerScreenState();
 }
 
-class _MonthlyPaymentScreenState extends State<MonthlyPaymentScreen> {
+class _ManageBillOwnerScreenState extends State<ManageBillOwnerScreen> {
   late List<BillModel> _bills;
 
   @override

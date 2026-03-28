@@ -1,9 +1,8 @@
+import 'package:dormcare/screen/owner/bills_screen/manage_bill_owner_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/owner/bill_model.dart';
+import 'package:dormcare/model/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
-import 'monthly_payment_owner_screen.dart';
-import 'post_bill_room_select_screen.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class BillsOwnerScreen extends StatefulWidget {
@@ -165,11 +164,15 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => PostBillRoomSelectScreen(
-                year: year,
-                month: month,
+              builder: (_) => ManageBillOwnerScreen(
+                bills: _allBills
+                    .where(
+                      (b) =>
+                          b.postedDate.year == year &&
+                          b.postedDate.month == month,
+                    )
+                    .toList(),
                 roomList: _roomList,
-                existingBills: _allBills,
               ),
             ),
           );
@@ -524,7 +527,7 @@ class _MonthBillCard extends StatelessWidget {
                       onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => MonthlyPaymentScreen(
+                          builder: (_) => ManageBillOwnerScreen(
                             bills: bills,
                             roomList: roomList,
                           ),

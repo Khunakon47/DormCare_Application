@@ -14,11 +14,47 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
   final _descController = TextEditingController();
   RepairCategory? _selectedCategory;
 
+  // TODO: เปลี่ยนเป็นข้อมูลจริงจาก auth/session หลัง backend พร้อม
+  static const _mockRoomNumber = '301';
+  static const _mockTenantName = 'JoBy Khuna';
+  static const _mockPhone = '081-234-5678';
+
   @override
   void dispose() {
     _titleController.dispose();
     _descController.dispose();
     super.dispose();
+  }
+
+  bool get _isValid =>
+      _titleController.text.trim().isNotEmpty && _selectedCategory != null;
+
+  void _submit() {
+    if (!_isValid) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in the title and select a category'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    // สร้าง RepairModel จาก input แล้วส่งกลับ
+    final newRepair = RepairModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(), // temp id
+      title: _titleController.text.trim(),
+      description: _descController.text.trim(),
+      roomNumber: _mockRoomNumber,
+      tenantName: _mockTenantName,
+      phoneNumber: _mockPhone,
+      reportedAt: DateTime.now(),
+      imageUrl: null, // TODO: เพิ่ม image picker จริง
+      status: RepairStatus.pending,
+      category: _selectedCategory!,
+    );
+
+    Navigator.pop(context, newRepair);
   }
 
   @override
@@ -43,14 +79,15 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             const SizedBox(height: 4),
             _buildImagePicker(),
             const SizedBox(height: 20),
-            _buildLabel('Issue Title'),
+            _buildLabel('Issue Title *'),
             const SizedBox(height: 8),
             _buildTextField(
               controller: _titleController,
               hintText: 'e.g. Leaking faucet, Broken AC',
+              onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: 16),
-            _buildLabel('Category'),
+            _buildLabel('Category *'),
             const SizedBox(height: 8),
             _buildCategoryPicker(),
             const SizedBox(height: 16),
@@ -72,7 +109,9 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
 
   Widget _buildImagePicker() {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        // TODO: implement image picker
+      },
       child: Container(
         height: 160,
         width: double.infinity,
@@ -170,9 +209,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
               color: isSelected ? AppColors.tenantPrimary : AppColors.white,
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: isSelected
-                    ? AppColors.tenantPrimary
-                    : AppColors.border,
+                color: isSelected ? AppColors.tenantPrimary : AppColors.border,
               ),
               boxShadow: isSelected
                   ? [
@@ -198,7 +235,9 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
-                    color: isSelected ? AppColors.white : AppColors.textSecondary,
+                    color: isSelected
+                        ? AppColors.white
+                        : AppColors.textSecondary,
                   ),
                 ),
               ],
@@ -215,17 +254,16 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.tenantPrimary,
+          backgroundColor: _isValid
+              ? AppColors.tenantPrimary
+              : AppColors.border,
           foregroundColor: AppColors.white,
-          disabledBackgroundColor: AppColors.textDisabled,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
           ),
           elevation: 0,
         ),
-        onPressed: () {
-          Navigator.pop(context, true);
-        },
+        onPressed: _isValid ? _submit : null,
         child: const Text(
           'Submit Report',
           style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -249,10 +287,12 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
     required TextEditingController controller,
     required String hintText,
     int maxLines = 1,
+    ValueChanged<String>? onChanged,
   }) {
     return TextField(
       controller: controller,
       maxLines: maxLines,
+      onChanged: onChanged,
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
@@ -269,7 +309,10 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: AppColors.tenantPrimary, width: 1.5),
+          borderSide: const BorderSide(
+            color: AppColors.tenantPrimary,
+            width: 1.5,
+          ),
         ),
       ),
     );

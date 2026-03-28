@@ -25,6 +25,10 @@ class RepairModel {
   RepairStatus status; // ไม่ final เพราะ owner ต้อง update ได้
   final RepairCategory category;
 
+  // ── fields สำหรับ backend ──
+  final String? tenantId; // FK → users.id (tenant)
+  final String? dormId; // FK → dorms.id
+
   RepairModel({
     required this.id,
     required this.title,
@@ -36,11 +40,15 @@ class RepairModel {
     this.imageUrl,
     required this.status,
     required this.category,
+    this.tenantId,
+    this.dormId,
   });
 
+  // ── Display helpers ──
   String get reportedTime => AppFormat.time(reportedAt);
   String get reportedDate => AppFormat.date(reportedAt);
 
+  // ── Status helpers ──
   Color get statusColor {
     switch (status) {
       case RepairStatus.pending:
@@ -93,6 +101,7 @@ class RepairModel {
     }
   }
 
+  // ── Category helpers ──
   String get categoryText {
     switch (category) {
       case RepairCategory.electrical:
@@ -127,6 +136,7 @@ class RepairModel {
     }
   }
 
+  // ── Serialization ──
   factory RepairModel.fromJson(Map<String, dynamic> json) {
     return RepairModel(
       id: json['id'] as String,
@@ -145,6 +155,8 @@ class RepairModel {
         (e) => e.name == json['category'],
         orElse: () => RepairCategory.other,
       ),
+      tenantId: json['tenantId'] as String?,
+      dormId: json['dormId'] as String?,
     );
   }
 
@@ -160,10 +172,17 @@ class RepairModel {
       'imageUrl': imageUrl,
       'status': status.name,
       'category': category.name,
+      'tenantId': tenantId,
+      'dormId': dormId,
     };
   }
 
-  RepairModel copyWith({RepairStatus? status}) {
+  RepairModel copyWith({
+    RepairStatus? status,
+    String? imageUrl,
+    String? tenantId,
+    String? dormId,
+  }) {
     return RepairModel(
       id: id,
       title: title,
@@ -172,9 +191,11 @@ class RepairModel {
       tenantName: tenantName,
       phoneNumber: phoneNumber,
       reportedAt: reportedAt,
-      imageUrl: imageUrl,
+      imageUrl: imageUrl ?? this.imageUrl,
       status: status ?? this.status,
       category: category,
+      tenantId: tenantId ?? this.tenantId,
+      dormId: dormId ?? this.dormId,
     );
   }
 }

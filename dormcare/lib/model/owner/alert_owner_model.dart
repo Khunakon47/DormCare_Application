@@ -71,4 +71,33 @@ class AlertOwnerModel {
         return AppColors.successSoft;
     }
   }
+
+  factory AlertOwnerModel.fromJson(Map<String, dynamic> json) {
+    return AlertOwnerModel(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      category: AlertOwnerCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => AlertOwnerCategory.general,
+      ),
+      roomNumber: json['roomNumber'] as String?,
+      tenantName: json['tenantName'] as String?,
+      isRead: json['isRead'] as bool? ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'createdAt': createdAt.toIso8601String(),
+      'category': category.name,
+      'roomNumber': roomNumber,
+      'tenantName': tenantName,
+      'isRead': isRead,
+    };
+  }
 }

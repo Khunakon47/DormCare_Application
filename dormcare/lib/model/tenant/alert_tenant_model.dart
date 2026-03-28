@@ -75,4 +75,29 @@ class AlertTenantModel {
         return 'General';
     }
   }
+
+  factory AlertTenantModel.fromJson(Map<String, dynamic> json) {
+    return AlertTenantModel(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      category: AlertCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => AlertCategory.general,
+      ),
+      isRead: json['isRead'] as bool? ?? false,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'createdAt': createdAt.toIso8601String(),
+      'category': category.name,
+      'isRead': isRead,
+    };
+  }
 }

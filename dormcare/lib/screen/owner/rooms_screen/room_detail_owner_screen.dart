@@ -1,7 +1,7 @@
 import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:dormcare/model/owner/bill_model.dart';
+import 'package:dormcare/model/bill_model.dart';
 import 'package:dormcare/model/owner/room_model.dart';
 
 import 'package:dormcare/theme/app_theme.dart';

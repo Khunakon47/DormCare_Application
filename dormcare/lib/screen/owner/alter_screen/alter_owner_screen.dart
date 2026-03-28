@@ -56,7 +56,7 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
       isRead: true,
     ),
   ];
-
+  
   List<AlertOwnerModel> get _displayedAlerts => _allAlerts;
 
   void _markAsRead(String id) {

@@ -15,6 +15,7 @@ class RepairTenantScreen extends StatefulWidget {
 class _RepairTenantScreenState extends State<RepairTenantScreen> {
   int _selectedStatusIndex = 0;
 
+  // Mock data — จะถูกแทนที่ด้วยข้อมูลจาก API หลัง backend พร้อม
   final List<RepairModel> _allRepairs = [
     RepairModel(
       id: '1',
@@ -80,6 +81,43 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         .toList();
   }
 
+  // ─── เปิด ReportTenantScreen แล้วรับ RepairModel กลับมาเพิ่มใน list ───
+  Future<void> _openReport() async {
+    final navigator = Navigator.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+
+    final newRepair = await navigator.push<RepairModel>(
+      MaterialPageRoute(builder: (_) => const ReportTenantScreen()),
+    );
+
+    if (!mounted) return;
+
+    if (newRepair != null) {
+      setState(() => _allRepairs.insert(0, newRepair)); // เพิ่มที่ต้น list
+      messenger.showSnackBar(
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(
+                Icons.check_circle_outline,
+                color: AppColors.white,
+                size: 20,
+              ),
+              SizedBox(width: 10),
+              Text('Report submitted successfully'),
+            ],
+          ),
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -120,58 +158,7 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () async {
-          final navigator = Navigator.of(context);
-          final messenger = ScaffoldMessenger.of(context);
-
-          final success = await navigator.push<bool>(
-            MaterialPageRoute(builder: (_) => const ReportTenantScreen()),
-          );
-
-          if (!mounted) return;
-
-          if (success == true) {
-            messenger.showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle_outline,
-                      color: AppColors.white,
-                      size: 20,
-                    ),
-                    SizedBox(width: 10),
-                    Text('Report submitted successfully'),
-                  ],
-                ),
-                backgroundColor: AppColors.success,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                duration: const Duration(seconds: 3),
-              ),
-            );
-          } else if (success == false) {
-            messenger.showSnackBar(
-              SnackBar(
-                content: const Row(
-                  children: [
-                    Icon(Icons.error_outline, color: AppColors.white, size: 20),
-                    SizedBox(width: 10),
-                    Text('Failed to submit. Please try again.'),
-                  ],
-                ),
-                backgroundColor: AppColors.error,
-                behavior: SnackBarBehavior.floating,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                duration: const Duration(seconds: 3),
-              ),
-            );
-          }
-        },
+        onPressed: _openReport,
         backgroundColor: AppColors.tenantPrimary,
         elevation: 2,
         icon: const Icon(Icons.add, color: AppColors.white, size: 20),
@@ -192,7 +179,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -210,14 +196,16 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
                   const SizedBox(width: 8),
                   Text(
                     'Search repairs...',
-                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(width: 8),
-          // Filter button
           Container(
             height: 42,
             width: 42,
@@ -237,7 +225,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             ),
           ),
           const SizedBox(width: 8),
-          // Sort button
           Container(
             height: 42,
             width: 42,

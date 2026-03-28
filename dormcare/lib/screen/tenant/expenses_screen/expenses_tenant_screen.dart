@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:dormcare/model/tenant/expense_model.dart';
+import 'package:dormcare/model/bill_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
+import 'package:intl/intl.dart';
 
 class ExpensesTenantScreen extends StatefulWidget {
   const ExpensesTenantScreen({super.key});
@@ -13,42 +14,46 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
-  final List<ExpenseModel> _allBills = [
-    ExpenseModel(
-      id: '1',
-      month: 'December',
-      year: '2024',
-      roomRent: 2500,
-      waterUnits: 18,
-      electricityUnits: 150,
-      status: ExpenseStatus.unpaid,
-      billDate: '22 Jan 2025',
-      dueDate: '5 Jan 2025',
-      paidDate: '',
+  // Mock data — ใช้ BillModel แทน ExpenseModel
+  final List<BillModel> _allBills = [
+    BillModel(
+      billId: 'bill001',
+      roomNumber: '301',
+      postedDate: DateTime(2025, 1, 22),
+      dueDate: DateTime(2025, 1, 5),
+      rent: 2500,
+      waterRate: 18,
+      waterUnit: 18,
+      electricRate: 8,
+      electricUnit: 150,
+      other: 0,
+      isPaid: false,
     ),
-    ExpenseModel(
-      id: '2',
-      month: 'November',
-      year: '2024',
-      roomRent: 2500,
-      waterUnits: 15,
-      electricityUnits: 135,
-      status: ExpenseStatus.paid,
-      billDate: '',
-      dueDate: '',
-      paidDate: 'Paid on Nov 1, 2024',
+    BillModel(
+      billId: 'bill002',
+      roomNumber: '301',
+      postedDate: DateTime(2024, 11, 25),
+      dueDate: DateTime(2024, 12, 5),
+      rent: 2500,
+      waterRate: 18,
+      waterUnit: 15,
+      electricRate: 8,
+      electricUnit: 135,
+      other: 0,
+      isPaid: true,
     ),
-    ExpenseModel(
-      id: '3',
-      month: 'October',
-      year: '2024',
-      roomRent: 2500,
-      waterUnits: 15,
-      electricityUnits: 160,
-      status: ExpenseStatus.paid,
-      billDate: '',
-      dueDate: '',
-      paidDate: 'Paid on Oct 1, 2024',
+    BillModel(
+      billId: 'bill003',
+      roomNumber: '301',
+      postedDate: DateTime(2024, 10, 25),
+      dueDate: DateTime(2024, 11, 5),
+      rent: 2500,
+      waterRate: 18,
+      waterUnit: 15,
+      electricRate: 8,
+      electricUnit: 160,
+      other: 0,
+      isPaid: true,
     ),
   ];
 
@@ -67,13 +72,10 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
   @override
   Widget build(BuildContext context) {
     final currentBill = _allBills.firstWhere(
-      (e) => e.status == ExpenseStatus.unpaid,
-      orElse: () => _allBills[0],
+      (e) => !e.isPaid,
+      orElse: () => _allBills.first,
     );
-
-    final historyBills = _allBills
-        .where((e) => e.status == ExpenseStatus.paid)
-        .toList();
+    final historyBills = _allBills.where((e) => e.isPaid).toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -146,7 +148,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  Widget _buildCurrentTab(ExpenseModel bill) {
+  // ─────────────── CURRENT TAB ───────────────
+
+  Widget _buildCurrentTab(BillModel bill) {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
       child: Column(
@@ -177,8 +181,10 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  Widget _buildCurrentHeroCard(ExpenseModel bill) {
+  Widget _buildCurrentHeroCard(BillModel bill) {
     final isPaid = bill.isPaid;
+    final monthLabel = DateFormat('MMMM yyyy').format(bill.postedDate);
+    final dueLabel = DateFormat('d MMM yyyy').format(bill.dueDate);
 
     return Container(
       decoration: BoxDecoration(
@@ -198,7 +204,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       ),
       child: Stack(
         children: [
-          // Decorative circles
           Positioned(
             top: -30,
             right: -20,
@@ -228,7 +233,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 Row(
                   children: [
                     Expanded(
@@ -236,7 +240,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${bill.month} ${bill.year}',
+                            monthLabel,
                             style: const TextStyle(
                               color: AppColors.surface,
                               fontSize: 18,
@@ -254,7 +258,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                               ),
                               const SizedBox(width: 4),
                               Text(
-                                'Due: ${bill.dueDate}',
+                                'Due: $dueLabel',
                                 style: TextStyle(
                                   color: AppColors.surface.withValues(
                                     alpha: 0.65,
@@ -267,16 +271,13 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                         ],
                       ),
                     ),
-                    // Status badge
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 14,
                         vertical: 7,
                       ),
                       decoration: BoxDecoration(
-                        color: isPaid
-                            ? AppColors.surface.withValues(alpha: 0.2)
-                            : AppColors.surface.withValues(alpha: 0.15),
+                        color: AppColors.surface.withValues(alpha: 0.15),
                         borderRadius: BorderRadius.circular(24),
                         border: Border.all(
                           color: AppColors.surface.withValues(alpha: 0.3),
@@ -290,9 +291,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                             size: 12,
                             color: isPaid
                                 ? AppColors.success
-                                : AppColors.statusCancelled.withValues(
-                                    alpha: 0.9,
-                                  ),
+                                : AppColors.statusCancelled,
                           ),
                           const SizedBox(width: 5),
                           Text(
@@ -308,15 +307,12 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 22),
-
-                // Total amount
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${bill.totalAmount}',
+                      '${bill.total.toInt()}',
                       style: const TextStyle(
                         color: AppColors.surface,
                         fontSize: 32,
@@ -327,7 +323,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                     ),
                     const SizedBox(width: 7),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 5),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: Text(
                         'THB',
                         style: TextStyle(
@@ -340,37 +336,31 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 16),
-
-                // Divider
                 Container(
                   height: 1,
                   color: AppColors.surface.withValues(alpha: 0.15),
                 ),
-
                 const SizedBox(height: 16),
-
-                // Mini breakdown pills
                 Row(
                   children: [
                     _buildMiniPill(
                       Icons.home_rounded,
-                      '${bill.roomRent}',
+                      '${bill.rent.toInt()}',
                       'Rent',
                       AppColors.onGradientRent,
                     ),
                     const SizedBox(width: 8),
                     _buildMiniPill(
                       Icons.water_drop_rounded,
-                      '${bill.waterBill}',
+                      '${bill.waterAmount.toInt()}',
                       'Water',
                       AppColors.onGradientWater,
                     ),
                     const SizedBox(width: 8),
                     _buildMiniPill(
                       Icons.bolt_rounded,
-                      '${bill.electricityBill}',
+                      '${bill.electricAmount.toInt()}',
                       'Elec.',
                       AppColors.onGradientElec,
                     ),
@@ -413,7 +403,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       color: AppColors.surface,
                       fontSize: 9,
                       fontWeight: FontWeight.w600,
-                      letterSpacing: 0.3,
                     ),
                   ),
                   Text(
@@ -422,7 +411,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       color: AppColors.surface,
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
-                      letterSpacing: -0.3,
                     ),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -435,7 +423,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  Widget _buildBreakdownCard(ExpenseModel bill) {
+  Widget _buildBreakdownCard(BillModel bill) {
+    final billDateLabel = DateFormat('d MMM yyyy').format(bill.postedDate);
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -456,7 +446,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             child: Row(
               children: [
                 const Text(
-                  'Bill  Breakdown',
+                  'Bill Breakdown',
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
@@ -465,7 +455,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 const Spacer(),
                 Text(
-                  'Bill date: ${bill.billDate}',
+                  'Bill date: $billDateLabel',
                   style: TextStyle(fontSize: 11, color: AppColors.textTertiary),
                 ),
               ],
@@ -477,7 +467,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             iconColor: AppColors.tenantPrimary,
             label: 'Room Rent',
             subtitle: 'Monthly payment',
-            amount: bill.roomRent,
+            amount: bill.rent.toInt(),
           ),
           Divider(
             height: 1,
@@ -489,8 +479,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             icon: Icons.water_drop_rounded,
             iconColor: AppColors.billWater,
             label: 'Water Bill',
-            subtitle: '${bill.waterUnits} units × ${bill.waterRate} THB',
-            amount: bill.waterBill,
+            subtitle:
+                '${bill.waterUnit.toInt()} units × ${bill.waterRate.toInt()} THB',
+            amount: bill.waterAmount.toInt(),
           ),
           Divider(
             height: 1,
@@ -503,11 +494,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             iconColor: AppColors.warning,
             label: 'Electricity Bill',
             subtitle:
-                '${bill.electricityUnits} units × ${bill.electricityRate} THB',
-            amount: bill.electricityBill,
+                '${bill.electricUnit.toInt()} units × ${bill.electricRate.toInt()} THB',
+            amount: bill.electricAmount.toInt(),
           ),
-
-          // Total row
           Container(
             margin: const EdgeInsets.fromLTRB(12, 8, 12, 12),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -544,7 +533,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 const Spacer(),
                 Text(
-                  '${bill.totalAmount}',
+                  '${bill.total.toInt()}',
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w900,
@@ -555,14 +544,13 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 const SizedBox(width: 5),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 1),
+                  padding: const EdgeInsets.only(bottom: 1),
                   child: Text(
                     'THB',
                     style: TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w700,
                       color: AppColors.white.withValues(alpha: 0.6),
-                      letterSpacing: 0.5,
                     ),
                   ),
                 ),
@@ -731,14 +719,15 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  Widget _buildHistoryTab(List<ExpenseModel> historyBills) {
+  // ─────────────── HISTORY TAB ───────────────
+
+  Widget _buildHistoryTab(List<BillModel> historyBills) {
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
       child: Column(
         children: [
           Row(
             children: [
-              // Search bar
               Expanded(
                 child: Container(
                   height: 42,
@@ -752,10 +741,14 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.search, size: 18, color: AppColors.textTertiary),
+                      Icon(
+                        Icons.search,
+                        size: 18,
+                        color: AppColors.textTertiary,
+                      ),
                       const SizedBox(width: 8),
                       Text(
-                        'Search repairs...',
+                        'Search bills...',
                         style: TextStyle(
                           color: AppColors.textTertiary,
                           fontSize: 13,
@@ -766,7 +759,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
               ),
               const SizedBox(width: 8),
-              // Filter button
               Container(
                 height: 42,
                 width: 42,
@@ -786,7 +778,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
               ),
               const SizedBox(width: 8),
-              // Sort button
               Container(
                 height: 42,
                 width: 42,
@@ -805,29 +796,22 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               ),
             ],
           ),
-
           const SizedBox(height: 10),
-
-          // Bills count
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              children: [
-                Text(
-                  '${historyBills.length} bills',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w500,
-                  ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '${historyBills.length} bills',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w500,
                 ),
-              ],
+              ),
             ),
           ),
-
           const SizedBox(height: 6),
-
-          // History bills
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -841,13 +825,15 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  Widget _buildHistoryCard(ExpenseModel bill) {
+  Widget _buildHistoryCard(BillModel bill) {
+    final monthLabel = DateFormat('MMMM yyyy').format(bill.postedDate);
+
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(20),
-        border: Border(
-          left: const BorderSide(color: AppColors.tenantPrimary, width: 4),
+        border: const Border(
+          left: BorderSide(color: AppColors.tenantPrimary, width: 4),
         ),
         boxShadow: [
           BoxShadow(
@@ -860,7 +846,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       padding: const EdgeInsets.fromLTRB(14, 14, 16, 16),
       child: Column(
         children: [
-          // Header row
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -869,7 +854,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${bill.month} ${bill.year}',
+                      monthLabel,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -879,7 +864,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                     ),
                     const SizedBox(height: 3),
                     Text(
-                      bill.paidDate,
+                      'Paid',
                       style: const TextStyle(
                         fontSize: 11,
                         color: AppColors.textTertiary,
@@ -888,7 +873,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   ],
                 ),
               ),
-              // Paid badge
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -923,10 +907,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
-          // Chips row
           Row(
             children: [
               Expanded(
@@ -938,7 +919,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   valueColor: AppColors.tenantDark,
                   labelColor: AppColors.tenantDark,
                   label: 'Rent',
-                  amount: bill.roomRent,
+                  amount: bill.rent.toInt(),
                 ),
               ),
               const SizedBox(width: 8),
@@ -951,7 +932,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   valueColor: AppColors.billWaterDark,
                   labelColor: AppColors.billWaterLabel,
                   label: 'Water',
-                  amount: bill.waterBill,
+                  amount: bill.waterAmount.toInt(),
                 ),
               ),
               const SizedBox(width: 8),
@@ -964,15 +945,12 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                   valueColor: AppColors.billElecDark,
                   labelColor: AppColors.billElecLabel,
                   label: 'Electricity',
-                  amount: bill.electricityBill,
+                  amount: bill.electricAmount.toInt(),
                 ),
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
-          // Total row (gradient)
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
             decoration: BoxDecoration(
@@ -995,7 +973,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 const Spacer(),
                 Text(
-                  '${bill.totalAmount}',
+                  '${bill.total.toInt()}',
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
@@ -1006,7 +984,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                 ),
                 const SizedBox(width: 4),
                 Padding(
-                  padding: EdgeInsets.only(top: 3),
+                  padding: const EdgeInsets.only(top: 3),
                   child: Text(
                     'THB',
                     style: TextStyle(
