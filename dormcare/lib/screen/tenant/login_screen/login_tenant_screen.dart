@@ -58,6 +58,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
             ),
           ),
 
+          // Content
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),

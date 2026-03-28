@@ -157,7 +157,7 @@ class BillRoomCard extends StatelessWidget {
                     AppColors.billWater,
                     AppColors.billWaterSoft,
                     'Water',
-                    (bill.water * bill.waterUnit).toInt(),
+                    (bill.waterRate * bill.waterUnit).toInt(),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -167,7 +167,7 @@ class BillRoomCard extends StatelessWidget {
                     AppColors.billElec,
                     AppColors.billElecSoft,
                     'Elec.',
-                    (bill.electric * bill.electricUnit).toInt(),
+                    (bill.electricRate * bill.electricUnit).toInt(),
                   ),
                 ),
                 if (bill.other > 0) ...[

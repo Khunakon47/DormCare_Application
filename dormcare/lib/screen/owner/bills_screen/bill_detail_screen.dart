@@ -17,7 +17,7 @@ class BillDetailScreen extends StatefulWidget {
 
 class _BillDetailScreenState extends State<BillDetailScreen>
     with SingleTickerProviderStateMixin {
-  // Form state 
+  // Form state
   late TextEditingController _waterCtrl;
   late TextEditingController _electricCtrl;
   late TextEditingController _otherCtrl;
@@ -25,7 +25,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
   bool _hasChanges = false;
   bool _saving = false;
 
-  // Pulse animation for total preview 
+  // Pulse animation for total preview
   late AnimationController _pulseCtrl;
   late Animation<double> _pulseAnim;
 
@@ -72,16 +72,17 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     _pulseCtrl.forward(from: 0);
   }
 
-  // Computed 
+  // Computed
   double get _waterUnits => double.tryParse(_waterCtrl.text) ?? 0;
   double get _electricUnits => double.tryParse(_electricCtrl.text) ?? 0;
   double get _otherAmt => double.tryParse(_otherCtrl.text) ?? 0;
-  double get _waterAmt => _waterUnits * widget.bill.water;
-  double get _electricAmt => _electricUnits * widget.bill.electric;
-  double get _previewTotal => widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
+  double get _waterAmt => _waterUnits * widget.bill.waterRate;
+  double get _electricAmt => _electricUnits * widget.bill.electricRate;
+  double get _previewTotal =>
+      widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
   bool get _isFormValid => _waterUnits > 0 && _electricUnits > 0;
 
-  // Actions 
+  // Actions
   Future<void> _save() async {
     FocusScope.of(context).unfocus();
     setState(() => _saving = true);
@@ -92,9 +93,9 @@ class _BillDetailScreenState extends State<BillDetailScreen>
       postedDate: widget.bill.postedDate,
       dueDate: widget.bill.dueDate,
       rent: widget.bill.rent,
-      water: widget.bill.water,
+      waterRate: widget.bill.waterRate,
       waterUnit: _waterUnits,
-      electric: widget.bill.electric,
+      electricRate: widget.bill.electricRate,
       electricUnit: _electricUnits,
       other: _otherAmt,
       isPaid: _isPaid,
@@ -177,7 +178,10 @@ class _BillDetailScreenState extends State<BillDetailScreen>
           ),
           child: const Text(
             'Leave',
-            style: TextStyle(color: AppColors.white, fontWeight: FontWeight.w700),
+            style: TextStyle(
+              color: AppColors.white,
+              fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ],
@@ -691,7 +695,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             icon: Icons.water_drop_outlined,
             iconColor: AppColors.billWater,
             label: 'Water Units',
-            rateLabel: 'Rate: ${b.water.toInt()} THB/unit',
+            rateLabel: 'Rate: ${b.waterRate.toInt()} THB/unit',
             ctrl: _waterCtrl,
             previewValue: _waterAmt.toInt(),
             hint: 'Enter units',
@@ -702,7 +706,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
             icon: Icons.bolt_outlined,
             iconColor: AppColors.warning,
             label: 'Electricity Units',
-            rateLabel: 'Rate: ${b.electric.toInt()} THB/unit',
+            rateLabel: 'Rate: ${b.electricRate.toInt()} THB/unit',
             ctrl: _electricCtrl,
             previewValue: _electricAmt.toInt(),
             hint: 'Enter units',
