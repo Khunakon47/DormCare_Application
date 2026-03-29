@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/services/repair_service.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class RepairDetailOwnerScreen extends StatefulWidget {
@@ -18,6 +19,70 @@ class RepairDetailOwnerScreen extends StatefulWidget {
 }
 
 class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
+  final _repairService = RepairService();
+  late RepairStatus _selectedStatus;
+  bool _isSaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedStatus = widget.data.status;
+  }
+
+  Future<void> _save() async {
+    setState(() => _isSaving = true);
+    try {
+      await _repairService.updateStatus(widget.data.id, _selectedStatus);
+
+      if (!mounted) return;
+      widget.data.status = _selectedStatus;
+      widget.onStatusUpdated();
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Row(
+            children: [
+              Icon(
+                Icons.check_circle_outline,
+                color: AppColors.white,
+                size: 20,
+              ),
+              SizedBox(width: 10),
+              Text('Status updated successfully'),
+            ],
+          ),
+          backgroundColor: AppColors.success,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 3),
+        ),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isSaving = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: AppColors.white, size: 20),
+              const SizedBox(width: 10),
+              Expanded(child: Text('Failed to update: ${e.toString()}')),
+            ],
+          ),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 4),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +116,9 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
                   _buildSection(
                     title: 'Description',
                     child: Text(
-                      widget.data.description,
+                      widget.data.description.isEmpty
+                          ? '—'
+                          : widget.data.description,
                       style: TextStyle(
                         fontSize: 14,
                         color: AppColors.textSecondary,
@@ -78,15 +145,15 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
 
   Widget _buildImage() {
     return widget.data.imageUrl != null
-      ? AspectRatio(
-          aspectRatio: 16 / 9,
-          child: Image.network(
-            widget.data.imageUrl!,
-            fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
-          ),
-        )
-      : _buildImagePlaceholder();
+        ? AspectRatio(
+            aspectRatio: 16 / 9,
+            child: Image.network(
+              widget.data.imageUrl!,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
+            ),
+          )
+        : _buildImagePlaceholder();
   }
 
   Widget _buildImagePlaceholder() {
@@ -121,7 +188,6 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Room badge
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -312,17 +378,20 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
 
     return Column(
       children: options.map((option) {
-        final isSelected = widget.data.status == option.status;
+        final isSelected = _selectedStatus == option.status;
         final color = _statusColor(option.status);
-
         return GestureDetector(
-          onTap: () => setState(() => widget.data.status = option.status),
+          onTap: _isSaving
+              ? null
+              : () => setState(() => _selectedStatus = option.status),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 180),
             margin: const EdgeInsets.only(bottom: 10),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
             decoration: BoxDecoration(
-              color: isSelected ? color.withValues(alpha: 0.06) : AppColors.white,
+              color: isSelected
+                  ? color.withValues(alpha: 0.06)
+                  : AppColors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected ? color : AppColors.border,
@@ -398,35 +467,20 @@ class _RepairDetailOwnerScreenState extends State<RepairDetailOwnerScreen> {
           ),
           elevation: 0,
         ),
-        onPressed: () {
-          widget.onStatusUpdated();
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: const Row(
-                children: [
-                  Icon(
-                    Icons.check_circle_outline,
-                    color: AppColors.white,
-                    size: 20,
-                  ),
-                  SizedBox(width: 10),
-                  Text('Status updated successfully'),
-                ],
+        onPressed: _isSaving ? null : _save,
+        child: _isSaving
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.white,
+                ),
+              )
+            : const Text(
+                'Save Changes',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
-              backgroundColor: AppColors.success,
-              behavior: SnackBarBehavior.floating,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              duration: const Duration(seconds: 3),
-            ),
-          );
-        },
-        child: const Text(
-          'Save Changes',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
       ),
     );
   }

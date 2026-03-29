@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "949655569333",
+    "project_id": "dormcare-app",
+    "storage_bucket": "dormcare-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:949655569333:android:00346d0e9a98b05370cffc",
+        "android_client_info": {
+          "package_name": "com.example.dormcare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdqdERlaY-bE96zX1NNyuL3ArmxeDBlaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

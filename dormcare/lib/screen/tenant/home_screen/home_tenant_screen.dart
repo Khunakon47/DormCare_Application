@@ -1,6 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/bill_service.dart';
+import 'package:dormcare/services/notification_service.dart';
+import 'package:dormcare/services/repair_service.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/component/stat_tenant_card.dart';
 
 class HomeTenantScreen extends StatelessWidget {
@@ -8,6 +13,11 @@ class HomeTenantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+    final billService = BillService();
+    final repairService = RepairService();
+    final notifService = NotificationService();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
@@ -15,22 +25,70 @@ class HomeTenantScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildHeaderCard(),
+            _buildHeaderCard(user),
             const SizedBox(height: 14),
-            _buildBillCard(),
-            const SizedBox(height: 14),
-            _buildStatRow(),
-            const SizedBox(height: 14),
-            _buildSectionLabel('Recent Repairs'),
-            const SizedBox(height: 8),
-            _buildRecentRepairs(),
+            // Bill + Stats + Recent Repairs จาก Firestore
+            StreamBuilder(
+              stream: billService.getBillsByTenant(user.uid),
+              builder: (context, billSnap) {
+                return StreamBuilder(
+                  stream: repairService.getRepairsByTenant(user.uid),
+                  builder: (context, repairSnap) {
+                    return StreamBuilder(
+                      stream: notifService.getTenantNotifications(user.uid),
+                      builder: (context, notifSnap) {
+                        final bills = billSnap.data ?? [];
+                        final repairs = repairSnap.data ?? [];
+                        final notifs = notifSnap.data ?? [];
+
+                        // หาบิลที่ยังไม่จ่าย (ล่าสุด)
+                        final unpaidBill = bills
+                            .where((b) => !b.isPaid)
+                            .toList();
+                        final currentBill = unpaidBill.isNotEmpty
+                            ? unpaidBill.first
+                            : null;
+
+                        final pendingCount = repairs
+                            .where((r) => r.status == RepairStatus.pending)
+                            .length;
+                        final completedCount = repairs
+                            .where((r) => r.status == RepairStatus.completed)
+                            .length;
+                        final unreadCount = notifs
+                            .where((n) => !n.isRead)
+                            .length;
+
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            if (currentBill != null)
+                              _buildBillCard(currentBill),
+                            if (currentBill != null) const SizedBox(height: 14),
+                            _buildStatRow(
+                              pending: pendingCount,
+                              completed: completedCount,
+                              unread: unreadCount,
+                            ),
+                            const SizedBox(height: 14),
+                            _buildSectionLabel('Recent Repairs'),
+                            const SizedBox(height: 8),
+                            _buildRecentRepairs(repairs),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                );
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHeaderCard() {
+  Widget _buildHeaderCard(UserProvider user) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -64,9 +122,9 @@ class HomeTenantScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'JoBy Khuna',
-                  style: TextStyle(
+                Text(
+                  user.name.isEmpty ? 'Loading...' : user.name,
+                  style: const TextStyle(
                     color: AppColors.white,
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
@@ -76,41 +134,13 @@ class HomeTenantScreen extends StatelessWidget {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    _buildHeaderPill(Icons.meeting_room_outlined, 'Room 301'),
+                    _buildHeaderPill(
+                      Icons.meeting_room_outlined,
+                      'Room ${user.roomNumber}',
+                    ),
                     const SizedBox(width: 8),
-                    _buildHeaderPill(Icons.apartment_outlined, 'Dorm 27'),
+                    _buildHeaderPill(Icons.apartment_outlined, user.dormId),
                   ],
-                ),
-              ],
-            ),
-          ),
-          // Unread notification dot
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: AppColors.white.withValues(alpha: 0.2),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: AppColors.white.withValues(alpha: 0.3)),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  width: 7,
-                  height: 7,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                  ),
-                ),
-                const SizedBox(width: 5),
-                const Text(
-                  '2 unread',
-                  style: TextStyle(
-                    color: AppColors.white,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w600,
-                  ),
                 ),
               ],
             ),
@@ -145,7 +175,7 @@ class HomeTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBillCard() {
+  Widget _buildBillCard(dynamic bill) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -190,8 +220,11 @@ class HomeTenantScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'January 2025 — due Jan 5',
-                  style: TextStyle(fontSize: 12, color: AppColors.textSecondary),
+                  'Due ${bill.dueDate.day}/${bill.dueDate.month}/${bill.dueDate.year}',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ],
             ),
@@ -199,9 +232,9 @@ class HomeTenantScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text(
-                '3,212',
-                style: TextStyle(
+              Text(
+                '${bill.total.toInt()}',
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: AppColors.error,
@@ -223,47 +256,40 @@ class HomeTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatRow() {
-    final stats = [
-      StatTenantCard(
-        icon: Icons.build_outlined,
-        label: 'Pending\nRepairs',
-        value: '2',
-        color: AppColors.warning,
-      ),
-      StatTenantCard(
-        icon: Icons.check_circle_outline,
-        label: 'Completed\nRepairs',
-        value: '5',
-        color: AppColors.success,
-      ),
-      StatTenantCard(
-        icon: Icons.notifications_outlined,
-        label: 'Unread\nAlerts',
-        value: '2',
-        color: AppColors.tenantPrimary,
-      ),
-    ];
-
+  Widget _buildStatRow({
+    required int pending,
+    required int completed,
+    required int unread,
+  }) {
     return Row(
-      children: stats.asMap().entries.map((e) {
-        final isLast = e.key == stats.length - 1;
-        return Expanded(
-          child: Row(
-            children: [
-              Expanded(
-                child: StatTenantCard(
-                  icon: e.value.icon,
-                  label: e.value.label,
-                  value: e.value.value,
-                  color: e.value.color,
-                ),
-              ),
-              if (!isLast) const SizedBox(width: 10),
-            ],
+      children: [
+        Expanded(
+          child: StatTenantCard(
+            icon: Icons.build_outlined,
+            label: 'Pending\nRepairs',
+            value: '$pending',
+            color: AppColors.warning,
           ),
-        );
-      }).toList(),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: StatTenantCard(
+            icon: Icons.check_circle_outline,
+            label: 'Completed\nRepairs',
+            value: '$completed',
+            color: AppColors.success,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: StatTenantCard(
+            icon: Icons.notifications_outlined,
+            label: 'Unread\nAlerts',
+            value: '$unread',
+            color: AppColors.tenantPrimary,
+          ),
+        ),
+      ],
     );
   }
 
@@ -279,53 +305,25 @@ class HomeTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentRepairs() {
-    final repairs = [
-      RepairModel(
-        id: '1',
-        title: 'Air conditioner not cooling',
-        description: '',
-        roomNumber: '301',
-        tenantName: 'JoBy Khuna',
-        phoneNumber: '081-234-5678',
-        reportedAt: DateTime(2024, 12, 10),
-        status: RepairStatus.completed,
-        category: RepairCategory.appliance,
-      ),
-      RepairModel(
-        id: '2',
-        title: 'Leaking faucet',
-        description: '',
-        roomNumber: '301',
-        tenantName: 'JoBy Khuna',
-        phoneNumber: '081-234-5678',
-        reportedAt: DateTime(2024, 12, 12),
-        status: RepairStatus.inProgress,
-        category: RepairCategory.plumbing,
-      ),
-      RepairModel(
-        id: '3',
-        title: 'Light bulb replacement',
-        description: '',
-        roomNumber: '301',
-        tenantName: 'JoBy Khuna',
-        phoneNumber: '081-234-5678',
-        reportedAt: DateTime(2025, 1, 5),
-        status: RepairStatus.inProgress,
-        category: RepairCategory.electrical,
-      ),
-      RepairModel(
-        id: '4',
-        title: 'Door lock jammed',
-        description: '',
-        roomNumber: '301',
-        tenantName: 'JoBy Khuna',
-        phoneNumber: '081-234-5678',
-        reportedAt: DateTime(2025, 1, 8),
-        status: RepairStatus.pending,
-        category: RepairCategory.security,
-      ),
-    ];
+  Widget _buildRecentRepairs(List<RepairModel> repairs) {
+    final recent = repairs.take(4).toList();
+
+    if (recent.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.divider),
+        ),
+        child: Center(
+          child: Text(
+            'No repair requests yet',
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
+          ),
+        ),
+      );
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -343,14 +341,14 @@ class HomeTenantScreen extends StatelessWidget {
       child: ListView.separated(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: repairs.length,
+        itemCount: recent.length,
         separatorBuilder: (context, index) => Divider(
           height: 1,
           thickness: 0.5,
           indent: 56,
           color: AppColors.divider,
         ),
-        itemBuilder: (context, i) => _buildRepairTile(repairs[i]),
+        itemBuilder: (context, i) => _buildRepairTile(recent[i]),
       ),
     );
   }

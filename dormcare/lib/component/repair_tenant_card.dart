@@ -64,7 +64,7 @@ class RepairTenantCard extends StatelessWidget {
               child: Image.network(
                 data.imageUrl!,
                 fit: BoxFit.cover,
-                errorBuilder: (_, _, _) => _buildImagePlaceholder(),
+                errorBuilder: (context, error, stackTrace) => _buildImagePlaceholder(),
               ),
             )
           : _buildImagePlaceholder(),

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/repair_service.dart';
+import 'package:dormcare/services/notification_service.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class ReportTenantScreen extends StatefulWidget {
@@ -12,12 +18,13 @@ class ReportTenantScreen extends StatefulWidget {
 class _ReportTenantScreenState extends State<ReportTenantScreen> {
   final _titleController = TextEditingController();
   final _descController = TextEditingController();
-  RepairCategory? _selectedCategory;
+  final _repairService = RepairService();
+  final _notifService = NotificationService();
+  final _picker = ImagePicker();
 
-  // TODO: เปลี่ยนเป็นข้อมูลจริงจาก auth/session หลัง backend พร้อม
-  static const _mockRoomNumber = '301';
-  static const _mockTenantName = 'JoBy Khuna';
-  static const _mockPhone = '081-234-5678';
+  RepairCategory? _selectedCategory;
+  File? _selectedImage;
+  bool _isSubmitting = false;
 
   @override
   void dispose() {
@@ -29,32 +36,65 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
   bool get _isValid =>
       _titleController.text.trim().isNotEmpty && _selectedCategory != null;
 
-  void _submit() {
-    if (!_isValid) {
+  Future<void> _pickImage() async {
+    final picked = await _picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,
+      maxWidth: 1024,
+    );
+    if (picked != null) {
+      setState(() => _selectedImage = File(picked.path));
+    }
+  }
+
+  Future<void> _submit() async {
+    if (!_isValid) return;
+    final user = context.read<UserProvider>();
+    setState(() => _isSubmitting = true);
+
+    try {
+      await _repairService.submitRepair(
+        dormId: user.dormId,
+        roomNumber: user.roomNumber,
+        tenantId: user.uid,
+        tenantName: user.name,
+        phoneNumber: user.phone,
+        title: _titleController.text.trim(),
+        description: _descController.text.trim(),
+        category: _selectedCategory!,
+        imageUrl: null,
+      );
+
+      await _notifService.notifyOwnerNewRepair(
+        dormId: user.dormId,
+        roomNumber: user.roomNumber,
+        tenantName: user.name,
+        repairTitle: _titleController.text.trim(),
+      );
+
+      if (!mounted) return;
+      Navigator.pop(context, true);
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => _isSubmitting = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please fill in the title and select a category'),
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline, color: AppColors.white, size: 20),
+              const SizedBox(width: 10),
+              Expanded(child: Text('Failed to submit: ${e.toString()}')),
+            ],
+          ),
+          backgroundColor: AppColors.error,
           behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          duration: const Duration(seconds: 4),
         ),
       );
-      return;
     }
-
-    // สร้าง RepairModel จาก input แล้วส่งกลับ
-    final newRepair = RepairModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(), // temp id
-      title: _titleController.text.trim(),
-      description: _descController.text.trim(),
-      roomNumber: _mockRoomNumber,
-      tenantName: _mockTenantName,
-      phoneNumber: _mockPhone,
-      reportedAt: DateTime.now(),
-      imageUrl: null, // TODO: เพิ่ม image picker จริง
-      status: RepairStatus.pending,
-      category: _selectedCategory!,
-    );
-
-    Navigator.pop(context, newRepair);
   }
 
   @override
@@ -109,9 +149,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
 
   Widget _buildImagePicker() {
     return GestureDetector(
-      onTap: () {
-        // TODO: implement image picker
-      },
+      onTap: _isSubmitting ? null : _pickImage,
       child: Container(
         height: 160,
         width: double.infinity,
@@ -119,8 +157,10 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
           color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.tenantPrimary.withValues(alpha: 0.35),
-            width: 1.5,
+            color: _selectedImage != null
+                ? AppColors.tenantPrimary
+                : AppColors.tenantPrimary.withValues(alpha: 0.35),
+            width: _selectedImage != null ? 2 : 1.5,
           ),
           boxShadow: [
             BoxShadow(
@@ -130,38 +170,79 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: AppColors.tenantPrimary.withValues(alpha: 0.08),
-                shape: BoxShape.circle,
+        child: _selectedImage != null
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.file(_selectedImage!, fit: BoxFit.cover),
+                    Positioned(
+                      bottom: 8,
+                      right: 8,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: const Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(Icons.edit, size: 13, color: AppColors.white),
+                            SizedBox(width: 4),
+                            Text(
+                              'Change',
+                              style: TextStyle(
+                                color: AppColors.white,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 52,
+                    height: 52,
+                    decoration: BoxDecoration(
+                      color: AppColors.tenantPrimary.withValues(alpha: 0.08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.add_photo_alternate_outlined,
+                      size: 26,
+                      color: AppColors.tenantPrimary.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Tap to attach a photo',
+                    style: TextStyle(
+                      color: AppColors.tenantPrimary,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 14,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    'JPG, PNG up to 10MB',
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
               ),
-              child: Icon(
-                Icons.add_photo_alternate_outlined,
-                size: 26,
-                color: AppColors.tenantPrimary.withValues(alpha: 0.8),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Tap to attach a photo',
-              style: TextStyle(
-                color: AppColors.tenantPrimary,
-                fontWeight: FontWeight.w600,
-                fontSize: 14,
-              ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'JPG, PNG up to 10MB',
-              style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -201,7 +282,9 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       children: categories.map((item) {
         final isSelected = _selectedCategory == item.category;
         return GestureDetector(
-          onTap: () => setState(() => _selectedCategory = item.category),
+          onTap: _isSubmitting
+              ? null
+              : () => setState(() => _selectedCategory = item.category),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 180),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
@@ -249,12 +332,13 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
   }
 
   Widget _buildSubmitButton() {
+    final canSubmit = _isValid && !_isSubmitting;
     return SizedBox(
       width: double.infinity,
       height: 52,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: _isValid
+          backgroundColor: canSubmit
               ? AppColors.tenantPrimary
               : AppColors.border,
           foregroundColor: AppColors.white,
@@ -263,11 +347,20 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
           ),
           elevation: 0,
         ),
-        onPressed: _isValid ? _submit : null,
-        child: const Text(
-          'Submit Report',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
+        onPressed: canSubmit ? _submit : null,
+        child: _isSubmitting
+            ? const SizedBox(
+                width: 22,
+                height: 22,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.white,
+                ),
+              )
+            : const Text(
+                'Submit Report',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
       ),
     );
   }
@@ -293,6 +386,7 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
       controller: controller,
       maxLines: maxLines,
       onChanged: onChanged,
+      enabled: !_isSubmitting,
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,
@@ -313,6 +407,10 @@ class _ReportTenantScreenState extends State<ReportTenantScreen> {
             color: AppColors.tenantPrimary,
             width: 1.5,
           ),
+        ),
+        disabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(12),
+          borderSide: BorderSide(color: AppColors.border),
         ),
       ),
     );

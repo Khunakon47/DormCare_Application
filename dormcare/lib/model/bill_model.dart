@@ -1,19 +1,23 @@
 class BillModel {
   final String billId;
+  final String dormId;
   final String roomNumber;
+  final String? tenantId;
   final DateTime postedDate;
   final DateTime dueDate;
   final double rent;
-  final double waterRate; // ราคาต่อหน่วย (THB/unit)
-  final double waterUnit; // หน่วยที่ใช้
-  final double electricRate; // ราคาต่อหน่วย (THB/unit)
-  final double electricUnit; // หน่วยที่ใช้
+  final double waterRate;
+  final double waterUnit;
+  final double electricRate;
+  final double electricUnit;
   final double other;
   final bool isPaid;
 
   BillModel({
     required this.billId,
+    required this.dormId,
     required this.roomNumber,
+    this.tenantId,
     required this.postedDate,
     required this.dueDate,
     required this.rent,
@@ -32,8 +36,10 @@ class BillModel {
 
   factory BillModel.fromJson(Map<String, dynamic> json) {
     return BillModel(
-      billId: json['billId'],
-      roomNumber: json['roomNumber'],
+      billId: json['billId'] ?? '',
+      dormId: json['dormId'] ?? '',
+      roomNumber: json['roomNumber'] ?? '',
+      tenantId: json['tenantId'] as String?,
       postedDate: DateTime.parse(json['postedDate']),
       dueDate: DateTime.parse(json['dueDate']),
       rent: (json['rent'] as num).toDouble(),
@@ -42,14 +48,16 @@ class BillModel {
       electricRate: (json['electricRate'] as num).toDouble(),
       electricUnit: (json['electricUnit'] as num).toDouble(),
       other: (json['other'] as num).toDouble(),
-      isPaid: json['isPaid'],
+      isPaid: json['isPaid'] as bool? ?? false,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
       'billId': billId,
+      'dormId': dormId,
       'roomNumber': roomNumber,
+      'tenantId': tenantId,
       'postedDate': postedDate.toIso8601String(),
       'dueDate': dueDate.toIso8601String(),
       'rent': rent,
@@ -70,7 +78,9 @@ class BillModel {
   }) {
     return BillModel(
       billId: billId,
+      dormId: dormId,
       roomNumber: roomNumber,
+      tenantId: tenantId,
       postedDate: postedDate,
       dueDate: dueDate,
       rent: rent,

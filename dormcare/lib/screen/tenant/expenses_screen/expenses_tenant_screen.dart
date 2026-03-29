@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:dormcare/model/bill_model.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/bill_service.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:intl/intl.dart';
 
@@ -13,49 +16,7 @@ class ExpensesTenantScreen extends StatefulWidget {
 class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-
-  // Mock data — ใช้ BillModel แทน ExpenseModel
-  final List<BillModel> _allBills = [
-    BillModel(
-      billId: 'bill001',
-      roomNumber: '301',
-      postedDate: DateTime(2025, 1, 22),
-      dueDate: DateTime(2025, 1, 5),
-      rent: 2500,
-      waterRate: 18,
-      waterUnit: 18,
-      electricRate: 8,
-      electricUnit: 150,
-      other: 0,
-      isPaid: false,
-    ),
-    BillModel(
-      billId: 'bill002',
-      roomNumber: '301',
-      postedDate: DateTime(2024, 11, 25),
-      dueDate: DateTime(2024, 12, 5),
-      rent: 2500,
-      waterRate: 18,
-      waterUnit: 15,
-      electricRate: 8,
-      electricUnit: 135,
-      other: 0,
-      isPaid: true,
-    ),
-    BillModel(
-      billId: 'bill003',
-      roomNumber: '301',
-      postedDate: DateTime(2024, 10, 25),
-      dueDate: DateTime(2024, 11, 5),
-      rent: 2500,
-      waterRate: 18,
-      waterUnit: 15,
-      electricRate: 8,
-      electricUnit: 160,
-      other: 0,
-      isPaid: true,
-    ),
-  ];
+  final _billService = BillService();
 
   @override
   void initState() {
@@ -71,26 +32,97 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
 
   @override
   Widget build(BuildContext context) {
-    final currentBill = _allBills.firstWhere(
-      (e) => !e.isPaid,
-      orElse: () => _allBills.first,
-    );
-    final historyBills = _allBills.where((e) => e.isPaid).toList();
+    final user = context.watch<UserProvider>();
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
+      body: StreamBuilder<List<BillModel>>(
+        stream: _billService.getBillsByTenant(user.uid),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          final allBills = snapshot.data ?? [];
+          final currentBill = allBills.firstWhere(
+            (b) => !b.isPaid,
+            orElse: () => allBills.isNotEmpty ? allBills.first : _emptyBill(),
+          );
+          final historyBills = allBills.where((b) => b.isPaid).toList();
+
+          return Column(
+            children: [
+              _buildTabBar(),
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    allBills.isEmpty
+                        ? _buildNoBillState()
+                        : _buildCurrentTab(currentBill),
+                    _buildHistoryTab(historyBills),
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  // placeholder เมื่อยังไม่มีบิล
+  BillModel _emptyBill() => BillModel(
+    billId: '',
+    dormId: '',
+    roomNumber: '',
+    postedDate: DateTime.now(),
+    dueDate: DateTime.now(),
+    rent: 0,
+    waterRate: 0,
+    waterUnit: 0,
+    electricRate: 0,
+    electricUnit: 0,
+    other: 0,
+    isPaid: false,
+  );
+
+  Widget _buildNoBillState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          _buildTabBar(),
-          Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                _buildCurrentTab(currentBill),
-                _buildHistoryTab(historyBills),
-              ],
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: AppColors.divider,
+              shape: BoxShape.circle,
             ),
+            child: Icon(
+              Icons.receipt_long_outlined,
+              size: 32,
+              color: AppColors.textDisabled,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No bills yet',
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            'Your bills will appear here',
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
           ),
         ],
       ),
@@ -115,7 +147,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
           labelStyle: const TextStyle(
             fontWeight: FontWeight.w700,
             fontSize: 14,
-            letterSpacing: 0.1,
           ),
           unselectedLabelColor: AppColors.tenantPrimary.withValues(alpha: 0.6),
           unselectedLabelStyle: const TextStyle(
@@ -148,7 +179,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  // ─────────────── CURRENT TAB ───────────────
+  // ─── CURRENT TAB ───
 
   Widget _buildCurrentTab(BillModel bill) {
     return SingleChildScrollView(
@@ -330,7 +361,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                           color: AppColors.surface.withValues(alpha: 0.9),
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
-                          letterSpacing: 1,
                         ),
                       ),
                     ),
@@ -425,7 +455,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
 
   Widget _buildBreakdownCard(BillModel bill) {
     final billDateLabel = DateFormat('d MMM yyyy').format(bill.postedDate);
-
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -686,7 +715,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
       height: 50,
       child: OutlinedButton.icon(
         onPressed: () {
-          ScaffoldMessenger.of(context).clearSnackBars();
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('This feature is currently under development'),
@@ -719,7 +747,7 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
     );
   }
 
-  // ─────────────── HISTORY TAB ───────────────
+  // ─── HISTORY TAB ───
 
   Widget _buildHistoryTab(List<BillModel> historyBills) {
     return SingleChildScrollView(
@@ -812,14 +840,25 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
             ),
           ),
           const SizedBox(height: 6),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemCount: historyBills.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12),
-            itemBuilder: (context, index) =>
-                _buildHistoryCard(historyBills[index]),
-          ),
+          historyBills.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.only(top: 32),
+                  child: Text(
+                    'No payment history yet',
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
+                  ),
+                )
+              : ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: historyBills.length,
+                  separatorBuilder: (context, index) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) =>
+                      _buildHistoryCard(historyBills[index]),
+                ),
         ],
       ),
     );
@@ -827,7 +866,6 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
 
   Widget _buildHistoryCard(BillModel bill) {
     final monthLabel = DateFormat('MMMM yyyy').format(bill.postedDate);
-
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
@@ -863,9 +901,9 @@ class _ExpensesTenantScreenState extends State<ExpensesTenantScreen>
                       ),
                     ),
                     const SizedBox(height: 3),
-                    Text(
+                    const Text(
                       'Paid',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 11,
                         color: AppColors.textTertiary,
                       ),

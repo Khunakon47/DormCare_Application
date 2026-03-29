@@ -18,6 +18,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
   final List<BillModel> _allBills = [
     BillModel(
       billId: 'bill001',
+      dormId: 'dorm001',
       roomNumber: 'A101',
       postedDate: DateTime(2026, 1, 28),
       dueDate: DateTime(2026, 2, 5),
@@ -31,6 +32,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     ),
     BillModel(
       billId: 'bill002',
+      dormId: 'dorm001',
       roomNumber: 'A102',
       postedDate: DateTime(2026, 1, 28),
       dueDate: DateTime(2026, 2, 5),
@@ -44,6 +46,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     ),
     BillModel(
       billId: 'bill003',
+      dormId: 'dorm001',
       roomNumber: 'B201',
       postedDate: DateTime(2026, 1, 28),
       dueDate: DateTime(2026, 2, 5),
@@ -57,6 +60,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     ),
     BillModel(
       billId: 'bill004',
+      dormId: 'dorm001',
       roomNumber: 'A101',
       postedDate: DateTime(2025, 12, 28),
       dueDate: DateTime(2026, 1, 5),
@@ -70,6 +74,7 @@ class _BillsOwnerScreenState extends State<BillsOwnerScreen> {
     ),
     BillModel(
       billId: 'bill005',
+      dormId: 'dorm001',
       roomNumber: 'B201',
       postedDate: DateTime(2025, 12, 28),
       dueDate: DateTime(2026, 1, 5),

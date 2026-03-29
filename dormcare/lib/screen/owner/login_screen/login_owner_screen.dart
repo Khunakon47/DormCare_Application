@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
+import 'package:dormcare/services/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/providers/user_provider.dart';
+
 class LoginOwnerScreen extends StatefulWidget {
   const LoginOwnerScreen({super.key});
 
@@ -9,8 +13,70 @@ class LoginOwnerScreen extends StatefulWidget {
 }
 
 class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  final _authService = AuthService();
+
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    final email = _emailCtrl.text.trim();
+    final password = _passwordCtrl.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showError('Please enter email and password');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final userData = await _authService.login(email, password);
+
+      if (!mounted) return;
+
+      // ตรวจสอบ role — ต้องเป็น owner เท่านั้น
+      if (userData?['role'] != 'owner') {
+        _showError(
+          'This account is not an owner account.\nPlease use Tenant Login.',
+        );
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      context.read<UserProvider>().setUser(userData!);
+
+      // Login สำเร็จ → navigate ไป home
+      Navigator.pushNamedAndRemoveUntil(context, '/owner/home', (r) => false);
+    } catch (e) {
+      if (mounted) {
+        _showError(e.toString());
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppColors.error,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,25 +97,8 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             ),
           ),
 
-          // Decorative circles
           _buildDecorativeCircles(),
 
-          // Positioned(
-          //   top: screenHeight * 0.4,
-          //   left: 0,
-          //   right: 0,
-          //   bottom: 0,
-          //   child: Container(
-          //     decoration: const BoxDecoration(
-          //       color: Color(0xFFF8F9FB),
-          //       borderRadius: BorderRadius.vertical(
-          //         top: Radius.circular(26),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-
-          // Content(Header, Card, Footer)
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -86,7 +135,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             ),
           ),
         ),
-
         Positioned(
           top: 250,
           left: 10,
@@ -96,19 +144,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: AppColors.white.withValues(alpha: 0.04),
-            ),
-          ),
-        ),
-
-        Positioned(
-          top: 240,
-          right: 60,
-          child: Container(
-            width: 60,
-            height: 60,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.white.withValues(alpha: 0.05),
             ),
           ),
         ),
@@ -130,7 +165,11 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
               width: 1.5,
             ),
           ),
-          child: const Icon(Icons.home_outlined, color: AppColors.white, size: 36),
+          child: const Icon(
+            Icons.home_outlined,
+            color: AppColors.white,
+            size: 36,
+          ),
         ),
         const SizedBox(height: 14),
         const Text(
@@ -148,7 +187,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           style: TextStyle(
             color: AppColors.white.withValues(alpha: 0.75),
             fontSize: 13,
-            fontWeight: FontWeight.w400,
           ),
         ),
       ],
@@ -214,12 +252,14 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
           const SizedBox(height: 24),
 
-          // Email / Username
-          _buildLabel('Email or Username'),
+          // Email
+          _buildLabel('Email'),
           const SizedBox(height: 8),
           _buildTextField(
-            hintText: 'Enter your email or username',
+            controller: _emailCtrl,
+            hintText: 'Enter your email',
             prefixIcon: Icons.alternate_email_rounded,
+            keyboardType: TextInputType.emailAddress,
           ),
 
           const SizedBox(height: 16),
@@ -228,9 +268,10 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
           _buildLabel('Password'),
           const SizedBox(height: 8),
           _buildTextField(
+            controller: _passwordCtrl,
             hintText: 'Enter your password',
-            obscure: _obscurePassword,
             prefixIcon: Icons.lock_outline_rounded,
+            obscure: _obscurePassword,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscurePassword
@@ -246,7 +287,6 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
 
           const SizedBox(height: 14),
 
-          // Remember me + Forgot
           Row(
             children: [
               GestureDetector(
@@ -292,12 +332,16 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                 onTap: () {
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
+                    SnackBar(
                       content: Text(
                         'This feature is currently under development',
                       ),
+                      backgroundColor: AppColors.ownerPrimary,
                       behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      duration: const Duration(seconds: 2),
                     ),
                   );
                 },
@@ -328,11 +372,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/owner/home',
-                (route) => false,
-              ),
+              onPressed: _isLoading ? null : _login,
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -347,16 +387,25 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
                     ),
                   ],
                 ),
-                child: const Center(
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.white,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
+                child: Center(
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.white,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -371,10 +420,7 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
       children: [
         Text(
           'Need an account?',
-          style: TextStyle(
-            fontSize: 13,
-            color: AppColors.textTertiary,
-          ),
+          style: TextStyle(fontSize: 13, color: AppColors.textTertiary),
         ),
         const SizedBox(height: 4),
         Text(
@@ -422,13 +468,17 @@ class _LoginOwnerScreenState extends State<LoginOwnerScreen> {
   }
 
   Widget _buildTextField({
+    required TextEditingController controller,
     required String hintText,
-    bool obscure = false,
     required IconData prefixIcon,
+    bool obscure = false,
     Widget? suffixIcon,
+    TextInputType? keyboardType,
   }) {
     return TextField(
+      controller: controller,
       obscureText: obscure,
+      keyboardType: keyboardType,
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,

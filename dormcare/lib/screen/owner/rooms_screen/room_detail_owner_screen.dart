@@ -51,6 +51,7 @@ class RoomDetailScreen extends StatelessWidget {
 
   static final List<BillModel> _allBills = [
     BillModel(
+      dormId: 'dorm001',
       billId: 'bill001',
       roomNumber: 'A101',
       postedDate: DateTime(2026, 1, 28),
@@ -64,6 +65,7 @@ class RoomDetailScreen extends StatelessWidget {
       isPaid: true,
     ),
     BillModel(
+      dormId: 'dorm001',
       billId: 'bill002',
       roomNumber: 'A102',
       postedDate: DateTime(2026, 2, 28),
@@ -77,6 +79,7 @@ class RoomDetailScreen extends StatelessWidget {
       isPaid: false,
     ),
     BillModel(
+      dormId: 'dorm001',
       billId: 'bill003',
       roomNumber: 'B201',
       postedDate: DateTime(2026, 1, 28),

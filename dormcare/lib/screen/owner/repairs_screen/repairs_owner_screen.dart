@@ -1,9 +1,12 @@
 import 'package:dormcare/model/repair_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'repair_detail_owner_screen.dart';
 import 'repair_filter_owner_sheet.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/component/repair_owner_card.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/repair_service.dart';
 
 class RepairsOwnerScreen extends StatefulWidget {
   const RepairsOwnerScreen({super.key});
@@ -13,73 +16,12 @@ class RepairsOwnerScreen extends StatefulWidget {
 }
 
 class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
-
+  final _repairService = RepairService();
   RepairStatus? _selectedStatus;
-  int _selectedFloor = 0; // 0 = All floors
+  int _selectedFloor = 0;
 
-  // Mock data
-  final List<RepairModel> _allRepairs = [
-    RepairModel(
-      id: '1',
-      title: 'TV Broken',
-      description:
-          'The TV in the living room is not turning on. Need replacement.',
-      roomNumber: '101',
-      tenantName: 'Somchai K.',
-      phoneNumber: '081-234-5678',
-      imageUrl: 'https://picsum.photos/500/300?random=10',
-      reportedAt: DateTime(2024, 12, 10, 9, 30),
-      status: RepairStatus.pending,
-      category: RepairCategory.electrical,
-    ),
-    RepairModel(
-      id: '2',
-      title: 'Leaking Faucet',
-      description: 'The kitchen faucet is leaking constantly.',
-      roomNumber: '203',
-      tenantName: 'Nattaya P.',
-      phoneNumber: '082-345-6789',
-      reportedAt: DateTime(2024, 12, 12, 14, 45),
-      status: RepairStatus.inProgress,
-      category: RepairCategory.plumbing,
-    ),
-    RepairModel(
-      id: '3',
-      title: 'Air Conditioner',
-      description: 'Not cooling properly, making loud noise.',
-      roomNumber: '305',
-      tenantName: 'Wichai T.',
-      phoneNumber: '083-456-7890',
-      reportedAt: DateTime(2024, 12, 15, 11, 20),
-      status: RepairStatus.completed,
-      category: RepairCategory.electrical,
-    ),
-    RepairModel(
-      id: '4',
-      title: 'Broken Door Lock',
-      description: 'Door lock is jammed and cannot be opened from outside.',
-      roomNumber: '102',
-      tenantName: 'Malee S.',
-      phoneNumber: '084-567-8901',
-      reportedAt: DateTime(2024, 12, 18, 16, 10),
-      status: RepairStatus.cancelled,
-      category: RepairCategory.security,
-    ),
-    RepairModel(
-      id: '5',
-      title: 'Broken Window',
-      description: 'Window latch is broken, cannot lock properly.',
-      roomNumber: '401',
-      tenantName: 'Prayut C.',
-      phoneNumber: '085-678-9012',
-      reportedAt: DateTime(2024, 12, 20, 10, 0),
-      status: RepairStatus.pending,
-      category: RepairCategory.furniture,
-    ),
-  ];
-
-  List<RepairModel> get _filteredRepairs {
-    var result = _allRepairs;
+  List<RepairModel> _applyFilters(List<RepairModel> repairs) {
+    var result = repairs;
     if (_selectedFloor != 0) {
       result = result
           .where((r) => r.roomNumber.startsWith('$_selectedFloor'))
@@ -100,60 +42,79 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 12),
-            _buildStatusSummaryBar(),
-            const SizedBox(height: 12),
-            _buildSearchAndActions(),
-            const SizedBox(height: 10),
-            _buildListHeader(),
-            const SizedBox(height: 6),
-            Expanded(
-              child: _filteredRepairs.isEmpty
-                ? _buildEmptyState()
-                : ListView.separated(
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                    itemCount: _filteredRepairs.length,
-                    separatorBuilder: (context, index) => const SizedBox(height: 12),
-                    itemBuilder: (context, index) => RepairOwnerCard(
-                      data: _filteredRepairs[index],
-                      onTap: () async {
-                        await Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => RepairDetailOwnerScreen(
-                              data: _filteredRepairs[index],
-                              onStatusUpdated: () => setState(() {}),
-                            ),
+        child: StreamBuilder<List<RepairModel>>(
+          stream: _repairService.getRepairsByDorm(user.dormId),
+          builder: (context, snapshot) {
+            final allRepairs = snapshot.data ?? [];
+            final filtered = _applyFilters(allRepairs);
+            final isLoading =
+                snapshot.connectionState == ConnectionState.waiting;
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 12),
+                if (isLoading)
+                  const Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Center(child: CircularProgressIndicator()),
+                  )
+                else
+                  _buildStatusSummaryBar(allRepairs),
+                const SizedBox(height: 12),
+                _buildSearchAndActions(),
+                const SizedBox(height: 10),
+                _buildListHeader(filtered.length),
+                const SizedBox(height: 6),
+                Expanded(
+                  child: filtered.isEmpty && !isLoading
+                      ? _buildEmptyState()
+                      : ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                          itemCount: filtered.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 12),
+                          itemBuilder: (context, index) => RepairOwnerCard(
+                            data: filtered[index],
+                            onTap: () async {
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => RepairDetailOwnerScreen(
+                                    data: filtered[index],
+                                    onStatusUpdated: () => setState(() {}),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
-                  ),
-            ),
-          ],
+                        ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
   }
 
-  Widget _buildStatusSummaryBar() {
-    final total = _allRepairs.length;
-    final pending = _allRepairs
+  Widget _buildStatusSummaryBar(List<RepairModel> repairs) {
+    final total = repairs.length;
+    final pending = repairs
         .where((r) => r.status == RepairStatus.pending)
         .length;
-    final inProgress = _allRepairs
+    final inProgress = repairs
         .where((r) => r.status == RepairStatus.inProgress)
         .length;
-    final completed = _allRepairs
+    final completed = repairs
         .where((r) => r.status == RepairStatus.completed)
         .length;
-    final cancelled = _allRepairs
+    final cancelled = repairs
         .where((r) => r.status == RepairStatus.cancelled)
         .length;
 
@@ -171,7 +132,9 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
+          border: Border.all(
+            color: AppColors.ownerPrimary.withValues(alpha: 0.3),
+          ),
           boxShadow: [
             BoxShadow(
               color: AppColors.black.withValues(alpha: 0.04),
@@ -190,7 +153,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                   style: TextStyle(
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
-                    color:AppColors.textPrimary,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 const Spacer(),
@@ -205,38 +168,31 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               ],
             ),
             const SizedBox(height: 12),
-
-            // Segmented progress bar
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: SizedBox(
-                height: 30, // เพิ่มความสูง
+                height: 30,
                 child: Row(
                   children: total == 0
-                      ? [
-                          Expanded(
-                            child: Container(color: AppColors.divider),
-                          ),
-                        ]
+                      ? [Expanded(child: Container(color: AppColors.divider))]
                       : segments.where((s) => s.count > 0).map((s) {
-                          final percent = ((s.count / total) * 100).round();
-
+                          final pct = ((s.count / total) * 100).round();
                           return Expanded(
                             flex: s.count,
                             child: Container(
                               alignment: Alignment.center,
                               margin: const EdgeInsets.only(right: 2),
                               color: s.color,
-                              child: percent >= 10 // กัน text ล้น
-                                ? Text(
-                                    '$percent%',
-                                    style: const TextStyle(
-                                      color: AppColors.white,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  )
-                                : null,
+                              child: pct >= 10
+                                  ? Text(
+                                      '$pct%',
+                                      style: const TextStyle(
+                                        color: AppColors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    )
+                                  : null,
                             ),
                           );
                         }).toList(),
@@ -244,8 +200,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               ),
             ),
             const SizedBox(height: 12),
-
-            // Legend
             Wrap(
               spacing: 16,
               runSpacing: 6,
@@ -287,7 +241,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -295,7 +248,9 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppColors.ownerPrimary.withValues(alpha: 0.3),
+                ),
               ),
               child: Row(
                 children: [
@@ -303,16 +258,16 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                   const SizedBox(width: 8),
                   Text(
                     'Search by room or tenant...',
-                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          
           const SizedBox(width: 8),
-
-          // Filter button
           GestureDetector(
             onTap: () => showModalBottomSheet(
               context: context,
@@ -325,12 +280,10 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               builder: (context) => RepairFilterOwnerSheet(
                 initialStatus: _selectedStatus,
                 initialFloor: _selectedFloor,
-                onApply: (status, floor) {
-                  setState(() {
-                    _selectedStatus = status;
-                    _selectedFloor = floor;
-                  });
-                },
+                onApply: (status, floor) => setState(() {
+                  _selectedStatus = status;
+                  _selectedFloor = floor;
+                }),
               ),
             ),
             child: Container(
@@ -339,7 +292,9 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               decoration: BoxDecoration(
                 color: AppColors.white,
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
+                border: Border.all(
+                  color: AppColors.ownerPrimary.withValues(alpha: 0.3),
+                ),
               ),
               child: Stack(
                 clipBehavior: Clip.none,
@@ -351,7 +306,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                       color: AppColors.ownerPrimary,
                     ),
                   ),
-
                   if (_activeFilterCount > 0)
                     Positioned(
                       right: 0,
@@ -362,13 +316,6 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
                         decoration: BoxDecoration(
                           color: AppColors.ownerPrimary,
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.black.withValues(alpha: 0.15),
-                              blurRadius: 4,
-                              offset: const Offset(0, 1),
-                            ),
-                          ],
                         ),
                         alignment: Alignment.center,
                         child: Text(
@@ -385,17 +332,16 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
               ),
             ),
           ),
-
           const SizedBox(width: 8),
-
-          // Sort button
           Container(
             height: 42,
             width: 42,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: AppColors.ownerPrimary.withValues(alpha: 0.3)),
+              border: Border.all(
+                color: AppColors.ownerPrimary.withValues(alpha: 0.3),
+              ),
             ),
             child: const Center(
               child: Icon(Icons.sort, size: 20, color: AppColors.ownerPrimary),
@@ -406,7 +352,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
     );
   }
 
-  Widget _buildListHeader() {
+  Widget _buildListHeader(int count) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
       child: Row(
@@ -421,7 +367,7 @@ class _RepairsOwnerScreenState extends State<RepairsOwnerScreen> {
             ),
           ),
           Text(
-            '${_filteredRepairs.length} ${_activeFilterCount == 0 ? 'requests' : 'results'}',
+            '$count ${_activeFilterCount == 0 ? 'requests' : 'results'}',
             style: TextStyle(
               color: AppColors.textSecondary,
               fontSize: 12,

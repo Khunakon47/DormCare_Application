@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
+import 'package:dormcare/services/auth_service.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/providers/user_provider.dart';
+
 class LoginTenantScreen extends StatefulWidget {
   const LoginTenantScreen({super.key});
 
@@ -9,8 +13,70 @@ class LoginTenantScreen extends StatefulWidget {
 }
 
 class _LoginTenantScreenState extends State<LoginTenantScreen> {
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  final _authService = AuthService();
+
   bool _rememberMe = false;
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  @override
+  void dispose() {
+    _emailCtrl.dispose();
+    _passwordCtrl.dispose();
+    super.dispose();
+  }
+
+  Future<void> _login() async {
+    final email = _emailCtrl.text.trim();
+    final password = _passwordCtrl.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      _showError('Please enter email and password');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final userData = await _authService.login(email, password);
+
+      if (!mounted) return;
+
+      // ตรวจสอบ role — ต้องเป็น tenant เท่านั้น
+      if (userData?['role'] != 'tenant') {
+        _showError(
+          'This account is not a tenant account.\nPlease use Owner Login.',
+        );
+        setState(() => _isLoading = false);
+        return;
+      }
+
+      context.read<UserProvider>().setUser(userData!);
+
+      // Login สำเร็จ → navigate ไป home
+      Navigator.pushNamedAndRemoveUntil(context, '/tenant/home', (r) => false);
+    } catch (e) {
+      if (mounted) {
+        _showError(e.toString());
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: AppColors.error,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        duration: const Duration(seconds: 3),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,27 +124,17 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
             ),
           ),
 
-          // Content
           SafeArea(
             child: SingleChildScrollView(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 children: [
                   SizedBox(height: screenHeight * 0.07),
-
-                  // Logo + app name
                   _buildLogoSection(),
-
                   SizedBox(height: screenHeight * 0.05),
-
-                  // Login card
                   _buildLoginCard(),
-
                   const SizedBox(height: 24),
-
-                  // Footer
                   _buildFooter(),
-
                   const SizedBox(height: 32),
                 ],
               ),
@@ -125,7 +181,6 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           style: TextStyle(
             color: AppColors.surface.withValues(alpha: 0.75),
             fontSize: 13,
-            fontWeight: FontWeight.w400,
           ),
         ),
       ],
@@ -192,12 +247,14 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
 
           const SizedBox(height: 24),
 
-          // Room Number
-          _buildLabel('Room Number'),
+          // Email
+          _buildLabel('Email'),
           const SizedBox(height: 8),
           _buildTextField(
-            hintText: 'Enter your room number',
-            prefixIcon: Icons.meeting_room_outlined,
+            controller: _emailCtrl,
+            hintText: 'Enter your email',
+            prefixIcon: Icons.alternate_email_rounded,
+            keyboardType: TextInputType.emailAddress,
           ),
 
           const SizedBox(height: 16),
@@ -206,9 +263,10 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
           _buildLabel('Password'),
           const SizedBox(height: 8),
           _buildTextField(
+            controller: _passwordCtrl,
             hintText: 'Enter your password',
-            obscure: _obscurePassword,
             prefixIcon: Icons.lock_outline_rounded,
+            obscure: _obscurePassword,
             suffixIcon: IconButton(
               icon: Icon(
                 _obscurePassword
@@ -270,12 +328,16 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                 onTap: () {
                   ScaffoldMessenger.of(context).clearSnackBars();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
+                    SnackBar(
+                      content: const Text(
                         'This feature is currently under development',
                       ),
+                      backgroundColor: AppColors.tenantPrimary,
                       behavior: SnackBarBehavior.floating,
-                      duration: Duration(seconds: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      duration: const Duration(seconds: 2),
                     ),
                   );
                 },
@@ -306,11 +368,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                   borderRadius: BorderRadius.circular(14),
                 ),
               ),
-              onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/tenant/home',
-                (route) => false,
-              ),
+              onPressed: _isLoading ? null : _login,
               child: Ink(
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
@@ -328,16 +386,25 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
                     ),
                   ],
                 ),
-                child: const Center(
-                  child: Text(
-                    'Sign In',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.surface,
-                      letterSpacing: 0.2,
-                    ),
-                  ),
+                child: Center(
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            color: AppColors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Sign In',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.surface,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
                 ),
               ),
             ),
@@ -352,10 +419,7 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
       children: [
         Text(
           "Don't have an account?",
-          style: TextStyle(
-            fontSize: 13,
-            color: AppColors.textTertiary,
-          ),
+          style: TextStyle(fontSize: 13, color: AppColors.textTertiary),
         ),
         const SizedBox(height: 4),
         Text(
@@ -406,13 +470,17 @@ class _LoginTenantScreenState extends State<LoginTenantScreen> {
   }
 
   Widget _buildTextField({
+    required TextEditingController controller,
     required String hintText,
-    bool obscure = false,
     required IconData prefixIcon,
+    bool obscure = false,
     Widget? suffixIcon,
+    TextInputType? keyboardType,
   }) {
     return TextField(
+      controller: controller,
       obscureText: obscure,
+      keyboardType: keyboardType,
       style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
       decoration: InputDecoration(
         hintText: hintText,

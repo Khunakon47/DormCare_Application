@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'screen/owner/main_owner_screen.dart';
-import 'screen/owner/login_screen/login_owner_screen.dart';
-import 'screen/tenant/main_tenant_screen.dart';
-import 'screen/tenant/login_screen/login_tenant_screen.dart';
-import 'package:dormcare/theme/app_theme.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/firebase_options.dart';
+import 'package:dormcare/providers/user_provider.dart';
+
+import 'package:dormcare/theme/app_theme.dart';
+import 'package:dormcare/screen/owner/main_owner_screen.dart';
+import 'package:dormcare/screen/owner/login_screen/login_owner_screen.dart';
+import 'package:dormcare/screen/tenant/main_tenant_screen.dart';
+import 'package:dormcare/screen/tenant/login_screen/login_tenant_screen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const DormCareApp());
 }
 
@@ -14,22 +22,21 @@ class DormCareApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      
-      // เมื่อทำ Firebase auth แล้วค่อยเปลี่ยนมาใช้การ switch theme ตาม role หลัง login ระหว่าง AppTheme.tenantTheme() และ AppTheme.ownerTheme()
-      theme: AppTheme.tenantTheme(),
-      darkTheme: AppTheme.tenantTheme(),
-
-      themeMode: ThemeMode.system,
-      
-      initialRoute: '/',
-      routes: {
-        '/': (_) => const LoginTenantScreen(),
-        '/tenant/home': (_) => const MainTenantScreen(),
-        '/login/owner': (_) => const LoginOwnerScreen(),
-        '/owner/home': (_) => const MainOwnerScreen(),
-      },
+    return ChangeNotifierProvider(
+      create: (_) => UserProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.tenantTheme(),
+        darkTheme: AppTheme.tenantTheme(),
+        themeMode: ThemeMode.system,
+        initialRoute: '/',
+        routes: {
+          '/': (_) => const LoginTenantScreen(),
+          '/tenant/home': (_) => const MainTenantScreen(),
+          '/login/owner': (_) => const LoginOwnerScreen(),
+          '/owner/home': (_) => const MainOwnerScreen(),
+        },
+      ),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:dormcare/model/owner/alert_owner_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'alter_detail_owner_screen.dart';
 import 'compose_alert_owner_screen.dart';
-
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/component/alert_owner_card.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/notification_service.dart';
 
 class AlertOwnerScreen extends StatefulWidget {
   const AlertOwnerScreen({super.key});
@@ -14,72 +16,20 @@ class AlertOwnerScreen extends StatefulWidget {
 }
 
 class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
-  final _now = DateTime.now();
+  final _notifService = NotificationService();
 
-  late final List<AlertOwnerModel> _allAlerts = [
-    AlertOwnerModel(
-      id: '1',
-      title: 'New Repair Request',
-      description: 'Room 203 reported a leaking faucet in the kitchen sink.',
-      createdAt: DateTime(_now.year, _now.month, _now.day, 9, 15),
-      category: AlertOwnerCategory.repairRequest,
-      roomNumber: '203',
-      tenantName: 'Nattaya P.',
-      isRead: false,
-    ),
-    AlertOwnerModel(
-      id: '2',
-      title: 'New Repair Request',
-      description: 'Room 101 reported a broken TV screen.',
-      createdAt: DateTime(_now.year, _now.month, _now.day, 11, 30),
-      category: AlertOwnerCategory.repairRequest,
-      roomNumber: '101',
-      tenantName: 'Somchai K.',
-      isRead: false,
-    ),
-    AlertOwnerModel(
-      id: '3',
-      title: 'Bill Reminder Sent',
-      description:
-          'Monthly bill reminder has been sent to all rooms for February 2025.',
-      createdAt: DateTime(_now.year, _now.month, _now.day - 1, 8, 0),
-      category: AlertOwnerCategory.billReminder,
-      isRead: true,
-    ),
-    AlertOwnerModel(
-      id: '4',
-      title: 'Maintenance Announcement',
-      description:
-          'Common area cleaning has been scheduled for this Saturday 9:00 AM.',
-      createdAt: DateTime(_now.year, _now.month, _now.day - 3, 14, 0),
-      category: AlertOwnerCategory.general,
-      isRead: true,
-    ),
-  ];
-  
-  List<AlertOwnerModel> get _displayedAlerts => _allAlerts;
-
-  void _markAsRead(String id) {
-    final index = _allAlerts.indexWhere((e) => e.id == id);
-    if (index != -1 && !_allAlerts[index].isRead) {
-      setState(() {
-        _allAlerts[index].isRead = true;
-      });
-    }
+  Future<void> _markAsRead(String id) async {
+    await _notifService.markAsRead(id);
   }
 
-  void _markAllAsRead() {
-    setState(() {
-      for (final alert in _allAlerts) {
-        alert.isRead = true;
-      }
-    });
+  Future<void> _markAllAsRead(String userId) async {
+    await _notifService.markAllAsRead(userId);
   }
-
-  bool get _hasUnread => _allAlerts.any((a) => !a.isRead);
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -92,37 +42,53 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
           child: Container(color: Colors.grey.shade300, height: 1),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(height: 12),
-          _buildSearchAndActions(),
-          const SizedBox(height: 10),
-          _buildListHeader(),
-          const SizedBox(height: 6),
-          Expanded(
-            child: ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-              itemCount: _displayedAlerts.length,
-              separatorBuilder: (context, index) => const SizedBox(height: 10),
-              itemBuilder: (context, index) {
-                final alert = _displayedAlerts[index];
-                return AlertOwnerCard(
-                  data: alert,
-                  onTap: () {
-                    _markAsRead(alert.id);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => AlertDetailOwnerScreen(data: alert),
+      body: StreamBuilder<List<AlertOwnerModel>>(
+        stream: _notifService.getOwnerNotifications(user.uid),
+        builder: (context, snapshot) {
+          final alerts = snapshot.data ?? [];
+          final isLoading = snapshot.connectionState == ConnectionState.waiting;
+          final hasUnread = alerts.any((a) => !a.isRead);
+
+          if (isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 12),
+              _buildSearchAndActions(),
+              const SizedBox(height: 10),
+              _buildListHeader(alerts.length, hasUnread, user.uid),
+              const SizedBox(height: 6),
+              Expanded(
+                child: alerts.isEmpty
+                    ? _buildEmptyState()
+                    : ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
+                        itemCount: alerts.length,
+                        separatorBuilder: (context, index) => const SizedBox(height: 10),
+                        itemBuilder: (context, index) {
+                          final alert = alerts[index];
+                          return AlertOwnerCard(
+                            data: alert,
+                            onTap: () {
+                              _markAsRead(alert.id);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) =>
+                                      AlertDetailOwnerScreen(data: alert),
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.push(
@@ -170,44 +136,34 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
               ),
             ),
           ),
-
           const SizedBox(width: 8),
-
-          GestureDetector(
-            onTap: () {}, // UI only
-            child: Container(
-              height: 42,
-              width: 42,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: const Center(
-                child: Icon(
-                  Icons.filter_alt_outlined,
-                  size: 20,
-                  color: AppColors.ownerPrimary,
-                ),
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: const Center(
+              child: Icon(
+                Icons.filter_alt_outlined,
+                size: 20,
+                color: AppColors.ownerPrimary,
               ),
             ),
           ),
-
           const SizedBox(width: 8),
-
-          GestureDetector(
-            onTap: () {}, // UI only
-            child: Container(
-              height: 42,
-              width: 42,
-              decoration: BoxDecoration(
-                color: AppColors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade200),
-              ),
-              child: const Center(
-                child: Icon(Icons.sort, size: 20, color: AppColors.ownerPrimary),
-              ),
+          Container(
+            height: 42,
+            width: 42,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Colors.grey.shade200),
+            ),
+            child: const Center(
+              child: Icon(Icons.sort, size: 20, color: AppColors.ownerPrimary),
             ),
           ),
         ],
@@ -215,26 +171,26 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
     );
   }
 
-  Widget _buildListHeader() {
+  Widget _buildListHeader(int count, bool hasUnread, String userId) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${_displayedAlerts.length} notifications',
+            '$count notifications',
             style: TextStyle(
               color: Colors.grey.shade500,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
           ),
-          if (_hasUnread)
+          if (hasUnread)
             GestureDetector(
-              onTap: _markAllAsRead,
-              child: Row(
+              onTap: () => _markAllAsRead(userId),
+              child: const Row(
                 mainAxisSize: MainAxisSize.min,
-                children: const [
+                children: [
                   Icon(Icons.done_all, size: 13, color: AppColors.ownerPrimary),
                   SizedBox(width: 4),
                   Text(
@@ -248,6 +204,43 @@ class _AlertOwnerScreenState extends State<AlertOwnerScreen> {
                 ],
               ),
             ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+              color: AppColors.divider,
+              shape: BoxShape.circle,
+            ),
+            child: Icon(
+              Icons.notifications_off_outlined,
+              size: 32,
+              color: AppColors.textTertiary,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            'No notifications',
+            style: TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            "You're all caught up!",
+            style: TextStyle(color: AppColors.textTertiary, fontSize: 12),
+          ),
         ],
       ),
     );

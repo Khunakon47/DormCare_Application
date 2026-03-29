@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:dormcare/component/repair_tenant_card.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/model/repair_model.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/repair_service.dart';
 import 'repair_detail_tenant_screen.dart';
 import 'report_tenant_screen.dart';
 
@@ -13,62 +16,11 @@ class RepairTenantScreen extends StatefulWidget {
 }
 
 class _RepairTenantScreenState extends State<RepairTenantScreen> {
+  final _repairService = RepairService();
   int _selectedStatusIndex = 0;
 
-  // Mock data — จะถูกแทนที่ด้วยข้อมูลจาก API หลัง backend พร้อม
-  final List<RepairModel> _allRepairs = [
-    RepairModel(
-      id: '1',
-      title: 'TV Broken',
-      description:
-          'The TV in the living room is not turning on. Please fix it as soon as possible.',
-      roomNumber: '301',
-      tenantName: 'JoBy Khuna',
-      phoneNumber: '081-234-5678',
-      reportedAt: DateTime(2024, 12, 10, 9, 30),
-      imageUrl: 'https://picsum.photos/500/300?random=1',
-      status: RepairStatus.completed,
-      category: RepairCategory.appliance,
-    ),
-    RepairModel(
-      id: '2',
-      title: 'Leaking Faucet',
-      description:
-          'The kitchen faucet is leaking and causing water to pool around the sink area.',
-      roomNumber: '301',
-      tenantName: 'JoBy Khuna',
-      phoneNumber: '081-234-5678',
-      reportedAt: DateTime(2024, 12, 12, 14, 45),
-      status: RepairStatus.inProgress,
-      category: RepairCategory.plumbing,
-    ),
-    RepairModel(
-      id: '3',
-      title: 'Air Conditioner',
-      description: 'The air conditioner in my bedroom is not cooling properly.',
-      roomNumber: '301',
-      tenantName: 'JoBy Khuna',
-      phoneNumber: '081-234-5678',
-      reportedAt: DateTime(2024, 12, 15, 11, 20),
-      status: RepairStatus.pending,
-      category: RepairCategory.appliance,
-    ),
-    RepairModel(
-      id: '4',
-      title: 'Broken Door Lock',
-      description:
-          'The lock on my bedroom door is broken and does not secure properly.',
-      roomNumber: '301',
-      tenantName: 'JoBy Khuna',
-      phoneNumber: '081-234-5678',
-      reportedAt: DateTime(2024, 12, 18, 16, 10),
-      status: RepairStatus.cancelled,
-      category: RepairCategory.other,
-    ),
-  ];
-
-  List<RepairModel> get _filteredRepairs {
-    if (_selectedStatusIndex == 0) return _allRepairs;
+  List<RepairModel> _filter(List<RepairModel> repairs) {
+    if (_selectedStatusIndex == 0) return repairs;
     final statuses = [
       null,
       RepairStatus.pending,
@@ -76,24 +28,21 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
       RepairStatus.completed,
       RepairStatus.cancelled,
     ];
-    return _allRepairs
+    return repairs
         .where((r) => r.status == statuses[_selectedStatusIndex])
         .toList();
   }
 
-  // ─── เปิด ReportTenantScreen แล้วรับ RepairModel กลับมาเพิ่มใน list ───
   Future<void> _openReport() async {
-    final navigator = Navigator.of(context);
     final messenger = ScaffoldMessenger.of(context);
-
-    final newRepair = await navigator.push<RepairModel>(
+    final success = await Navigator.push<bool>(
+      context,
       MaterialPageRoute(builder: (_) => const ReportTenantScreen()),
     );
 
     if (!mounted) return;
 
-    if (newRepair != null) {
-      setState(() => _allRepairs.insert(0, newRepair)); // เพิ่มที่ต้น list
+    if (success == true) {
       messenger.showSnackBar(
         SnackBar(
           content: const Row(
@@ -120,6 +69,8 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -131,28 +82,102 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             const SizedBox(height: 10),
             _buildFilterTabs(),
             const SizedBox(height: 8),
-            _buildListHeader(),
-            const SizedBox(height: 6),
             Expanded(
-              child: _filteredRepairs.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(16, 4, 16, 16),
-                      itemCount: _filteredRepairs.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 12),
-                      itemBuilder: (context, index) => RepairTenantCard(
-                        data: _filteredRepairs[index],
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => RepairDetailTenantScreen(
-                              data: _filteredRepairs[index],
-                            ),
+              child: StreamBuilder<List<RepairModel>>(
+                stream: _repairService.getRepairsByTenant(user.uid),
+                builder: (context, snapshot) {
+                  // Loading
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  // Error
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            size: 48,
+                            color: AppColors.error,
                           ),
+                          const SizedBox(height: 12),
+                          Text(
+                            'Failed to load repairs',
+                            style: TextStyle(color: AppColors.textSecondary),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  final allRepairs = snapshot.data ?? [];
+                  final filtered = _filter(allRepairs);
+
+                  return Column(
+                    children: [
+                      // List header
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 18,
+                          vertical: 4,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'My Repair Requests',
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              '${filtered.length} ${_selectedStatusIndex == 0 ? 'requests' : 'results'}',
+                              style: TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
+                      const SizedBox(height: 6),
+                      Expanded(
+                        child: filtered.isEmpty
+                            ? _buildEmptyState()
+                            : ListView.separated(
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  4,
+                                  16,
+                                  16,
+                                ),
+                                itemCount: filtered.length,
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 12),
+                                itemBuilder: (context, index) =>
+                                    RepairTenantCard(
+                                      data: filtered[index],
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) =>
+                                              RepairDetailTenantScreen(
+                                                data: filtered[index],
+                                              ),
+                                        ),
+                                      ),
+                                    ),
+                              ),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ],
         ),
@@ -297,33 +322,6 @@ class _RepairTenantScreenState extends State<RepairTenantScreen> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  Widget _buildListHeader() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            'My Repair Requests',
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          Text(
-            '${_filteredRepairs.length} ${_selectedStatusIndex == 0 ? 'requests' : 'results'}',
-            style: TextStyle(
-              color: AppColors.textSecondary,
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
       ),
     );
   }

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/auth_service.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class ProfileTenantScreen extends StatelessWidget {
@@ -6,17 +9,19 @@ class ProfileTenantScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         child: Column(
           children: [
-            _buildProfileCard(),
+            _buildProfileCard(user),
             const SizedBox(height: 16),
-            _buildRoomInfoCard(),
+            _buildRoomInfoCard(user),
             const SizedBox(height: 16),
-            _buildMenuSection(),
+            _buildMenuSection(context),
             const SizedBox(height: 16),
             _buildLogoutButton(context),
           ],
@@ -25,7 +30,7 @@ class ProfileTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(UserProvider user) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
@@ -43,7 +48,6 @@ class ProfileTenantScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Avatar
           Container(
             width: 88,
             height: 88,
@@ -61,21 +65,17 @@ class ProfileTenantScreen extends StatelessWidget {
               color: AppColors.tenantPrimary,
             ),
           ),
-
           const SizedBox(height: 14),
-
-          const Text(
-            'JoBy Khuna',
-            style: TextStyle(
+          Text(
+            user.name.isEmpty ? 'Loading...' : user.name,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppColors.textPrimary,
               letterSpacing: -0.3,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
             'Tenant',
             style: TextStyle(
@@ -89,11 +89,23 @@ class ProfileTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRoomInfoCard() {
+  Widget _buildRoomInfoCard(UserProvider user) {
     final infos = [
-      (icon: Icons.meeting_room_outlined, label: 'Room', value: '301'),
-      (icon: Icons.apartment_outlined, label: 'Dorm', value: 'Dorm 27'),
-      (icon: Icons.phone_outlined, label: 'Phone', value: '081-234-5678'),
+      (
+        icon: Icons.meeting_room_outlined,
+        label: 'Room',
+        value: user.roomNumber.isEmpty ? '—' : user.roomNumber,
+      ),
+      (
+        icon: Icons.apartment_outlined,
+        label: 'Dorm',
+        value: user.dormId.isEmpty ? '—' : user.dormId,
+      ),
+      (
+        icon: Icons.phone_outlined,
+        label: 'Phone',
+        value: user.phone.isEmpty ? '—' : user.phone,
+      ),
     ];
 
     return Container(
@@ -115,7 +127,6 @@ class ProfileTenantScreen extends StatelessWidget {
           final index = entry.key;
           final item = entry.value;
           final isLast = index == infos.length - 1;
-
           return Expanded(
             child: Row(
               children: [
@@ -154,28 +165,12 @@ class ProfileTenantScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMenuSection() {
+  Widget _buildMenuSection(BuildContext context) {
     final items = [
-      (
-        icon: Icons.edit_outlined,
-        label: 'Edit Profile',
-        color: AppColors.tenantPrimary,
-      ),
-      (
-        icon: Icons.receipt_outlined,
-        label: 'Payment History',
-        color: AppColors.tenantPrimary,
-      ),
-      (
-        icon: Icons.settings_outlined,
-        label: 'Settings',
-        color: AppColors.tenantPrimary,
-      ),
-      (
-        icon: Icons.help_outline_rounded,
-        label: 'Help & Support',
-        color: AppColors.tenantPrimary,
-      ),
+      (icon: Icons.edit_outlined, label: 'Edit Profile'),
+      (icon: Icons.receipt_outlined, label: 'Payment History'),
+      (icon: Icons.settings_outlined, label: 'Settings'),
+      (icon: Icons.help_outline_rounded, label: 'Help & Support'),
     ];
 
     return Container(
@@ -214,10 +209,14 @@ class ProfileTenantScreen extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                  color: item.color.withValues(alpha: 0.08),
+                  color: AppColors.tenantPrimary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(item.icon, size: 18, color: item.color),
+                child: Icon(
+                  item.icon,
+                  size: 18,
+                  color: AppColors.tenantPrimary,
+                ),
               ),
               title: Text(
                 item.label,
@@ -233,7 +232,6 @@ class ProfileTenantScreen extends StatelessWidget {
                 color: AppColors.textDisabled,
               ),
               onTap: () {
-                ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -256,8 +254,26 @@ class ProfileTenantScreen extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: OutlinedButton.icon(
-        onPressed: () =>
-            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
+        onPressed: () async {
+          try {
+            await AuthService().logout();
+            if (!context.mounted) return;
+            context.read<UserProvider>().clearUser();
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          } catch (e) {
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to logout: ${e.toString()}'),
+                backgroundColor: AppColors.error,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            );
+          }
+        },
         icon: const Icon(
           Icons.logout_rounded,
           size: 18,

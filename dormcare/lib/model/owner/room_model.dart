@@ -1,5 +1,3 @@
-
-
 class RoomModel {
   final String roomId;
   final String imageUrl;
@@ -8,6 +6,7 @@ class RoomModel {
   final String roomType;
   final double price;
   final bool isOccupied;
+  final String? tenantId;
   final String? tenantName;
   final String? tenantPhone;
   final String? tenantEmail;
@@ -22,30 +21,34 @@ class RoomModel {
     required this.roomType,
     required this.price,
     required this.isOccupied,
+    this.tenantId,
     this.tenantName,
     this.tenantPhone,
     this.tenantEmail,
-    this.tenantContractEndDate,
     this.tenantMoveinDate,
-
+    this.tenantContractEndDate,
   });
 
   factory RoomModel.fromJson(Map<String, dynamic> json) {
     return RoomModel(
-      roomId: json['roomId'],
-      imageUrl: json['imageUrl'],
-      roomNumber: json['roomNumber'],
-      roomFloor: json['roomFloor'],
-      roomType: json['roomType'],
-      price: json['price'],
-      isOccupied: json['isOccupied'],
-      tenantName: json['tenantName'] ?? "",
-      tenantPhone: json['tenantPhone'] ?? "",
-      tenantEmail: json['tenantEmail'] ?? "",
-      tenantMoveinDate: json['tenantMoveinDate'] != null && json['tenantMoveinDate'] != ""
-        ? DateTime.parse(json['tenantMoveinDate'])
-        : null,
-      tenantContractEndDate: json['tenantContractEndDate'] != null && json['tenantContractEndDate'] != ""
+      roomId: json['roomId'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      roomNumber: json['roomNumber'] ?? '',
+      roomFloor: json['roomFloor'] ?? '',
+      roomType: json['roomType'] ?? '',
+      price: (json['price'] as num).toDouble(),
+      isOccupied: json['isOccupied'] ?? false,
+      tenantId: json['tenantId'] as String?,
+      tenantName: json['tenantName'] as String?,
+      tenantPhone: json['tenantPhone'] as String?,
+      tenantEmail: json['tenantEmail'] as String?,
+      tenantMoveinDate:
+          json['tenantMoveinDate'] != null && json['tenantMoveinDate'] != ''
+          ? DateTime.parse(json['tenantMoveinDate'])
+          : null,
+      tenantContractEndDate:
+          json['tenantContractEndDate'] != null &&
+              json['tenantContractEndDate'] != ''
           ? DateTime.parse(json['tenantContractEndDate'])
           : null,
     );
@@ -60,6 +63,7 @@ class RoomModel {
       'roomType': roomType,
       'price': price,
       'isOccupied': isOccupied,
+      'tenantId': tenantId,
       'tenantName': tenantName,
       'tenantPhone': tenantPhone,
       'tenantEmail': tenantEmail,

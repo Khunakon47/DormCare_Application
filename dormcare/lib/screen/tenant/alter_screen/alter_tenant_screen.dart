@@ -2,7 +2,10 @@ import 'package:dormcare/component/alert_tenant_card.dart';
 import 'package:dormcare/model/tenant/alert_tenant_model.dart';
 import 'package:dormcare/theme/app_theme.dart';
 import 'package:dormcare/utils/constants.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/notification_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'alter_detail_tenant_screen.dart';
 
 class AlertTenantScreen extends StatefulWidget {
@@ -13,128 +16,86 @@ class AlertTenantScreen extends StatefulWidget {
 }
 
 class _AlertTenantScreenState extends State<AlertTenantScreen> {
-  final _now = DateTime.now();
+  final _notifService = NotificationService();
+  AlertCategory? _selectedCategory;
 
-  late final List<AlertTenantModel> _allAlerts;
-  List<AlertTenantModel> _displayedAlerts = [];
-
-  AlertCategory? _selectedCategory; // null = All
-
-  @override
-  void initState() {
-    super.initState();
-    _allAlerts = [
-      AlertTenantModel(
-        id: '1',
-        title: 'Water Cut Announcement',
-        description:
-            'Water supply will be suspended for maintenance on 15 Feb from 10:00 AM to 2:00 PM.',
-        createdAt: DateTime(_now.year, _now.month, _now.day, 9, 45),
-        category: AlertCategory.emergency,
-        isRead: false,
-      ),
-      AlertTenantModel(
-        id: '2',
-        title: 'Parcel Arrived',
-        description: 'You have a package waiting at the front desk. (Box #A12)',
-        createdAt: DateTime(_now.year, _now.month, _now.day, 14, 30),
-        category: AlertCategory.parcel,
-        isRead: false,
-      ),
-      AlertTenantModel(
-        id: '3',
-        title: 'Electricity Bill Due',
-        description:
-            'Your electricity bill for January is ready. Please pay before the 25th.',
-        createdAt: DateTime(_now.year, _now.month, _now.day - 10, 8, 0),
-        category: AlertCategory.bill,
-        isRead: true,
-      ),
-      AlertTenantModel(
-        id: '4',
-        title: 'Gym Cleaning Schedule',
-        description:
-            'The gym will be closed for deep cleaning every Monday morning.',
-        createdAt: DateTime(_now.year, _now.month, _now.day - 15, 10, 0),
-        category: AlertCategory.general,
-        isRead: true,
-      ),
-    ];
-    _applyFilters();
+  Future<void> _markAsRead(String id) async {
+    await _notifService.markAsRead(id);
   }
 
-  void _applyFilters() {
-    setState(() {
-      _displayedAlerts = _allAlerts.where((a) {
-        return _selectedCategory == null || a.category == _selectedCategory;
-      }).toList();
-    });
+  Future<void> _markAllAsRead(String userId) async {
+    await _notifService.markAllAsRead(userId);
   }
 
-  void _markAsRead(String id) {
-    final idx = _allAlerts.indexWhere((a) => a.id == id);
-    if (idx != -1 && !_allAlerts[idx].isRead) {
-      _allAlerts[idx].isRead = true;
-      _applyFilters();
-    }
+  List<AlertTenantModel> _applyFilter(List<AlertTenantModel> alerts) {
+    if (_selectedCategory == null) return alerts;
+    return alerts.where((a) => a.category == _selectedCategory).toList();
   }
-
-  void _markAllAsRead() {
-    for (final a in _allAlerts) {
-      a.isRead = true;
-    }
-    _applyFilters();
-  }
-
-  bool get _hasUnread => _allAlerts.any((a) => !a.isRead);
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 12),
-            _buildSearchAndActions(),
-            const SizedBox(height: 10),
-            _buildCategoryTabs(),
-            const SizedBox(height: 8),
-            _buildListHeader(),
-            const SizedBox(height: 4),
-            Expanded(
-              child: _displayedAlerts.isEmpty
-                  ? _buildEmptyState()
-                  : ListView.separated(
-                      padding: const EdgeInsets.fromLTRB(
-                        AppConstants.paddingLg,
-                        4,
-                        AppConstants.paddingLg,
-                        16,
-                      ),
-                      itemCount: _displayedAlerts.length,
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 4),
-                      itemBuilder: (context, index) {
-                        final alert = _displayedAlerts[index];
-                        return AlertTenantCard(
-                          data: alert,
-                          onTap: () {
-                            _markAsRead(alert.id);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) =>
-                                    AlertDetailTenantScreen(data: alert),
-                              ),
+        child: StreamBuilder<List<AlertTenantModel>>(
+          stream: _notifService.getTenantNotifications(user.uid),
+          builder: (context, snapshot) {
+            final allAlerts = snapshot.data ?? [];
+            final displayed = _applyFilter(allAlerts);
+            final isLoading =
+                snapshot.connectionState == ConnectionState.waiting;
+            final hasUnread = allAlerts.any((a) => !a.isRead);
+
+            if (isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 12),
+                _buildSearchAndActions(),
+                const SizedBox(height: 10),
+                _buildCategoryTabs(),
+                const SizedBox(height: 8),
+                _buildListHeader(displayed.length, hasUnread, user.uid),
+                const SizedBox(height: 4),
+                Expanded(
+                  child: displayed.isEmpty
+                      ? _buildEmptyState()
+                      : ListView.separated(
+                          padding: const EdgeInsets.fromLTRB(
+                            AppConstants.paddingLg,
+                            4,
+                            AppConstants.paddingLg,
+                            16,
+                          ),
+                          itemCount: displayed.length,
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 4),
+                          itemBuilder: (context, index) {
+                            final alert = displayed[index];
+                            return AlertTenantCard(
+                              data: alert,
+                              onTap: () {
+                                _markAsRead(alert.id);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        AlertDetailTenantScreen(data: alert),
+                                  ),
+                                );
+                              },
                             );
                           },
-                        );
-                      },
-                    ),
-            ),
-          ],
+                        ),
+                ),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -145,7 +106,6 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
       padding: const EdgeInsets.symmetric(horizontal: AppConstants.paddingLg),
       child: Row(
         children: [
-          // Search bar
           Expanded(
             child: Container(
               height: 42,
@@ -162,15 +122,17 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Icon(Icons.search, size: 18, color: AppColors.textTertiary),
                   const SizedBox(width: 8),
                   Text(
-                    'Search repairs...',
-                    style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
+                    'Search alerts...',
+                    style: TextStyle(
+                      color: AppColors.textTertiary,
+                      fontSize: 13,
+                    ),
                   ),
                 ],
               ),
             ),
           ),
           const SizedBox(width: 8),
-          // Filter button
           Container(
             height: 42,
             width: 42,
@@ -190,7 +152,6 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
             ),
           ),
           const SizedBox(width: 8),
-          // Sort button
           Container(
             height: 42,
             width: 42,
@@ -245,10 +206,7 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
           final tab = tabs[index];
           final isSelected = _selectedCategory == tab.value;
           return GestureDetector(
-            onTap: () {
-              setState(() => _selectedCategory = tab.value);
-              _applyFilters();
-            },
+            onTap: () => setState(() => _selectedCategory = tab.value),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 180),
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
@@ -276,7 +234,9 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                   Icon(
                     tab.icon,
                     size: 13,
-                    color: isSelected ? AppColors.white : AppColors.textTertiary,
+                    color: isSelected
+                        ? AppColors.white
+                        : AppColors.textTertiary,
                   ),
                   const SizedBox(width: 5),
                   Text(
@@ -286,7 +246,9 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
                       fontWeight: isSelected
                           ? FontWeight.w700
                           : FontWeight.w500,
-                      color: isSelected ? AppColors.white : AppColors.textTertiary,
+                      color: isSelected
+                          ? AppColors.white
+                          : AppColors.textTertiary,
                     ),
                   ),
                 ],
@@ -298,23 +260,23 @@ class _AlertTenantScreenState extends State<AlertTenantScreen> {
     );
   }
 
-  Widget _buildListHeader() {
+  Widget _buildListHeader(int count, bool hasUnread, String userId) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            '${_displayedAlerts.length} notifications',
+            '$count notifications',
             style: const TextStyle(
               color: AppColors.textTertiary,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
           ),
-          if (_hasUnread)
+          if (hasUnread)
             GestureDetector(
-              onTap: _markAllAsRead,
+              onTap: () => _markAllAsRead(userId),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [

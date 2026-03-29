@@ -78,8 +78,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
   double get _otherAmt => double.tryParse(_otherCtrl.text) ?? 0;
   double get _waterAmt => _waterUnits * widget.bill.waterRate;
   double get _electricAmt => _electricUnits * widget.bill.electricRate;
-  double get _previewTotal =>
-      widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
+  double get _previewTotal => widget.bill.rent + _waterAmt + _electricAmt + _otherAmt;
   bool get _isFormValid => _waterUnits > 0 && _electricUnits > 0;
 
   // Actions
@@ -88,6 +87,7 @@ class _BillDetailScreenState extends State<BillDetailScreen>
     setState(() => _saving = true);
     await Future.delayed(const Duration(milliseconds: 300));
     final updated = BillModel(
+      dormId: widget.bill.dormId,
       billId: widget.bill.billId,
       roomNumber: widget.bill.roomNumber,
       postedDate: widget.bill.postedDate,

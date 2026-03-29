@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:dormcare/providers/user_provider.dart';
+import 'package:dormcare/services/auth_service.dart';
 import 'package:dormcare/theme/app_theme.dart';
 
 class ProfileOwnerScreen extends StatelessWidget {
@@ -6,15 +9,17 @@ class ProfileOwnerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<UserProvider>();
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         child: Column(
           children: [
-            _buildProfileCard(),
+            _buildProfileCard(user),
             const SizedBox(height: 16),
-            _buildDormInfoCard(),
+            _buildDormInfoCard(user),
             const SizedBox(height: 16),
             _buildMenuSection(context),
             const SizedBox(height: 16),
@@ -25,7 +30,7 @@ class ProfileOwnerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileCard() {
+  Widget _buildProfileCard(UserProvider user) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(vertical: 28, horizontal: 20),
@@ -60,21 +65,17 @@ class ProfileOwnerScreen extends StatelessWidget {
               color: AppColors.ownerPrimary,
             ),
           ),
-
           const SizedBox(height: 14),
-
-          const Text(
-            'JoBy Khuna',
-            style: TextStyle(
+          Text(
+            user.name.isEmpty ? 'Loading...' : user.name,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               color: AppColors.textPrimary,
               letterSpacing: -0.3,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
             'Owner',
             style: TextStyle(
@@ -88,11 +89,19 @@ class ProfileOwnerScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDormInfoCard() {
+  Widget _buildDormInfoCard(UserProvider user) {
     final infos = [
-      (icon: Icons.apartment_outlined, label: 'Dorm', value: 'Dorm 27'),
-      (icon: Icons.meeting_room_outlined, label: 'Rooms', value: '20'),
-      (icon: Icons.phone_outlined, label: 'Phone', value: '081-234-5678'),
+      (
+        icon: Icons.apartment_outlined,
+        label: 'Dorm',
+        value: user.dormId.isEmpty ? '—' : user.dormId,
+      ),
+      (icon: Icons.meeting_room_outlined, label: 'Rooms', value: '—'),
+      (
+        icon: Icons.phone_outlined,
+        label: 'Phone',
+        value: user.phone.isEmpty ? '—' : user.phone,
+      ),
     ];
 
     return Container(
@@ -114,7 +123,6 @@ class ProfileOwnerScreen extends StatelessWidget {
           final index = entry.key;
           final item = entry.value;
           final isLast = index == infos.length - 1;
-
           return Expanded(
             child: Row(
               children: [
@@ -200,11 +208,7 @@ class ProfileOwnerScreen extends StatelessWidget {
                   color: AppColors.ownerPrimary.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(
-                  item.icon,
-                  size: 18,
-                  color: AppColors.ownerPrimary,
-                ),
+                child: Icon(item.icon, size: 18, color: AppColors.ownerPrimary),
               ),
               title: Text(
                 item.label,
@@ -220,7 +224,6 @@ class ProfileOwnerScreen extends StatelessWidget {
                 color: AppColors.textDisabled,
               ),
               onTap: () {
-                ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -243,8 +246,26 @@ class ProfileOwnerScreen extends StatelessWidget {
       width: double.infinity,
       height: 52,
       child: OutlinedButton.icon(
-        onPressed: () =>
-            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
+        onPressed: () async {
+          try {
+            await AuthService().logout();
+            if (!context.mounted) return;
+            context.read<UserProvider>().clearUser();
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          } catch (e) {
+            if (!context.mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Failed to logout: ${e.toString()}'),
+                backgroundColor: AppColors.error,
+                behavior: SnackBarBehavior.floating,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            );
+          }
+        },
         icon: const Icon(
           Icons.logout_rounded,
           size: 18,
