@@ -56,5 +56,3 @@ A high-level overview of this Flutter project layout:
 ├── analysis_options.yaml   # Static analysis and linting rules
 └── README.md               # Project documentation (this file)
 ```
-
-test
