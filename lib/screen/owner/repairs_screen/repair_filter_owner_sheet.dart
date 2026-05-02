@@ -1,0 +1,220 @@
+import 'package:dormcare/model/repair_model.dart';
+import 'package:flutter/material.dart';
+import 'package:dormcare/theme/app_theme.dart';
+
+class RepairFilterOwnerSheet extends StatefulWidget {
+  final RepairStatus? initialStatus;
+  final int initialFloor; // 0 = All floors
+  final void Function(RepairStatus? status, int floor) onApply;
+
+  const RepairFilterOwnerSheet({
+    super.key,
+    required this.initialStatus,
+    required this.initialFloor,
+    required this.onApply,
+  });
+
+  @override
+  State<RepairFilterOwnerSheet> createState() => _RepairFilterOwnerSheetState();
+}
+
+class _RepairFilterOwnerSheetState extends State<RepairFilterOwnerSheet> {
+  
+  RepairStatus? _selectedStatus;
+  int _selectedFloor = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedStatus = widget.initialStatus;
+    _selectedFloor = widget.initialFloor;
+  }
+
+  bool get _hasActiveFilters {
+    return _selectedStatus != null || _selectedFloor != 0;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Header
+          Row(
+            children: [
+              const Text(
+                'Filter',
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const Spacer(),
+              if (_hasActiveFilters)
+                GestureDetector(
+                  onTap: () => setState(() {
+                    _selectedStatus = null;
+                    _selectedFloor = 0;
+                  }),
+                  child: const Text(
+                    'Clear all',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.ownerPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
+          // Status section
+          const Text(
+            'Status',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 10),
+          _buildStatusOptions(),
+
+          const SizedBox(height: 20),
+
+          // Floor section
+          const Text(
+            'Floor',
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+          const SizedBox(height: 10),
+          _buildFloorOptions(),
+
+          const SizedBox(height: 24),
+
+          // Apply button
+          SizedBox(
+            width: double.infinity,
+            height: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.ownerPrimary,
+                foregroundColor: AppColors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                elevation: 0,
+              ),
+              onPressed: () {
+                widget.onApply(_selectedStatus, _selectedFloor);
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Apply',
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusOptions() {
+    final status = [
+      (status: null, label: 'All Statuses'),
+      (status: RepairStatus.pending, label: 'Pending'),
+      (status: RepairStatus.inProgress, label: 'In Progress'),
+      (status: RepairStatus.completed, label: 'Completed'),
+      (status: RepairStatus.cancelled, label: 'Cancelled'),
+    ];
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: status.map((item) {
+        final isSelected = _selectedStatus == item.status;
+        return GestureDetector(
+          onTap: () => setState(() => _selectedStatus = item.status),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.ownerPrimary : AppColors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.ownerPrimary
+                    : AppColors.border,
+              ),
+            ),
+            child: Text(
+              item.label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? AppColors.white : AppColors.textSecondary,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+
+  Widget _buildFloorOptions() {
+    final floors = [
+      (floor: 0, label: 'All Floors'),
+      (floor: 1, label: 'Floor 1'),
+      (floor: 2, label: 'Floor 2'),
+      (floor: 3, label: 'Floor 3'),
+      (floor: 4, label: 'Floor 4'),
+      (floor: 5, label: 'Floor 5'),
+    ];
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: floors.map((item) {
+        final isSelected = _selectedFloor == item.floor;
+        return GestureDetector(
+          onTap: () => setState(() => _selectedFloor = item.floor),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.ownerPrimary : AppColors.white,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                color: isSelected
+                    ? AppColors.ownerPrimary
+                    : AppColors.border,
+              ),
+            ),
+            child: Text(
+              item.label,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: isSelected ? AppColors.white : AppColors.textSecondary,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
